@@ -1,1 +1,1 @@
-# Projects created using SFML library
+# Projects created using SFML (Simple and Fast Multimedia Library) library
