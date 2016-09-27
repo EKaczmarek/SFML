@@ -1,3 +1,3 @@
 # 2048
 
-[![N|Solid](http://gabrielecirulli.github.io/2048/meta/og_image.png)](https://nodesource.com/products/nsolid)
+[![N|Solid](http://onelittlesmile.pl/wp-content/uploads/2014/04/unnamed.png)](https://nodesource.com/products/nsolid)
