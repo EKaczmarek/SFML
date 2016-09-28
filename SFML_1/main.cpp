@@ -1,10 +1,16 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
-
+#include <iostream>
 int main()
 {
-	sf::RenderWindow okno(sf::VideoMode(320, 240), "Kurs SFML 2.0 - http://cpp0x.pl");
+	sf::RenderWindow okno(sf::VideoMode(400, 400), "2048", sf::Style::Close);
 	sf::Clock stoper;
+
+	sf::Texture textura;
+	textura.loadFromFile("klocek.png");
+
+	sf::Sprite obraz;
+	obraz.setTexture(textura);
 	while (okno.isOpen())
 	{
 		sf::Event event;
@@ -12,17 +18,27 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				okno.close();
-
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				if(obraz.getPosition().x != 300.0)
+					obraz.move(100, 0);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				if (obraz.getPosition().x != 0.0)
+					obraz.move(-100, 0);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				if (obraz.getPosition().y != 0.0)
+					obraz.move(0, -100);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				if (obraz.getPosition().y != 300.0)
+					obraz.move(0, 100);
+			}
 		}
-		okno.clear();
-
-		sf::CircleShape ksztalt(std::sin(stoper.getElapsedTime().asSeconds()) * okno.getSize().y / 8 + okno.getSize().y / 4);
-		ksztalt.setOrigin(sf::Vector2f(ksztalt.getRadius(), ksztalt.getRadius()));
-		ksztalt.setPosition(okno.getSize().x / 2.0f, okno.getSize().y / 2.0f);
-		ksztalt.setFillColor(sf::Color::Yellow);
-		okno.draw(ksztalt);
-
+		okno.clear(sf::Color::Green);
+		okno.draw(obraz);
 		okno.display();
-	} //while
+
+	} 
 	return 0;
 }
