@@ -5,6 +5,9 @@
 
 int main()
 {
+	//TODO 30.09 table of blocks !!!
+	std::vector<Block> blocks;
+
 	//okno fry
 	sf::RenderWindow okno(sf::VideoMode(400, 400), "2048", sf::Style::Default);
 
@@ -44,8 +47,7 @@ int main()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 			if (obraz.getPosition().y != 300.0)
 				obraz.move(0, 0.25);
-		}
-	
+		}	
 		obraz.setPosition(0, 100.0);
 		okno.draw(obraz);
 		okno.display();
