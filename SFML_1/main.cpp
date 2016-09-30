@@ -31,24 +31,36 @@ int main()
 		if (event.type == sf::Event::KeyPressed) {
 			Block *one = new Block();
 			one->randomShow(okno, obraz, textura);
-		}		
+
+			blocks.push_back(one);
+			//blocks.end()->randomShow(okno, obraz, textura);
+		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			if (obraz.getPosition().x != 300.0) 
+			if (obraz.getPosition().x != 300.0) {
 				obraz.move(0.25, 0);
+				obraz.setPosition(300, 0);
+			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-			if (obraz.getPosition().x != 0.0)
+			if (obraz.getPosition().x != 0.0) {
 				obraz.move(-0.25, 0);
+				obraz.setPosition(0, 0);
+			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			if (obraz.getPosition().y != 0.0)
+			if (obraz.getPosition().y != 0.0) {
 				obraz.move(0, -0.25);
+				obraz.setPosition(0, 0);
+			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			if (obraz.getPosition().y != 300.0)
+			if (obraz.getPosition().y != 300.0) {
 				obraz.move(0, 0.25);
+				obraz.setPosition(0, 300);
+			}
 		}	
-		obraz.setPosition(0, 100.0);
+		//okno.clear();
+		//obraz.setPosition(0, 0);
 		okno.draw(obraz);
 		okno.display();
 

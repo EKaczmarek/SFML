@@ -10,8 +10,8 @@ class Block
 	sf::Text text;
 	sf::Sprite singleBlock;
 public:
-	Block() {}
 	void randomShow(sf::RenderWindow & _okno, sf::Sprite & _obraz, sf::Texture _textura);
+	void show();
 	~Block();
 };
 
