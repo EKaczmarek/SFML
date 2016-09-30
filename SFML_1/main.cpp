@@ -6,7 +6,6 @@
 int main()
 {
 	//TODO 30.09 table of blocks !!!
-	std::vector<Block> blocks;
 
 	//okno fry
 	sf::RenderWindow okno(sf::VideoMode(400, 400), "2048", sf::Style::Default);
@@ -18,7 +17,8 @@ int main()
 	//Sprite obiekt obs³uguj¹cy zdarzenia na grafice
 	sf::Sprite obraz;
 	obraz.setTexture(textura);
-
+	
+	int flag = 0;
 
 	while (okno.isOpen())
 	{
@@ -29,11 +29,10 @@ int main()
 				okno.close();
 		}
 		if (event.type == sf::Event::KeyPressed) {
-			Block *one = new Block();
-			one->randomShow(okno, obraz, textura);
+			Block* one = new Block();
+			one->randomShow(okno, obraz, textura, flag);
 
-			blocks.push_back(one);
-			//blocks.end()->randomShow(okno, obraz, textura);
+		//blocks.end()->randomShow(okno, obraz, textura);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 			if (obraz.getPosition().x != 300.0) {
