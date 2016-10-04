@@ -3,12 +3,18 @@
 #include <cstdlib>
 #include "Block.h"
 
+/*
+void show(std::vector <Block> * allBlocks) {
+	for (auto i = allBlocks->begin(); i < allBlocks->end(); i++) {
+		std::cout << "Polozenie: " << std::endl
+			<< "\t Oœ X : " << i->posX
+			<< "\t Oœ Y:" << i->posY << std::endl;
+	}
+}*/
 int main()
 {
-	//TODO 30.09 table of blocks !!!
-
 	//okno fry
-	sf::RenderWindow okno(sf::VideoMode(400, 400), "2048", sf::Style::Default);
+	sf::RenderWindow okno(sf::VideoMode(400, 400), "2048", sf::Style::Resize);
 
 	//pojedynczy klocek Texture -- > tylko to rysowania obrazow
 	sf::Texture textura;
@@ -17,8 +23,10 @@ int main()
 	//Sprite obiekt obs³uguj¹cy zdarzenia na grafice
 	sf::Sprite obraz;
 	obraz.setTexture(textura);
-	
-	int flag = 0;
+
+	// tablica bloków
+	int a = 0;
+	Block* one = new Block;
 
 	while (okno.isOpen())
 	{
@@ -28,13 +36,12 @@ int main()
 			if (event.type == sf::Event::Closed)
 				okno.close();
 		}
-		if (event.type == sf::Event::KeyPressed) {
-			Block* one = new Block();
-			one->randomShow(okno, obraz, textura, flag);
 
-		//blocks.end()->randomShow(okno, obraz, textura);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		if (event.type == sf::Event::KeyPressed) {
+				one->randomCreate();				
+				one->showAll(&okno);
+		}		
+		/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 			if (obraz.getPosition().x != 300.0) {
 				obraz.move(0.25, 0);
 				obraz.setPosition(300, 0);
@@ -57,10 +64,13 @@ int main()
 				obraz.move(0, 0.25);
 				obraz.setPosition(0, 300);
 			}
-		}	
+		}	*/
 		//okno.clear();
-		//obraz.setPosition(0, 0);
+		for(auto i = one->allBlocks.begin();
+				i < one->allBlocks.end();i++)
+		obraz.setPosition(i->posX, i->posY);
 		okno.draw(obraz);
+
 		okno.display();
 
 	} 
