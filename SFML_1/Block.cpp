@@ -1,11 +1,10 @@
-#include "Block.h"
-#include <string>
-#include <iostream>
+#include "Header.h"
 
-void Block::search() {
-	srand(time(NULL));
+//szukanie nowej pozycji i wk³adanie na liste
+void Block::search(sf::Text* _text) {
 	if (this->allBlocks.size() == 0) {
 		Block* two = new Block();
+		two->setNumber(_text);
 		this->allBlocks.emplace_back(this->randNew(two));
 		
 		std::cout << "Rozmiar tablicy: " << this->allBlocks.size() << std::endl;
@@ -16,26 +15,30 @@ void Block::search() {
 				three->posY == two->posY) {
 				this->randNew(three);
 			}
+			three->setNumber(_text);
 			this->allBlocks.emplace_back(three);
 			
 			std::cout << "Rozmiar tablicy: " << this->allBlocks.size() << std::endl;
-
 	}
-
 	else {
 		Block* four = new Block();
 		this->randNew(four);
 		while (this->check(four) == false) {
 			this->randNew(four);
 		}
+		four->setNumber(_text);
 		this->allBlocks.emplace_back(four);
 	}
 }
+
+//szukanie nowej pozycji z puli
 Block* Block::randNew(Block * _object) {
-		_object->posX = (rand() % 4 + 0) * 100;
+		_object->posX = (rand() % 4 + 0) * 100; // od 0 w³¹cznie so 4 
 		_object->posY = (rand() % 4 + 0) * 100;
 	return _object;
 }
+
+//sprawdzenie czy nie ma w tablicy bloku o danej pozycji
 bool Block::check(Block * _four) {
 	int a = 0;
 		for (auto i : allBlocks) {
@@ -50,18 +53,14 @@ bool Block::check(Block * _four) {
 				return true;
 		}
 }
-void Block::setNumber(sf::Text & _text) {
-	_text = this->text;
-}
-/*
-void Block::showAll(sf::RenderWindow* _okno) {
 
-	for (auto i = this->allBlocks.begin(); i < this->allBlocks.end(); i++) {
-		i->singleBlock.setPosition(i->posX, i->posY);
-		_okno->draw(this->singleBlock);
-		_okno->display();
-	}
-}*/
+//losowanie z puli numeru 2 lub 4
+std::string Block::setNumber(sf::Text * _text) {
+	std::string tab[2]{ "2","4" };
+	int temp = rand() % 1 + 0;
+	//this->text.setString(tab[temp]);
+	return tab[temp];
+} 
 
 Block::~Block(){
 	std::cout << "DESTRUKTOR KLASY BLOCK" << std::endl;

@@ -1,12 +1,8 @@
-#include <vector>
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/Text.hpp>
-#include <vector>
-#include <memory>
 #include <iostream>
 
-
 #pragma once
+
 //klasa opisujaca klocek
 class Block
 {
@@ -16,15 +12,16 @@ public:
 	sf::Text text;
 	//Sprite obiekt obs³uguj¹cy zdarzenia na grafice
 	sf::Sprite singleBlock;
+	
 public:
 	std::vector <Block*>  allBlocks;
 	Block() {}
-	void search();
+
+	void search(sf::Text* _text);
 	Block* randNew(Block * _object);
-	//void Block::randomCreate(int & _flag);
 	bool check(Block * _four);
-	void setNumber(sf::Text & _text);
-	//void Block::showAll(sf::RenderWindow* _okno);
+	std::string setNumber(sf::Text * _text);
+
 	~Block();
 };
 
