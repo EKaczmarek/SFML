@@ -89,7 +89,7 @@ int main()
 	
 		sf::Text text;
 		text.setFont(font);
-		text.setString("Holololololololo");
+		text.setString("H");
 		text.setCharacterSize(100);
 		text.setColor(sf::Color::Red);
 
