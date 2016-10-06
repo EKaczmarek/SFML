@@ -2,31 +2,29 @@
 #include <iostream>
 #include <cstdlib>
 #include "Block.h"
+#include "Font.hpp"
 
-/*
-void show(std::vector <Block> * allBlocks) {
-	for (auto i = allBlocks->begin(); i < allBlocks->end(); i++) {
-		std::cout << "Polozenie: " << std::endl
-			<< "\t Oœ X : " << i->posX
-			<< "\t Oœ Y:" << i->posY << std::endl;
-	}
-}*/
+
 int main()
 {
 	//okno fry
-	sf::RenderWindow okno(sf::VideoMode(400, 400), "2048", sf::Style::Resize);
+	sf::RenderWindow okno(sf::VideoMode(400, 400), "2048", sf::Style::Titlebar && sf::Style::Default);
 
 	//pojedynczy klocek Texture -- > tylko to rysowania obrazow
 	sf::Texture textura;
+	if (!textura.loadFromFile("klocek.png"))
+		return EXIT_FAILURE;
 	textura.loadFromFile("klocek.png");
 
-	//Sprite obiekt obs³uguj¹cy zdarzenia na grafice
-	sf::Sprite obraz;
-	obraz.setTexture(textura);
-
-	// tablica bloków
-	int a = 0;
+	
+	//stworzenie obiektu one klasy Block
+	// w której wektor obiektów klasy Block
 	Block* one = new Block;
+	one->singleBlock.setTexture(textura);
+
+
+	std::cout << "Rozmiar tablicy: " << one->allBlocks.size() << std::endl;
+	one->search();
 
 	while (okno.isOpen())
 	{
@@ -35,44 +33,80 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				okno.close();
-		}
+			}		
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				for(auto i: one->allBlocks){
+					if (i->posX != 300.0) {
+						i->singleBlock.move(1, 1);
+						i->singleBlock.setPosition(300, 0);
+						okno.display();
+					}
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				for (auto i : one->allBlocks) {
+					if (i->posX != 0.0) {
+						one->singleBlock.move(-0.25, 0);
+						one->singleBlock.setPosition(0, 0);
+						okno.display();
+					}
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				for (auto i : one->allBlocks) {
+					if (i->posY != 0.0) {
+						one->singleBlock.move(0, -0.25);
+						one->singleBlock.setPosition(0, 0);
+						okno.display();
+					}
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				for (auto i : one->allBlocks) {
+					if (i->posY != 300.0) {
+						one->singleBlock.move(0, 0.25);
+						one->singleBlock.setPosition(0, 300);
+						okno.display();
+					}
+				}
+			}
 
-		if (event.type == sf::Event::KeyPressed) {
-				one->randomCreate();				
-				one->showAll(&okno);
-		}		
-		/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			if (obraz.getPosition().x != 300.0) {
-				obraz.move(0.25, 0);
-				obraz.setPosition(300, 0);
-			}
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-			if (obraz.getPosition().x != 0.0) {
-				obraz.move(-0.25, 0);
-				obraz.setPosition(0, 0);
-			}
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			if (obraz.getPosition().y != 0.0) {
-				obraz.move(0, -0.25);
-				obraz.setPosition(0, 0);
-			}
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			if (obraz.getPosition().y != 300.0) {
-				obraz.move(0, 0.25);
-				obraz.setPosition(0, 300);
-			}
-		}	*/
-		//okno.clear();
-		for(auto i = one->allBlocks.begin();
-				i < one->allBlocks.end();i++)
-		obraz.setPosition(i->posX, i->posY);
-		okno.draw(obraz);
+		sf::Font font;
+		if (!font.loadFromFile("arial.ttf"))
+			return EXIT_FAILURE;
 
-		okno.display();
+		okno.clear(sf::Color::Black);
+	
+		sf::Text text;
+		text.setFont(font);
+		text.setString("Helllo world");
+		text.setCharacterSize(30);
+		text.setColor(sf::Color::Red);
+		for (auto i = one->allBlocks.begin();
+				i < one->allBlocks.end(); i++) {
+				one->singleBlock.setPosition((*i)->posX, (*i)->posY);
+				okno.draw(one->singleBlock);
+			//	okno.draw(one->text);
+			}
+			//okno.draw(one->singleBlock);
+			okno.draw(text);
+			okno.display();
 
-	} 
+	}
 	return 0;
 }
+
+
+/*if (event.type == sf::Event::KeyPressed) {
+one->randomCreate(flag);
+one->showAll(&okno);
+}*/
+
+/*for (auto i = one->allBlocks.begin();
+i < one->allBlocks.end(); i++) {
+flag = 0;
+obraz.setPosition(i->posX, i->posY);
+okno.draw(obraz);
+okno.display();
+}
+}*/
