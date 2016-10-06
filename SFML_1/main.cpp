@@ -79,17 +79,21 @@ int main()
 	
 		sf::Text text;
 		text.setFont(font);
-		text.setString("Helllo world");
-		text.setCharacterSize(30);
+		text.setString("H");
+		text.setCharacterSize(100);
 		text.setColor(sf::Color::Red);
+
 		for (auto i = one->allBlocks.begin();
 				i < one->allBlocks.end(); i++) {
 				one->singleBlock.setPosition((*i)->posX, (*i)->posY);
 				okno.draw(one->singleBlock);
+				(*i)->text = text;
+				(*i)->text.setPosition((*i)->posX+10, (*i)->posY-10);
+				okno.draw((*i)->text);
 			//	okno.draw(one->text);
 			}
 			//okno.draw(one->singleBlock);
-			okno.draw(text);
+		//	okno.draw(text);
 			okno.display();
 
 	}
