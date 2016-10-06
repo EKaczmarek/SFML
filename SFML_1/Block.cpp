@@ -53,24 +53,6 @@ bool Block::check(Block * _four) {
 void Block::setNumber(sf::Text & _text) {
 	_text = this->text;
 }
-/*void Block::randomCreate(int & _flag) {
-	srand(time(NULL));
-	this->posX = (rand() % 4 + 0) * 100;
-	this->posY = (rand() % 4 + 0) * 100;
-					 //this->text = _text;
-
-	while (this->checkRandom() == false) {
-		this->posX = (rand() % 4 + 0) * 100;
-		this->posY = (rand() % 4 + 0) * 100;	
-	}
-	if (allBlocks.size() < 16) {
-		allBlocks.emplace_back(*this);
-		_flag = 1;
-	}
-	else
-		std::cout << "Koniec gry" << std::endl;
-}*/
-
 /*
 void Block::showAll(sf::RenderWindow* _okno) {
 

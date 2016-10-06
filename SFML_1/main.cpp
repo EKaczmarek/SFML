@@ -7,7 +7,7 @@
 
 int main()
 {
-	//okno fry
+	//okno 
 	sf::RenderWindow okno(sf::VideoMode(400, 400), "2048", sf::Style::Titlebar && sf::Style::Default);
 
 	//pojedynczy klocek Texture -- > tylko to rysowania obrazow
@@ -37,8 +37,12 @@ int main()
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 				for(auto i: one->allBlocks){
 					if (i->posX != 300.0) {
+						okno.clear(sf::Color::Black);
+
 						i->singleBlock.move(1, 1);
-						i->singleBlock.setPosition(300, 0);
+						i->singleBlock.move(-0.25, 0);
+						i->posX = 300;
+						i->singleBlock.setPosition(i->posX, i->posY);
 						okno.display();
 					}
 				}
@@ -46,8 +50,10 @@ int main()
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 				for (auto i : one->allBlocks) {
 					if (i->posX != 0.0) {
-						one->singleBlock.move(-0.25, 0);
-						one->singleBlock.setPosition(0, 0);
+						okno.clear(sf::Color::Black);
+						i->singleBlock.move(-0.25, 0);
+						i->posX = 0;
+						i->singleBlock.setPosition(i->posX, i->posY);
 						okno.display();
 					}
 				}
@@ -55,8 +61,10 @@ int main()
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				for (auto i : one->allBlocks) {
 					if (i->posY != 0.0) {
-						one->singleBlock.move(0, -0.25);
-						one->singleBlock.setPosition(0, 0);
+						okno.clear(sf::Color::Black);
+						i->singleBlock.move(0, -0.25);
+						i->posY = 0;
+						i->singleBlock.setPosition(i->posX, i->posY);
 						okno.display();
 					}
 				}
@@ -64,8 +72,10 @@ int main()
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				for (auto i : one->allBlocks) {
 					if (i->posY != 300.0) {
-						one->singleBlock.move(0, 0.25);
-						one->singleBlock.setPosition(0, 300);
+						okno.clear(sf::Color::Black);
+						i->singleBlock.move(0, 0.25);
+						i->posY = 300;
+						i->singleBlock.setPosition(i->posX, i->posY);
 						okno.display();
 					}
 				}
@@ -90,27 +100,9 @@ int main()
 				(*i)->text = text;
 				(*i)->text.setPosition((*i)->posX+10, (*i)->posY-10);
 				okno.draw((*i)->text);
-			//	okno.draw(one->text);
 			}
-			//okno.draw(one->singleBlock);
-		//	okno.draw(text);
 			okno.display();
 
 	}
 	return 0;
 }
-
-
-/*if (event.type == sf::Event::KeyPressed) {
-one->randomCreate(flag);
-one->showAll(&okno);
-}*/
-
-/*for (auto i = one->allBlocks.begin();
-i < one->allBlocks.end(); i++) {
-flag = 0;
-obraz.setPosition(i->posX, i->posY);
-okno.draw(obraz);
-okno.display();
-}
-}*/
