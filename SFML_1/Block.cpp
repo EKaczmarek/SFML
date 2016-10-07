@@ -43,7 +43,7 @@ void Block::search(sf::Text & _text) {
 //szukanie nowej pozycji z puli
 Block* Block::randNew(Block * _object) {
 		_object->posX = (rand() % 4 + 0) * 100; // od 0 w³¹cznie so 4 
-		_object->posY = 200; // (rand() % 4 + 0) * 100;
+		_object->posY = 0; // (rand() % 4 + 0) * 100;
 	return _object;
 }
 
@@ -72,6 +72,12 @@ std::string Block::setNumber() {
 	return tab[temp];
 } 
 
+//znajdz minimum w danym wierszu
+int Block::findMin(int _Y) {
+	for (auto i : this->allBlocks) {
+
+	}
+}
 //sprawdzenie miejsc obok
 bool Block::checkBeside(int _posX, int _posY) {
 	for (auto i : this->allBlocks) {
