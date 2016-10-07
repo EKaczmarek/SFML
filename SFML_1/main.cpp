@@ -61,14 +61,10 @@ int main()
 			}		*/
 
 		game.okno.clear(sf::Color::Red);
-	
+
 		for (auto i = game.one->allBlocks.begin();
-				i < game.one->allBlocks.end(); i++) {
-					game.one->singleBlock.setPosition((*i)->posX, (*i)->posY);
-					game.okno.draw(game.one->singleBlock);
-				(*i)->text = game.one->text;
-				(*i)->text.setPosition((*i)->posX+10, (*i)->posY-10);
-				game.okno.draw((*i)->text);
+			i < game.one->allBlocks.end(); i++) {
+				game.draw(*i);
 		}
 		game.okno.display();
 

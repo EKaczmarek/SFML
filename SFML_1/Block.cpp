@@ -1,10 +1,13 @@
 #include "Header.h"
 
 //szukanie nowej pozycji i wk³adanie na liste
-void Block::search(sf::Text* _text) {
+void Block::search(sf::Text & _text) {
 	if (this->allBlocks.size() == 0) {
 		Block* two = new Block();
-		two->setNumber(_text);
+		//przypisanie liczby
+		two->text =  _text;
+		two->text.setString(two->setNumber());
+		//wstawienie do tablicy
 		this->allBlocks.emplace_back(this->randNew(two));
 		
 		std::cout << "Rozmiar tablicy: " << this->allBlocks.size() << std::endl;
@@ -15,7 +18,10 @@ void Block::search(sf::Text* _text) {
 				three->posY == two->posY) {
 				this->randNew(three);
 			}
-			three->setNumber(_text);
+			three->text = _text;
+			//przypisanie liczby
+			three->text.setString(three->setNumber());
+			//wstawienie do tablicy
 			this->allBlocks.emplace_back(three);
 			
 			std::cout << "Rozmiar tablicy: " << this->allBlocks.size() << std::endl;
@@ -26,7 +32,10 @@ void Block::search(sf::Text* _text) {
 		while (this->check(four) == false) {
 			this->randNew(four);
 		}
-		four->setNumber(_text);
+		four->text = _text;
+		//przypisanie liczby
+		four->text.setString(four->setNumber());
+		//wstawienie do tablicy
 		this->allBlocks.emplace_back(four);
 	}
 }
@@ -55,10 +64,11 @@ bool Block::check(Block * _four) {
 }
 
 //losowanie z puli numeru 2 lub 4
-std::string Block::setNumber(sf::Text * _text) {
-	std::string tab[2]{ "2","4" };
+std::string Block::setNumber() {
+	std::string tab[2];
+	tab[0] = "2";
+	tab[1] = "4";
 	int temp = rand() % 1 + 0;
-	//this->text.setString(tab[temp]);
 	return tab[temp];
 } 
 

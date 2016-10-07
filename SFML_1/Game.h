@@ -13,5 +13,6 @@ public:
 
 	Game() {}
 	void runGame();
+	virtual void draw(Block * toShow);
 	~Game();
 };

@@ -6,19 +6,29 @@ void Game::runGame() {
 	textura.loadFromFile("klocek.png");
 	font.loadFromFile("arial.ttf");
 
-	//separate Block
-	this->one->singleBlock.setTexture(textura);
-
 	//text in Block
 	text.setFont(font);
-	text.setString(this->one->setNumber(&text));
 	text.setCharacterSize(100);
-	text.setColor(sf::Color::Red);
+	text.setColor(sf::Color::Green);
 
+	one = new Block;
 	//Table of Blocks
 	std::cout << "Rozmiar tablicy: " << this->one->allBlocks.size() << std::endl;
-	this->one->search(&text);
-	this->one->text.setString(this->one->setNumber(&text));
+	this->one->search(text);
+	//separate Block
+	this->one->singleBlock.setTexture(textura);
+}
+void Game::draw(Block * toShow) {
+
+	//ustawienie pozycji
+	toShow->singleBlock = this->one->singleBlock;
+	toShow->singleBlock.setPosition(toShow->posX, toShow->posY);
+	toShow->text.setPosition(toShow->posX - 5, toShow->posY);
+
+	//wyœwietlenie
+	this->okno.draw(toShow->singleBlock);
+	this->okno.draw(toShow->text);
+
 }
 
 Game::~Game() {

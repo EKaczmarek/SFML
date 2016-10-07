@@ -17,10 +17,10 @@ public:
 	std::vector <Block*>  allBlocks;
 	Block() {}
 
-	void search(sf::Text* _text);
+	void search(sf::Text & _text);
 	Block* randNew(Block * _object);
 	bool check(Block * _four);
-	std::string setNumber(sf::Text * _text);
+	std::string setNumber();
 
 	~Block();
 };
