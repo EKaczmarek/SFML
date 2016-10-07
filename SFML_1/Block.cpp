@@ -43,7 +43,7 @@ void Block::search(sf::Text & _text) {
 //szukanie nowej pozycji z puli
 Block* Block::randNew(Block * _object) {
 		_object->posX = (rand() % 4 + 0) * 100; // od 0 w³¹cznie so 4 
-		_object->posY = (rand() % 4 + 0) * 100;
+		_object->posY = 200; // (rand() % 4 + 0) * 100;
 	return _object;
 }
 
@@ -72,6 +72,16 @@ std::string Block::setNumber() {
 	return tab[temp];
 } 
 
+//sprawdzenie miejsc obok
+bool Block::checkBeside(int _posX, int _posY) {
+	for (auto i : this->allBlocks) {
+		if (i->posY == _posY && i->posX == _posY)
+			return false;
+		else
+			continue;
+	}
+	return true;
+}
 Block::~Block(){
 	std::cout << "DESTRUKTOR KLASY BLOCK" << std::endl;
 }

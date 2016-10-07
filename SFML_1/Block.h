@@ -21,7 +21,7 @@ public:
 	Block* randNew(Block * _object);
 	bool check(Block * _four);
 	std::string setNumber();
-
+	bool Block::checkBeside(int _posX, int _posY);
 	~Block();
 };
 

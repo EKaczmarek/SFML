@@ -15,51 +15,96 @@ int main()
 			if (event.type == sf::Event::Closed)
 				game.okno.close();
 			}		
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			for(auto i: game.one->allBlocks){
-					if (i->posX == 300.0) {
-						i->posX = 300;
-						i->singleBlock.setPosition(i->posX, i->posY);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			for (auto i : game.one->allBlocks) {
+				if (i->posY == 200) {
+
+					if (i->posX == 100) {
+						if ((*i).checkBeside(0, (i->posY) == false)) {
+							i->posX = 0;
+							i->singleBlock.setPosition(i->posX, i->posY);
+							i->singleBlock.move(i->posX, i->posY);
+						}
 					}
-					else if(i->posX == 200){
-						
+					if (i->posX == 200) {
+
+						if ((*i).checkBeside(100, (i->posY) == false)) {
+							i->posX = 100;
+							i->singleBlock.setPosition(i->posX, i->posY);
+							i->singleBlock.move(i->posX, i->posY);
+						}
+
+						if ((*i).checkBeside(0, (i->posY) == false)) {
+							i->posX = 0;
+							i->singleBlock.setPosition(i->posX, i->posY);
+							i->singleBlock.move(i->posX, i->posY);
+						}
+					}
+					if (i->posX == 300) {
+						if ((*i).checkBeside(200, (i->posY)) == false) {
+							i->posX = 200;
+							i->singleBlock.setPosition(i->posX, i->posY);
+							i->singleBlock.move(i->posX, i->posY);
+						}
+						if ((*i).checkBeside(100, (i->posY) == false)) {
+							i->posX = 100;
+							i->singleBlock.setPosition(i->posX, i->posY);
+							i->singleBlock.move(i->posX, i->posY);
+						}
+						if ((*i).checkBeside(0, (i->posY) == false)) {
+							i->posX = 0;
+							i->singleBlock.setPosition(i->posX, i->posY);
+							i->singleBlock.move(i->posX, i->posY);
+						}
 					}
 				}
+				//	game.one->search(game.text);
 
-			//one->search();
-
-			}/*
-			 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-				for (auto i : one->allBlocks) {
-					if (i->posX != 0.0) {
-						//i->singleBlock.move(-0.25, 0);
-						i->posX = 0;
-						//i->singleBlock.setPosition(i->posX, i->posY);
-					}
-				}
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-				for (auto i : one->allBlocks) {
-					if (i->posY != 0.0) {
-						one->search();
-						//i->singleBlock.move(0, -0.25);
-						i->posY = 0;
-					//	i->singleBlock.setPosition(i->posX, i->posY);
-					}
-				}
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-				one->search();
-				for (auto i : one->allBlocks) {
-					if (i->posY != 300.0) {
-						one->search();
-						//i->singleBlock.move(0, 0.25);
-						i->posY = 300;
-					//	i->singleBlock.setPosition(i->posX, i->posY);
-					}
-				}
-			}		*/
+			/*	for(auto i: game.one->allBlocks){
+						if (i->posX != 300.0) {
+							i->posX = 300;
+							i->singleBlock.setPosition(i->posX, i->posY);
+						}
+						else if(i->posX == 200){
 
+						}
+					}*/
+
+					//one->search();
+
+					/*
+					 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+						for (auto i : one->allBlocks) {
+							if (i->posX != 0.0) {
+								//i->singleBlock.move(-0.25, 0);
+								i->posX = 0;
+								//i->singleBlock.setPosition(i->posX, i->posY);
+							}
+						}
+					}
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+						for (auto i : one->allBlocks) {
+							if (i->posY != 0.0) {
+								one->search();
+								//i->singleBlock.move(0, -0.25);
+								i->posY = 0;
+							//	i->singleBlock.setPosition(i->posX, i->posY);
+							}
+						}
+					}
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+						one->search();
+						for (auto i : one->allBlocks) {
+							if (i->posY != 300.0) {
+								one->search();
+								//i->singleBlock.move(0, 0.25);
+								i->posY = 300;
+							//	i->singleBlock.setPosition(i->posX, i->posY);
+							}
+						}
+					}		*/
+		}
 		game.okno.clear(sf::Color::Red);
 
 		for (auto i = game.one->allBlocks.begin();
