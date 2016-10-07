@@ -73,9 +73,9 @@ int main()
 
 					//one->search();
 
-					/*
+					
 					 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-						for (auto i : one->allBlocks) {
+						for (auto i : game.one->allBlocks) {
 							if (i->posX != 0.0) {
 								//i->singleBlock.move(-0.25, 0);
 								i->posX = 0;
@@ -84,9 +84,9 @@ int main()
 						}
 					}
 					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-						for (auto i : one->allBlocks) {
+						for (auto i : game.one->allBlocks) {
 							if (i->posY != 0.0) {
-								one->search();
+								//one->search();
 								//i->singleBlock.move(0, -0.25);
 								i->posY = 0;
 							//	i->singleBlock.setPosition(i->posX, i->posY);
@@ -94,16 +94,16 @@ int main()
 						}
 					}
 					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-						one->search();
-						for (auto i : one->allBlocks) {
+						//one->search();
+						for (auto i : game.one->allBlocks) {
 							if (i->posY != 300.0) {
-								one->search();
+							//	game.one->search();
 								//i->singleBlock.move(0, 0.25);
 								i->posY = 300;
 							//	i->singleBlock.setPosition(i->posX, i->posY);
 							}
 						}
-					}		*/
+					}		
 		}
 		game.okno.clear(sf::Color::Red);
 
