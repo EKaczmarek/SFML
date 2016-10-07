@@ -22,7 +22,7 @@ int main()
 						i->singleBlock.setPosition(i->posX, i->posY);
 					}
 					else if(i->posX == 200){
-						///
+						
 					}
 				}
 
