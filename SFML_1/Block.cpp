@@ -1,5 +1,10 @@
 #include "Header.h"
 
+Block::Block() {
+	for (int i = 0; i < 16; i++)
+		allBlocks[i]. = nullptr;
+		
+}
 //szukanie nowej pozycji i wk³adanie na liste
 void Block::search(sf::Text & _text) {
 	if (this->allBlocks.size() == 0) {

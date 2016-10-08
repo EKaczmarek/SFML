@@ -14,7 +14,7 @@ public:
 	sf::Sprite singleBlock;
 	
 public:
-	std::vector <Block*>  allBlocks;
+	std::vector <Block>  allBlocks [16];
 	Block() {}
 
 	void search(sf::Text & _text);

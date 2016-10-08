@@ -13,7 +13,7 @@ void Game::runGame() {
 
 	one = new Block;
 	//Table of Blocks
-	std::cout << "Rozmiar tablicy: " << this->one->allBlocks.size() << std::endl;
+	std::cout << "Rozmiar tablicy: " << one->allBlocks->size() << std::endl;
 	this->one->search(text);
 	//separate Block
 	this->one->singleBlock.setTexture(textura);
