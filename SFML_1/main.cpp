@@ -19,6 +19,7 @@ int main()
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 				game.one->changePosLeft();
+				game.draw();
 				game.one->search(a);
 			}
 		/*	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
