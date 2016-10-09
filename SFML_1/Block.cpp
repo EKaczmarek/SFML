@@ -29,32 +29,12 @@ void Block::search(int & state) {
 	}
 }
 void Block::changePosLeft() {
-	//for (int i = 0; i < 4; i++) {
-	if (this->allBlocks[3]->empty == false) { //gdy 300,0 nie jest pusty
-		if (this->allBlocks[2]->empty == false) { //gdy 200,0 nie jest pusty
-			if (this->allBlocks[1]->empty == false) {
-				if (this->allBlocks[0]->empty == false) {
-					this->allBlocks[0]->empty = false;
-				}
-				else if (this->allBlocks[0]->empty == true) {
-					this->allBlocks[3]->empty = true;
-					this->allBlocks[0]->empty = false;
-				}
-			}
-			else if (this->allBlocks[1]->empty == true) {
-				this->allBlocks[1]->empty = false;
-				this->allBlocks[0]->empty = true;
-			}
-		}
-		else if (this->allBlocks[2]->empty == true) {
-			this->allBlocks[3]->empty = true;
-			this->allBlocks[2]->empty = false;
-			this->allBlocks[1]->empty = true;
-		}
+	//for (int i = 0; i < 4; i++) { //TODO od lewej
+	if (this->allBlocks[0]->empty == true) {
+
 	}
-	else if (this->allBlocks[3]->empty == true) {
-		this->allBlocks[3]->empty = false;
-		this->allBlocks[2]->empty = true;
+	else {
+
 	}
 }
 Block::~Block(){
