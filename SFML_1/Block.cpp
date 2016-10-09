@@ -30,26 +30,52 @@ void Block::search(int & state) {
 }
 void Block::changePosLeft() {
 	//for (int i = 0; i < 4; i++) { //TODO od lewej
-	if (this->allBlocks[0]->empty == true) { // jeœli po lewej 0,0 jest pe³ny
-		if (this->allBlocks[1]->empty == true) {//jesli 100,0 jest pe³ny
-			if (this->allBlocks[2]->empty == true) { //jeœli 200,0 jest pe³ny
-				if (this->allBlocks[3]->empty == true) { //jeœli 300,0 jest pe³ny
-					
+	if (this->allBlocks[0]->empty == true) { // jeœli po lewej 0,0 jest pusty
+		if (this->allBlocks[1]->empty == true) {//jesli 100,0 jest pusty
+			if (this->allBlocks[2]->empty == true) { //jeœli 200,0 jest pusty
+				if (this->allBlocks[3]->empty == true) { //jeœli 300,0 jest pusty
+
 				}
-				else {//jeœli 300,0 jest pusty
+				else {//jeœli 300,0 jest pelny
 					this->allBlocks[3]->empty = true;
 					this->allBlocks[0]->empty = false;
 				}
 			}
-			else {//jeœli 200,0 jest pusty
-
+			else {//jeœli 200,0 jest pe³ny
+				if (this->allBlocks[3]->empty == false) {
+					this->allBlocks[3]->empty = true;
+					this->allBlocks[2]->empty = false;
+				}
 			}
 		}
-		else {//jeœli 100,0 jest pusty
-
+		else {//jeœli 100,0 jest pe³ny
+			if (this->allBlocks[2]->empty == false) {
+				this->allBlocks[2]->empty = true;
+				this->allBlocks[1]->empty = false;
+			}
+			else if (this->allBlocks[3]->empty == false) {
+				this->allBlocks[3]->empty = true;
+				this->allBlocks[1]->empty = false;
+			}
 		}
 	}
-	else { // jesli 0,0 jest pusty
+	else { // jesli 0,0 jest pe³ny
+		if (this->allBlocks[1]->empty == false) {
+			this->allBlocks[1]->empty = true;
+			this->allBlocks[0]->empty = false;
+		}
+		else if (this->allBlocks[2]->empty == false) {
+			this->allBlocks[2]->empty = true;
+			if (this->allBlocks[0]->empty == false){
+				this->allBlocks[1]->empty = false;
+			}
+			else 
+				this->allBlocks[0]->empty = false;
+		}
+		else if (this->allBlocks[3]->empty == false) {
+			this->allBlocks[3]->empty = true;
+			this->allBlocks[0]->empty = false;
+		}
 
 	}
 }

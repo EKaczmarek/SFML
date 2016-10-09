@@ -20,7 +20,6 @@ public:
 	void fullfil(sf::Texture &_textura);
 	void search(int & state);
 	void changePosLeft();
-	int findLeftest(int m);
 	~Block();
 };
 
