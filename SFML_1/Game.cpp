@@ -1,36 +1,30 @@
 #include "Header.h"
 
-
 void Game::runGame() {
 	okno.create(sf::VideoMode(400, 400), "2048", sf::Style::Default && sf::Style::Resize);
 	textura.loadFromFile("klocek.png");
 	font.loadFromFile("arial.ttf");
 
-	//text in Block
 	text.setFont(font);
 	text.setCharacterSize(100);
 	text.setColor(sf::Color::Green);
 
-	one = new Block;
-	//Table of Blocks
-	std::cout << "Rozmiar tablicy: " << one->allBlocks->size() << std::endl;
-	this->one->search(text);
-	//separate Block
-	this->one->singleBlock.setTexture(textura);
+	one = new Block();
+	this->one->fullfil(textura);
+	this->one->search(state);
+	this->draw();
 }
-void Game::draw(Block * toShow) {
+void Game::draw() {
+	for (auto i : this->one->allBlocks) {
+		if (i->empty == false) {
+			i->singleBlock.setPosition(i->posX, i->posY);
+			okno.draw(i->singleBlock);
 
-	//ustawienie pozycji
-	toShow->singleBlock = this->one->singleBlock;
-	toShow->singleBlock.setPosition(toShow->posX, toShow->posY);
-	toShow->text.setPosition(toShow->posX - 5, toShow->posY);
-
-	//wyœwietlenie
-	this->okno.draw(toShow->singleBlock);
-	this->okno.draw(toShow->text);
-
+			i->text.setPosition(i->posX + 10, i->posY + 10);
+			okno.draw(i->text);
+		}
+	}
 }
-
 Game::~Game() {
 	std::cout << "DESTRUKTOR KLASY GAME" << std::endl;
 }

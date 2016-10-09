@@ -1,97 +1,45 @@
 #include "Header.h"
 
-Block::Block() {
-	for (int i = 0; i < 16; i++)
-		allBlocks[i]. = nullptr;
-		
-}
-//szukanie nowej pozycji i wk³adanie na liste
-void Block::search(sf::Text & _text) {
-	if (this->allBlocks.size() == 0) {
-		Block* two = new Block();
-		//przypisanie liczby
-		two->text =  _text;
-		two->text.setString(two->setNumber());
-		//wstawienie do tablicy
-		this->allBlocks.emplace_back(this->randNew(two));
-		
-		std::cout << "Rozmiar tablicy: " << this->allBlocks.size() << std::endl;
-
-		Block* three = new Block();
-		this->randNew(three);
-			while (three->posX == two->posX &&
-				three->posY == two->posY) {
-				this->randNew(three);
-			}
-			three->text = _text;
-			//przypisanie liczby
-			three->text.setString(three->setNumber());
-			//wstawienie do tablicy
-			this->allBlocks.emplace_back(three);
-			
-			std::cout << "Rozmiar tablicy: " << this->allBlocks.size() << std::endl;
-	}
-	else {
-		Block* four = new Block();
-		this->randNew(four);
-		while (this->check(four) == false) {
-			this->randNew(four);
+void Block::fullfil(sf::Texture &_textura) {
+	int i = 0;
+	for (int a = 0; a < 400; (a += 100)) {
+		for (int b = 0; b < 400; (b += 100)) {
+			this->allBlocks[i] = new Block;
+			this->allBlocks[i]->posX = a;
+			this->allBlocks[i]->posY = b;
+			this->allBlocks[i]->singleBlock.setTexture(_textura);
+			this->allBlocks[i]->empty = true;
+			i++;
 		}
-		four->text = _text;
-		//przypisanie liczby
-		four->text.setString(four->setNumber());
-		//wstawienie do tablicy
-		this->allBlocks.emplace_back(four);
 	}
 }
-
-//szukanie nowej pozycji z puli
-Block* Block::randNew(Block * _object) {
-		_object->posX = (rand() % 4 + 0) * 100; // od 0 w³¹cznie so 4 
-		_object->posY = 0; // (rand() % 4 + 0) * 100;
-	return _object;
-}
-
-//sprawdzenie czy nie ma w tablicy bloku o danej pozycji
-bool Block::check(Block * _four) {
-	int a = 0;
-		for (auto i : allBlocks) {
-			a++;
-			if (i->posX != _four->posX &&
-				i->posY != _four->posY)
-				continue;
-			else if (i->posX == _four->posX &&
-				i->posY == _four->posY)
-				return false;
-			if (a == allBlocks.size())
-				return true;
+void Block::search(int & state) {
+	//rand positions from sixteen positions
+	if (state == 0) {
+		int first = rand() % 16 + 0;
+		this->allBlocks[first]->empty = false;
+		state = 1;
+	}
+	else{
+		int next = rand() % 15 + 0;
+		while (this->allBlocks[next]->empty == false) {
+			next = rand() % 15 + 0;
 		}
-}
-
-//losowanie z puli numeru 2 lub 4
-std::string Block::setNumber() {
-	std::string tab[2];
-	tab[0] = "2";
-	tab[1] = "4";
-	int temp = rand() % 1 + 0;
-	return tab[temp];
-} 
-
-//znajdz minimum w danym wierszu
-int Block::findMin(int _Y) {
-	for (auto i : this->allBlocks) {
-
+		this->allBlocks[next]->empty = false;
 	}
 }
-//sprawdzenie miejsc obok
-bool Block::checkBeside(int _posX, int _posY) {
-	for (auto i : this->allBlocks) {
-		if (i->posY == _posY && i->posX == _posY)
-			return false;
-		else
-			continue;
+void Block::changePosLeft() {
+	for (int i = 0; i < 16; i++) {
+		if (this->allBlocks[i]->empty == false) {
+			this->findLeftest((ceil(i/4)));
+		}
 	}
-	return true;
+}
+int Block::findLeftest(int m) {
+	int j = 0;
+	int min = fmin(this->allBlocks[j*m]->posX, fmin(this->allBlocks[(j + 1)*m]->posX,
+					fmin(this->allBlocks[(j + 2)*m]->posX, this->allBlocks[(j + 3)*m]->posX)));
+	return min;
 }
 Block::~Block(){
 	std::cout << "DESTRUKTOR KLASY BLOCK" << std::endl;

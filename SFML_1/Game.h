@@ -9,10 +9,12 @@ public:
 	sf::Texture textura;
 	sf::Font font;
 	sf::Text text;
-	Block * one;
+	Block* one;
+	int state = 0;
+
 
 	Game() {}
 	void runGame();
-	virtual void draw(Block * toShow);
+	void draw();
 	~Game();
 };
