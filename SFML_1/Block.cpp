@@ -21,71 +21,62 @@ void Block::search(int & state) {
 		state = 1;
 	}
 	else if(state == 1){
-		int next = 3;// rand() % 15 + 0;
+		int next = 1;// rand() % 15 + 0;
 		while (this->allBlocks[next]->empty == false) {
-			next = rand() % 15 + 0;
+			next = 3;
 		}
 		this->allBlocks[next]->empty = false;
 	}
 }
 void Block::changePosLeft() {
-	/*
-	for (int i = 0; i < 4; i++) { //TODO od lewej
-	if (this->allBlocks[0]->empty == true) { // jeœli po lewej 0,0 jest pusty
-		if (this->allBlocks[1]->empty == true) {//jesli 100,0 jest pusty
-			if (this->allBlocks[2]->empty == true) { //jeœli 200,0 jest pusty
-				if (this->allBlocks[3]->empty == true) { //jeœli 300,0 jest pusty
-
-				}
-				else {//jeœli 300,0 jest pelny
-					this->allBlocks[3]->empty = true;
-					this->allBlocks[0]->empty = false;
-				}
-			}
-			else {//jeœli 200,0 jest pe³ny
-				if (this->allBlocks[3]->empty == false) {
-					this->allBlocks[3]->empty = true;
-					this->allBlocks[2]->empty = false;
-				}
-			}
-		}
-		else {//jeœli 100,0 jest pe³ny
-			if (this->allBlocks[2]->empty == false) {
-				this->allBlocks[2]->empty = true;
-				this->allBlocks[1]->empty = false;
-			}
-			else if (this->allBlocks[3]->empty == false) {
-				this->allBlocks[3]->empty = true;
-				this->allBlocks[1]->empty = false;
-			}
-		}
-	}
-	else { // jesli 0,0 jest pe³ny
+	
+	//for (int i = 0; i < 4; i++) { //TODO od lewej
+	//algorytm --> moje d¿ewo
+	if (this->allBlocks[0]->empty == true) { //sciezka e
 		if (this->allBlocks[1]->empty == false) {
 			this->allBlocks[1]->empty = true;
 			this->allBlocks[0]->empty = false;
 		}
-		else if (this->allBlocks[2]->empty == false) {
-			this->allBlocks[2]->empty = true;
-			if (this->allBlocks[0]->empty == false){
+		else if (this->allBlocks[1]->empty == true) {
+			if (this->allBlocks[2]->empty = false) {
+				this->allBlocks[2]->empty = true;
+				this->allBlocks[0]->empty = false;
+			}
+			else if (this->allBlocks[2]->empty = true) {
+				if (this->allBlocks[3]->empty = false) {
+					this->allBlocks[3]->empty = true;
+					this->allBlocks[0]->empty = false;
+				}
+				else {}
+			}
+		}
+	}
+	else if (this->allBlocks[0]->empty == false) { //sciezka f
+		if (this->allBlocks[1]->empty == true) {
+			if (this->allBlocks[2]->empty == false) {
+				this->allBlocks[2]->empty = true;
 				this->allBlocks[1]->empty = false;
 			}
-			else if (this->allBlocks[0]->empty == true)
-				this->allBlocks[0]->empty = false;
+			else if (this->allBlocks[2]->empty == true) {
+				if (this->allBlocks[3]->empty == false) {
+					this->allBlocks[3]->empty = true;
+					this->allBlocks[1]->empty = false;
+				}
+				else {}
+			}
 		}
-		else if (this->allBlocks[3]->empty == false) {
-			this->allBlocks[3]->empty = true;
-			if (this->allBlocks[0]->empty = true)
-				this->allBlocks[0]->empty = false;
-			else if (this->allBlocks[1]->empty = true)
-				this->allBlocks[1]->empty = false;
-			else if (this->allBlocks[2]->empty = true)
-				this->allBlocks[2]->empty = false;
-			else
-				this->allBlocks[3]->empty = false;
+		else if (this->allBlocks[1]->empty == false) {
+			if(this->allBlocks[2]->empty == false){}
+			else if (this->allBlocks[2]->empty == true) {
+				if (this->allBlocks[3]->empty == false) {
+					this->allBlocks[3]->empty = true;
+					this->allBlocks[2]->empty = false;
+				}
+				else if (this->allBlocks[3]->empty == true) {}
+			}
 		}
-
-	}*/
+	}
+	
 }
 Block::~Block(){
 	std::cout << "DESTRUKTOR KLASY BLOCK" << std::endl;
