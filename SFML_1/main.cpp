@@ -8,7 +8,6 @@ int main()
 	game.runGame();
 
 	int a = 1;
-	int flag = 0; //0 - nic nie wciœniete , 1- cos wcisniete
 	while (game.okno.isOpen())
 	{
 		sf::Event event;
@@ -19,8 +18,7 @@ int main()
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 				game.one->changePosLeft();
-				flag = 1;
-				
+				game.one->search(a);				
 			}
 		/*	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 				game.one->search(a);
@@ -38,10 +36,6 @@ int main()
 		game.okno.clear();
 		game.draw();
 		game.okno.display();
-		if (flag == 1) {
-			game.one->search(a);
-			flag = 0;
-		}
 
 	}
 	
