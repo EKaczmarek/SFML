@@ -36,7 +36,6 @@ int main()
 		game.okno.clear();
 		game.draw();
 		game.okno.display();
-
 	}
 	
 	return 0;

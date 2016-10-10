@@ -20,16 +20,17 @@ void Block::search(int & state) {
 		this->allBlocks[first]->empty = false;
 		state = 1;
 	}
-	else{
-		int next = 2;// rand() % 15 + 0;
+	else if(state == 1){
+		int next = 3;// rand() % 15 + 0;
 		while (this->allBlocks[next]->empty == false) {
-			next = 2;//rand() % 15 + 0;
+			next = rand() % 15 + 0;
 		}
 		this->allBlocks[next]->empty = false;
 	}
 }
 void Block::changePosLeft() {
-	//for (int i = 0; i < 4; i++) { //TODO od lewej
+	/*
+	for (int i = 0; i < 4; i++) { //TODO od lewej
 	if (this->allBlocks[0]->empty == true) { // jeœli po lewej 0,0 jest pusty
 		if (this->allBlocks[1]->empty == true) {//jesli 100,0 jest pusty
 			if (this->allBlocks[2]->empty == true) { //jeœli 200,0 jest pusty
@@ -74,10 +75,17 @@ void Block::changePosLeft() {
 		}
 		else if (this->allBlocks[3]->empty == false) {
 			this->allBlocks[3]->empty = true;
-			this->allBlocks[0]->empty = false;
+			if (this->allBlocks[0]->empty = true)
+				this->allBlocks[0]->empty = false;
+			else if (this->allBlocks[1]->empty = true)
+				this->allBlocks[1]->empty = false;
+			else if (this->allBlocks[2]->empty = true)
+				this->allBlocks[2]->empty = false;
+			else
+				this->allBlocks[3]->empty = false;
 		}
 
-	}
+	}*/
 }
 Block::~Block(){
 	std::cout << "DESTRUKTOR KLASY BLOCK" << std::endl;
