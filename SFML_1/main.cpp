@@ -8,20 +8,19 @@ int main()
 	game.runGame();
 
 	int a = 1;
+	int flag = 0; //0 - nic nie wciœniete , 1- cos wcisniete
 	while (game.okno.isOpen())
 	{
 		sf::Event event;
 		while (game.okno.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed){
-
 				game.okno.close();
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 				game.one->changePosLeft();
-				game.okno.clear();
-				game.draw();
-				game.one->search(a);
+				flag = 1;
+				
 			}
 		/*	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 				game.one->search(a);
@@ -39,6 +38,11 @@ int main()
 		game.okno.clear();
 		game.draw();
 		game.okno.display();
+		if (flag == 1) {
+			game.one->search(a);
+			flag = 0;
+		}
+
 	}
 	
 	return 0;

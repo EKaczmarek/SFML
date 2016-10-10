@@ -16,14 +16,14 @@ void Block::fullfil(sf::Texture &_textura) {
 void Block::search(int & state) {
 	//rand positions from sixteen positions
 	if (state == 0) {
-		int first = 3;//rand() % 16 + 0;
+		int first = 3;// rand() % 16 + 0;
 		this->allBlocks[first]->empty = false;
 		state = 1;
 	}
 	else{
 		int next = 2;// rand() % 15 + 0;
 		while (this->allBlocks[next]->empty == false) {
-			next = rand() % 15 + 0;
+			next = 2;//rand() % 15 + 0;
 		}
 		this->allBlocks[next]->empty = false;
 	}
@@ -69,7 +69,7 @@ void Block::changePosLeft() {
 			if (this->allBlocks[0]->empty == false){
 				this->allBlocks[1]->empty = false;
 			}
-			else 
+			else if (this->allBlocks[0]->empty == true)
 				this->allBlocks[0]->empty = false;
 		}
 		else if (this->allBlocks[3]->empty == false) {

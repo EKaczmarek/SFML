@@ -1,7 +1,8 @@
 #include "Header.h"
 
 void Game::runGame() {
-	okno.create(sf::VideoMode(400, 400), "2048", sf::Style::Default && sf::Style::Resize);
+	okno.create(sf::VideoMode(400, 400), "2048", sf::Style::Default);
+	okno.setPosition(sf::Vector2i(70,0));
 	textura.loadFromFile("klocek.png");
 	font.loadFromFile("arial.ttf");
 
