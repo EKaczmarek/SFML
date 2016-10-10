@@ -19,6 +19,7 @@ public:
 	Block() {}
 	void fullfil(sf::Texture &_textura);
 	void search(int & state);
+	std::string searchNr();
 	void changePosLeft();
 	~Block();
 };

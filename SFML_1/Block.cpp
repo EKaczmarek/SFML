@@ -2,11 +2,14 @@
 
 void Block::fullfil(sf::Texture &_textura) {
 	int i = 0;
+	sf::Text temp;
 	for (int a = 0; a < 400; (a += 100)) {
 		for (int b = 0; b < 400; (b += 100)) {
 			this->allBlocks[i] = new Block;
 			this->allBlocks[i]->posX = b;
 			this->allBlocks[i]->posY = a;
+			this->allBlocks[i]->text.setString(searchNr());
+			this->allBlocks[i]->text.setColor(sf::Color::Red);
 			this->allBlocks[i]->singleBlock.setTexture(_textura);
 			this->allBlocks[i]->empty = true;
 			i++;
@@ -27,6 +30,11 @@ void Block::search(int & state) {
 		}
 		this->allBlocks[next]->empty = false;
 	}
+}
+std::string Block::searchNr() {
+	std::string tab[2]{ "2","4" };
+	int a = rand() % 2 + 0;
+	return tab[a];
 }
 void Block::changePosLeft() {
 	
