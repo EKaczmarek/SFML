@@ -17,6 +17,7 @@ int main()
 				game.okno.close();
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				for (int i = 0; i < 100000; i++);
 				game.one->changePosLeft();
 				game.one->search(a);				
 			}

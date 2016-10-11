@@ -47,12 +47,12 @@ void Block::changePosLeft() {
 				this->allBlocks[(4 * i)]->empty = false;
 			}
 			else if (this->allBlocks[(4 * i) + 1]->empty == true) {
-				if (this->allBlocks[(4 * i) + 2]->empty = false) {
+				if (this->allBlocks[(4 * i) + 2]->empty == false) {
 					this->allBlocks[(4 * i) + 2]->empty = true;
 					this->allBlocks[(4 * i) ]->empty = false;
 				}
-				else if (this->allBlocks[(4 * i) + 2]->empty = true) {
-					if (this->allBlocks[(4 * i) + 3]->empty = false) {
+				else if (this->allBlocks[(4 * i) + 2]->empty == true) {
+					if (this->allBlocks[(4 * i) + 3]->empty == false) {
 						this->allBlocks[(4 * i) + 3]->empty = true;
 						this->allBlocks[(4 * i)]->empty = false;
 					}
