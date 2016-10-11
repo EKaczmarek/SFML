@@ -7,8 +7,9 @@ void Game::runGame() {
 	font.loadFromFile("arial.ttf");
 
 	text.setFont(font);
-	text.setCharacterSize(100);
+	text.setCharacterSize(30);
 	text.setColor(sf::Color::Green);
+	text.setString(searchNr());
 
 	one = new Block();
 	this->one->fullfil(textura);
@@ -21,10 +22,16 @@ void Game::draw() {
 			i->singleBlock.setPosition(i->posX, i->posY);
 			okno.draw(i->singleBlock);
 
-			i->text.setPosition(i->posX + 10, i->posY + 10);
+			i->text.setPosition(i->posX, i->posY);
 			okno.draw(i->text);
 		}
 	}
+}
+
+std::string  Game::searchNr() {
+	std::string tab[2]{ "2","4" };
+	int a = rand() % 2 + 0;
+	return tab[a];
 }
 Game::~Game() {
 	std::cout << "DESTRUKTOR KLASY GAME" << std::endl;

@@ -21,11 +21,13 @@ int main()
 				game.one->changePosLeft();
 				game.one->search(a);				
 			}
-		/*	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				for (int i = 0; i < 100000; i++);
+				game.one->changePosRight();
 				game.one->search(a);
 
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				game.one->search(a);
 
 			}

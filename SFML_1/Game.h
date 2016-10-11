@@ -15,6 +15,7 @@ public:
 
 	Game() {}
 	void runGame();
+	std::string searchNr();
 	void draw();
 	~Game();
 };
