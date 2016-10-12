@@ -4,12 +4,6 @@ void Game::runGame() {
 	okno.create(sf::VideoMode(400, 400), "2048", sf::Style::Default);
 	okno.setPosition(sf::Vector2i(70,0));
 	textura.loadFromFile("klocek.png");
-	font.loadFromFile("arial.ttf");
-
-	text.setFont(font);
-	text.setCharacterSize(30);
-	text.setColor(sf::Color::Green);
-	text.setString(searchNr());
 
 	one = new Block();
 	this->one->fullfil(textura);

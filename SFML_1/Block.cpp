@@ -11,6 +11,7 @@ void Block::fullfil(sf::Texture &_textura) {
 
 			this->allBlocks[i]->singleBlock.setTexture(_textura);
 			this->allBlocks[i]->text = this->text;
+
 			this->allBlocks[i]->empty = true;
 
 			i++;
