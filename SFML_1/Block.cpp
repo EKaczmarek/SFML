@@ -47,6 +47,7 @@ void Block::changePosLeft() {
 				if (this->allBlocks[(4 * i) + 2]->empty == false) {
 					this->allBlocks[(4 * i) + 2]->empty = true;
 					this->allBlocks[(4 * i) ]->empty = false;
+
 				}
 				else if (this->allBlocks[(4 * i) + 2]->empty == true) {
 					if (this->allBlocks[(4 * i) + 3]->empty == false) {
@@ -113,7 +114,7 @@ void Block::changePosRight() {
 				}
 				else if (this->allBlocks[(4 * i) + 1]->empty == true) {
 					if (this->allBlocks[(4 * i)]->empty == false) {
-						this->allBlocks[(4 * i)]->empty = true;
+						//this->allBlocks[(4 * i)]->empty = true;
 						this->allBlocks[(4 * i) + 2]->empty = false;
 					}
 					else {}
