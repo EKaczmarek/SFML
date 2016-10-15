@@ -24,14 +24,14 @@ int main()
 			//	game.one->singleBlock.move(-1, 0);
 				game.one->search(a);				
 			}
-			/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 				for (int i = 0; i < 100000; i++);
 				game.one->changePosRight();
-				game.one->singleBlock.move(1, 0);
+				//game.one->singleBlock.move(1, 0);
 				game.one->search(a);
 
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				game.one->search(a);
 
 			}

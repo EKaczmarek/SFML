@@ -67,11 +67,22 @@ void Block::changePosLeft() {
 				if (firstEmpty != -1) {
 					this->allBlocks[(4 * i) + j]->empty = true;
 					this->allBlocks[firstEmpty]->empty = false;
-					if (j == 3)
-						if (this->allBlocks[(4 * i) + 2]->empty == true) {
+					if (j == 3) {
+						if (this->allBlocks[(4 * i) + 1]->empty == true) {
+							firstEmpty = (4 * i) + 1;
+							break;
+						}
+						else if (this->allBlocks[(4 * i) + 2]->empty == true) {
 							firstEmpty = (4 * i) + 2;
 							break;
 						}
+					}
+					else if (j == 2) {
+						if (this->allBlocks[(4 * i) + 1]->empty == true) {
+							firstEmpty = (4 * i) + 1;
+							break;
+						}
+					}
 					firstEmpty = (4 * i) + j;
 				}
 				else if (firstEmpty == -1) {
@@ -84,7 +95,47 @@ void Block::changePosLeft() {
 	}
 }
 void Block::changePosRight() {
-
+	int firstEmpty = -1;
+	// wiersze
+	for (int i = 0; i < 4; i++) {
+		firstEmpty = -1;
+		// pozycje 
+		for (int j = 3; j >= 0; j--) {
+			if (this->allBlocks[(4 * i) + j]->empty == true) {
+				if (firstEmpty == -1)
+					firstEmpty = (4 * i) + j;
+				continue;
+			}
+			else {
+				if (firstEmpty != -1) {
+					this->allBlocks[(4 * i) + j]->empty = true;
+					this->allBlocks[firstEmpty]->empty = false;
+					if (j == 0) {
+						if (this->allBlocks[(4 * i) + 1]->empty == true) {
+							firstEmpty = (4 * i) + 1;
+							break;
+						}
+						else if (this->allBlocks[(4 * i) + 2]->empty == true) {
+							firstEmpty = (4 * i) + 2;
+							break;
+						}
+					}
+					else if (j == 1) {
+						if (this->allBlocks[(4 * i) + 2]->empty == true) {
+							firstEmpty = (4 * i) + 2;
+							break;
+						}
+					}
+					firstEmpty = (4 * i) + j;
+				}
+				else if (firstEmpty == -1) {
+					continue;
+				}
+				else
+					break;
+			}
+		}
+	}
 }
 
 
