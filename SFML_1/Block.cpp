@@ -1,8 +1,16 @@
 #include "Header.h"
-
 void Block::fullfil(sf::Texture &_textura) {
 	int i = 0;
-	sf::Text temp;
+
+	sf::Text _text;
+	sf::Font font;
+	if (!font.loadFromFile("arial.ttf"))
+		EXIT_FAILURE;
+	_text.setFont(font);
+	_text.setCharacterSize(30);
+	_text.setColor(sf::Color::Red);
+	_text.setStyle(sf::Text::Bold);
+
 	for (int a = 0; a < 400; (a += 100)) {
 		for (int b = 0; b < 400; (b += 100)) {
 			this->allBlocks[i] = new Block;
@@ -10,7 +18,8 @@ void Block::fullfil(sf::Texture &_textura) {
 			this->allBlocks[i]->posY = a;
 
 			this->allBlocks[i]->singleBlock.setTexture(_textura);
-			this->allBlocks[i]->text = this->text;
+			this->allBlocks[i]->text = _text;
+			this->allBlocks[i]->text.setString((searchNr()));
 
 			this->allBlocks[i]->empty = true;
 
@@ -18,7 +27,15 @@ void Block::fullfil(sf::Texture &_textura) {
 		}
 	}
 }
+
+std::string  Block::searchNr() {
+	std::string tab[2]{ "2","4" };
+	int a = rand() % 2 + 0;
+	return tab[a];
+}
+
 void Block::search(int & state) {
+
 	//rand positions from sixteen positions
 	if (state == 0) {
 		int first = rand() % 16 + 0;
@@ -35,104 +52,42 @@ void Block::search(int & state) {
 }
 
 void Block::changePosLeft() {
-	//algorytm --> moje d¿ewo
-	for (int i = 0; i < 4; i++) { 
-
-		if (this->allBlocks[(4 * i)]->empty == true) { //sciezka e
-			if (this->allBlocks[(4 * i) + 1] ->empty == false) {
-				this->allBlocks[(4 * i) + 1]->empty = true;
-				this->allBlocks[(4 * i)]->empty = false;
+	int firstEmpty = -1;
+	// wiersze
+	for (int i = 0; i < 4; i++){ 
+	firstEmpty = -1;
+	// pozycje 
+		for (int j = 0; j < 4; j++)	{
+			if (this->allBlocks[(4 * i) + j]->empty == true) {
+				if(firstEmpty == -1)
+					firstEmpty = (4 * i) + j;
+				continue;
 			}
-			else if (this->allBlocks[(4 * i) + 1]->empty == true) {
-				if (this->allBlocks[(4 * i) + 2]->empty == false) {
-					this->allBlocks[(4 * i) + 2]->empty = true;
-					this->allBlocks[(4 * i) ]->empty = false;
-
+			else {
+				if (firstEmpty != -1) {
+					this->allBlocks[(4 * i) + j]->empty = true;
+					this->allBlocks[firstEmpty]->empty = false;
+					if (j == 3)
+						if (this->allBlocks[(4 * i) + 2]->empty == true) {
+							firstEmpty = (4 * i) + 2;
+							break;
+						}
+					firstEmpty = (4 * i) + j;
 				}
-				else if (this->allBlocks[(4 * i) + 2]->empty == true) {
-					if (this->allBlocks[(4 * i) + 3]->empty == false) {
-						this->allBlocks[(4 * i) + 3]->empty = true;
-						this->allBlocks[(4 * i)]->empty = false;
-					}
-					else {}
+				else if (firstEmpty == -1) {
+					continue;
 				}
-			}
-		}
-		else if (this->allBlocks[(4 * i)]->empty == false) { //sciezka f
-			if (this->allBlocks[(4 * i) + 1]->empty == true) {
-				if (this->allBlocks[(4 * i) + 2]->empty == false) {
-					this->allBlocks[(4 * i) + 2]->empty = true;
-					this->allBlocks[(4 * i) + 1]->empty = false;
-				}
-				else if (this->allBlocks[(4 * i) + 2]->empty == true) {
-					if (this->allBlocks[(4 * i) + 3]->empty == false) {
-						this->allBlocks[(4 * i) + 3]->empty = true;
-						this->allBlocks[(4 * i) + 1]->empty = false;
-					}
-					else {}
-				}
-			}
-			else if (this->allBlocks[(4 * i) + 1]->empty == false) {
-				if (this->allBlocks[(4 * i) + 2]->empty == false) {}
-				else if (this->allBlocks[(4 * i) + 2]->empty == true) {
-					if (this->allBlocks[(4 * i) + 3]->empty == false) {
-						this->allBlocks[(4 * i) + 3]->empty = true;
-						this->allBlocks[(4 * i) + 2]->empty = false;
-					}
-					else if (this->allBlocks[(4 * i) + 3]->empty == true) {}
-				}
+				else
+					break;
 			}
 		}
 	}
 }
 void Block::changePosRight() {
-	for (int i = 0; i < 4; i++) {
-		if (this->allBlocks[(4 * i) + 3]->empty == true) {
-			if (this->allBlocks[(4 * i) + 2]->empty == false) {
-				this->allBlocks[(4 * i) + 2]->empty = true;
-				this->allBlocks[(4 * i) + 3]->empty = false;
-			}
-			else if (this->allBlocks[(4 * i) + 2]->empty == true) {
-				if (this->allBlocks[(4 * i) + 1]->empty == false) {
-					this->allBlocks[(4 * i) + 1]->empty == true;
-					this->allBlocks[(4 * i) + 3]->empty == false;
-				}
-				else if (this->allBlocks[(4 * i) + 1]->empty == true) {
-					if (this->allBlocks[(4 * i)]->empty == false) {
-						this->allBlocks[(4 * i)]->empty = true;
-						this->allBlocks[(4 * i) + 3]->empty = false;
-					}
-					else {}
-				}
-			}
-		}
-		else if (this->allBlocks[(4 * i) + 3]->empty == false) {
-			if (this->allBlocks[(4 * i) + 2]->empty == true) {
-				if (this->allBlocks[(4 * i) + 1]->empty == false) {
-					this->allBlocks[(4 * i) + 1]->empty = true;
-					this->allBlocks[(4 * i) + 2]->empty = false;
-				}
-				else if (this->allBlocks[(4 * i) + 1]->empty == true) {
-					if (this->allBlocks[(4 * i)]->empty == false) {
-						//this->allBlocks[(4 * i)]->empty = true;
-						this->allBlocks[(4 * i) + 2]->empty = false;
-					}
-					else {}
-				}
-			}
-			else if (this->allBlocks[(4 * i) + 2]->empty == false) {
-				if (this->allBlocks[(4 * i) + 1]->empty == false) {}
-				else if (this->allBlocks[(4 * i) + 1]->empty == true) {
-					if (this->allBlocks[(4 * i)]->empty == false) {
-						this->allBlocks[(4 * i)]->empty = true;
-						this->allBlocks[(4 * i) + 1]->empty = false;
-					}
-					else if (this->allBlocks[(4 * i)]->empty == true) {}
-				}
-			}
-		}
-	}
+
 }
+
+
 Block::~Block(){
 	std::cout << "DESTRUKTOR KLASY BLOCK" << std::endl;
 }

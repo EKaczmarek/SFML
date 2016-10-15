@@ -8,7 +8,8 @@ void Game::runGame() {
 	one = new Block();
 	this->one->fullfil(textura);
 	this->one->search(state);
-	this->draw();
+	this->one->search(state);
+
 }
 void Game::draw() {
 	for (auto i : this->one->allBlocks) {
@@ -16,17 +17,12 @@ void Game::draw() {
 			i->singleBlock.setPosition(i->posX, i->posY);
 			okno.draw(i->singleBlock);
 
-			i->text.setPosition(i->posX, i->posY);
-			okno.draw(i->text);
+	//		i->text.setPosition(i->posX, i->posY);
+	//		okno.draw(i->text);
 		}
 	}
 }
 
-std::string  Game::searchNr() {
-	std::string tab[2]{ "2","4" };
-	int a = rand() % 2 + 0;
-	return tab[a];
-}
 Game::~Game() {
 	std::cout << "DESTRUKTOR KLASY GAME" << std::endl;
 }
