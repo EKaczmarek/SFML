@@ -2,15 +2,7 @@
 void Block::fullfil(sf::Texture &_textura) {
 	int i = 0;
 
-	sf::Text _text;
-	sf::Font font;
-	if (!font.loadFromFile("arial.ttf"))
-		EXIT_FAILURE;
-	_text.setFont(font);
-	_text.setCharacterSize(30);
-	_text.setColor(sf::Color::Red);
-	_text.setStyle(sf::Text::Bold);
-
+	
 	for (int a = 0; a < 400; (a += 100)) {
 		for (int b = 0; b < 400; (b += 100)) {
 			this->allBlocks[i] = new Block;
@@ -18,8 +10,6 @@ void Block::fullfil(sf::Texture &_textura) {
 			this->allBlocks[i]->posY = a;
 
 			this->allBlocks[i]->singleBlock.setTexture(_textura);
-			this->allBlocks[i]->text = _text;
-			this->allBlocks[i]->text.setString((searchNr()));
 
 			this->allBlocks[i]->empty = true;
 
@@ -40,6 +30,7 @@ void Block::search(int & state) {
 	if (state == 0) {
 		int first = rand() % 16 + 0;
 		this->allBlocks[first]->empty = false;
+		this->allBlocks[first]->text.setString(searchNr());
 		state = 1;
 	}
 	else if(state == 1){
@@ -48,6 +39,7 @@ void Block::search(int & state) {
 			next = rand() % 16 + 0;
 		}
 		this->allBlocks[next]->empty = false;
+		this->allBlocks[next]->text.setString(searchNr());
 	}
 }
 

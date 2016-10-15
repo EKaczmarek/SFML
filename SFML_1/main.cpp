@@ -7,7 +7,13 @@ int main()
 	Game game;
 	game.runGame();
 
-	
+	sf::Font font;
+	if (!font.loadFromFile("arial.ttf"))
+		EXIT_FAILURE;
+	game.one->text.setFont(font);
+	game.one->text.setCharacterSize(30);
+	game.one->text.setColor(sf::Color::Red);
+	game.one->text.setStyle(sf::Text::Bold);
 
 	int a = 1;
 	while (game.okno.isOpen())

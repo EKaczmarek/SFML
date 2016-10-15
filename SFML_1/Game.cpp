@@ -9,7 +9,7 @@ void Game::runGame() {
 	this->one->fullfil(textura);
 	this->one->search(state);
 	this->one->search(state);
-
+	
 }
 void Game::draw() {
 	for (auto i : this->one->allBlocks) {
