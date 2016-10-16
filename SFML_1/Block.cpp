@@ -1,18 +1,15 @@
 #include "Header.h"
-void Block::fullfil(sf::Texture &_textura) {
+void Block::fullfil(sf::Texture &_textura, sf::Text *_text) {
 	int i = 0;
-
 	
 	for (int a = 0; a < 400; (a += 100)) {
 		for (int b = 0; b < 400; (b += 100)) {
 			this->allBlocks[i] = new Block;
 			this->allBlocks[i]->posX = b;
 			this->allBlocks[i]->posY = a;
-
 			this->allBlocks[i]->singleBlock.setTexture(_textura);
-
 			this->allBlocks[i]->empty = true;
-
+			this->allBlocks[i]->text = *_text;
 			i++;
 		}
 	}

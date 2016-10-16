@@ -17,7 +17,7 @@ public:
 	
 public:
 	Block() {}
-	void fullfil(sf::Texture &_textura);
+	void fullfil(sf::Texture &_textura, sf::Text *_text);
 	void search(int & state);
 	std::string searchNr();
 	void changePosLeft();
