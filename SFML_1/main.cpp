@@ -19,13 +19,11 @@ int main()
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 				for (int i = 0; i < 100000; i++);
 				game.one->changePosLeft();
-			//	game.one->singleBlock.move(-1, 0);
 				game.one->search(a);				
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 				for (int i = 0; i < 100000; i++);
 				game.one->changePosRight();
-				//game.one->singleBlock.move(1, 0);
 				game.one->search(a);
 
 			}

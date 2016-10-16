@@ -63,16 +63,21 @@ void Block::changePosLeft() {
 						}
 						else if (this->allBlocks[(4 * i) + 2]->empty == true) {
 							firstEmpty = (4 * i) + 2;
-							break;
+							continue;
 						}
 					}
 					else if (j == 2) {
 						if (this->allBlocks[(4 * i) + 1]->empty == true) {
 							firstEmpty = (4 * i) + 1;
-							break;
+							continue;
+						}
+						else if (this->allBlocks[(4 * i) + 2]->empty == true) {
+							firstEmpty = (4 * i) + 2;
+							continue;
 						}
 					}
-					firstEmpty = (4 * i) + j;
+					else
+						firstEmpty = (4 * i) + j;
 				}
 				else if (firstEmpty == -1) {
 					continue;
@@ -100,22 +105,23 @@ void Block::changePosRight() {
 					this->allBlocks[(4 * i) + j]->empty = true;
 					this->allBlocks[firstEmpty]->empty = false;
 					if (j == 0) {
-						if (this->allBlocks[(4 * i) + 1]->empty == true) {
-							firstEmpty = (4 * i) + 1;
-							break;
-						}
-						else if (this->allBlocks[(4 * i) + 2]->empty == true) {
+						if (this->allBlocks[(4 * i) + 2]->empty == true) {
 							firstEmpty = (4 * i) + 2;
 							break;
+						}
+						else if (this->allBlocks[(4 * i) + 1]->empty == true) {
+							firstEmpty = (4 * i) + 1;
+							continue;
 						}
 					}
 					else if (j == 1) {
 						if (this->allBlocks[(4 * i) + 2]->empty == true) {
 							firstEmpty = (4 * i) + 2;
-							break;
+							continue;
 						}
 					}
-					firstEmpty = (4 * i) + j;
+					else
+						firstEmpty = (4 * i) + j;
 				}
 				else if (firstEmpty == -1) {
 					continue;
