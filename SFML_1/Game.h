@@ -14,8 +14,7 @@ public:
 
 
 	Game() {}
-	void runGame();
-	
+	void runGame();	
 	void draw();
 	~Game();
 };

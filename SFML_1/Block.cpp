@@ -1,7 +1,7 @@
 #include "Header.h"
 void Block::fullfil(sf::Texture &_textura, sf::Text *_text) {
 	int i = 0;
-	
+	int ss;
 	for (int a = 0; a < 400; (a += 100)) {
 		for (int b = 0; b < 400; (b += 100)) {
 			this->allBlocks[i] = new Block;
@@ -15,8 +15,8 @@ void Block::fullfil(sf::Texture &_textura, sf::Text *_text) {
 	}
 }
 
-std::string  Block::searchNr() {
-	std::string tab[2]{ "2","4" };
+int Block::searchNr() {
+	int tab[2]{ 2,4 };
 	int a = rand() % 2 + 0;
 	return tab[a];
 }
@@ -27,7 +27,7 @@ void Block::search(int & state) {
 	if (state == 0) {
 		int first = rand() % 16 + 0;
 		this->allBlocks[first]->empty = false;
-		this->allBlocks[first]->text.setString(searchNr());
+		this->allBlocks[first]->nr = searchNr();
 		state = 1;
 	}
 	else if(state == 1){
@@ -36,7 +36,8 @@ void Block::search(int & state) {
 			next = rand() % 16 + 0;
 		}
 		this->allBlocks[next]->empty = false;
-		this->allBlocks[next]->text.setString(searchNr());
+		this->allBlocks[next]->nr = searchNr();
+		//this->allBlocks[next]->text.setString(to_s
 	}
 }
 
@@ -59,7 +60,7 @@ void Block::changePosLeft() {
 					if (j == 3) {
 						if (this->allBlocks[(4 * i) + 1]->empty == true) {
 							firstEmpty = (4 * i) + 1;
-							break;
+							continue;
 						}
 						else if (this->allBlocks[(4 * i) + 2]->empty == true) {
 							firstEmpty = (4 * i) + 2;
@@ -133,6 +134,26 @@ void Block::changePosRight() {
 	}
 }
 
+/*void Block::reduceLeft() {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			if (this->allBlocks[(4 * i) + j]->empty == false) {
+				switch (j)
+				{
+				case 0: {
+					if (this->allBlocks[j]->text.getString() == this->allBlocks[j + 1]->text.getString()) {
+					}
+				}
+				default:
+					break;
+				}
+			}
+			else {
+
+			}
+		}
+	}
+}*/
 
 Block::~Block(){
 	std::cout << "DESTRUKTOR KLASY BLOCK" << std::endl;
