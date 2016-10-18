@@ -22,10 +22,11 @@ public:
 	void search(int & state);
 	int searchNr();
 	void changePosLeft();
+	void reduceLeft();
+
 	void changePosRight();
 	//void changePosUp();
 	//void changePosDown();
-	//void reduceLeft();
 
 	~Block();
 };

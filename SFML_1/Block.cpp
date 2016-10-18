@@ -151,26 +151,10 @@ void Block::changePosRight() {
 	}
 }
 
-/*void Block::reduceLeft() {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			if (this->allBlocks[(4 * i) + j]->empty == false) {
-				switch (j)
-				{
-				case 0: {
-					if (this->allBlocks[j]->text.getString() == this->allBlocks[j + 1]->text.getString()) {
-					}
-				}
-				default:
-					break;
-				}
-			}
-			else {
 
-			}
-		}
-	}
-}*/
+void Block::reduceLeft() {
+
+}
 
 Block::~Block(){
 	std::cout << "DESTRUKTOR KLASY BLOCK" << std::endl;

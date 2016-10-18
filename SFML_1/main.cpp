@@ -1,12 +1,25 @@
 #include "Header.h"
 
+	
 int main()
 {
 	srand((unsigned)time(nullptr));
 
 	Game game;
 	game.runGame();
-
+	enum sf::Keyboard::{ Left, Right, Up} e 
+	sf::Keyboard e;
+	switch (e)
+	{
+	case 1:
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	default:
+		break;
+	}
 	int a = 1;
 	while (game.okno.isOpen())
 	{
