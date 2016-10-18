@@ -150,7 +150,110 @@ void Block::changePosRight() {
 		}
 	}
 }
+void Block::changePosDown() {
+	int firstEmpty = -1;
+	// wiersze
+	for (int i = 0; i < 4; i++) {
+		firstEmpty = -1;
+		// pozycje 
+		for (int j = 12; j >= 0; j-=4) {
+			if (this->allBlocks[i + j]->empty == true) {
+				if (firstEmpty == -1)
+					firstEmpty = i + j;
+				continue;
+			}
+			else {
+				if (firstEmpty != -1) {
+					this->allBlocks[i + j]->empty = true;
+					this->allBlocks[firstEmpty]->empty = false;
 
+					this->allBlocks[firstEmpty]->nr = this->allBlocks[i + j]->nr;
+					this->allBlocks[i + j]->nr = 0;
+					this->allBlocks[firstEmpty]->text.setString(std::to_string(this->allBlocks[firstEmpty]->nr));
+					if (j == 12) {
+						if (this->allBlocks[i + 1]->empty == true) {
+							firstEmpty = i + 1;
+							continue;
+						}
+						else if (this->allBlocks[i + 2]->empty == true) {
+							firstEmpty = i + 2;
+							continue;
+						}
+					}
+					else if (j == 8) {
+						if (this->allBlocks[i + 1]->empty == true) {
+							firstEmpty = i + 1;
+							continue;
+						}
+						else if (this->allBlocks[i + 2]->empty == true) {
+							firstEmpty =i + 2;
+							continue;
+						}
+					}
+					else
+						firstEmpty = i + j;
+				}
+				else if (firstEmpty == -1) {
+					continue;
+				}
+				else
+					break;
+			}
+		}
+	}
+}
+void Block::changePosUp() {
+	int firstEmpty = -1;
+	// wiersze
+	for (int i = 0; i < 4; i++) {
+		firstEmpty = -1;
+		// pozycje 
+		for (int j = 0; j < 13; j += 4) {
+			if (this->allBlocks[i + j]->empty == true) {
+				if (firstEmpty == -1)
+					firstEmpty = i + j;
+				continue;
+			}
+			else {
+				if (firstEmpty != -1) {
+					this->allBlocks[i + j]->empty = true;
+					this->allBlocks[firstEmpty]->empty = false;
+
+					this->allBlocks[firstEmpty]->nr = this->allBlocks[i + j]->nr;
+					this->allBlocks[i + j]->nr = 0;
+					this->allBlocks[firstEmpty]->text.setString(std::to_string(this->allBlocks[firstEmpty]->nr));
+					if (j == 0) {
+						if (this->allBlocks[i + 1]->empty == true) {
+							firstEmpty = i + 1;
+							continue;
+						}
+						else if (this->allBlocks[i + 2]->empty == true) {
+							firstEmpty = i + 2;
+							continue;
+						}
+					}
+					else if (j == 4) {
+						if (this->allBlocks[i + 1]->empty == true) {
+							firstEmpty = i + 1;
+							continue;
+						}
+						else if (this->allBlocks[i + 2]->empty == true) {
+							firstEmpty = i + 2;
+							continue;
+						}
+					}
+					else
+						firstEmpty = i + j;
+				}
+				else if (firstEmpty == -1) {
+					continue;
+				}
+				else
+					break;
+			}
+		}
+	}
+}
 
 void Block::reduceLeft() {
 	for (int i = 0; i < 4; i++) {
@@ -164,6 +267,8 @@ void Block::reduceLeft() {
 					if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i) + 1]->nr) {
 						this->allBlocks[(4 * i) + j]->nr *= 2;
 						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j]->nr)));
+						this->allBlocks[(4 * i) + 1]->nr = 0;
+						this->allBlocks[(4 * i) + 1]->empty = true;
 					}
 					else
 						//jeœli nie szukam dalej czy 1 == 2
@@ -178,6 +283,8 @@ void Block::reduceLeft() {
 					if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i) + 2]->nr) {
 						this->allBlocks[(4 * i) + j]->nr *= 2;
 						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j]->nr)));
+						this->allBlocks[(4 * i) + 2]->nr = 0;
+						this->allBlocks[(4 * i) + 2]->empty = true;
 					}
 					else
 						//jeœli nie szukam dalej czy np 2 == 3
@@ -192,6 +299,9 @@ void Block::reduceLeft() {
 					if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i) + 3]->nr) {
 						this->allBlocks[(4 * i) + j]->nr *= 2;
 						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j]->nr)));
+						this->allBlocks[(4 * i) + 3]->nr = 0;
+						this->allBlocks[(4 * i) + 3]->empty = true;
+
 					}
 					else
 						//jeœli nie szukam dalej czy np 2 == 3
@@ -205,7 +315,6 @@ void Block::reduceLeft() {
 		}
 	}
 }
-
 void Block::reduceRight() {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 3; j >= 0; j--) {
@@ -218,6 +327,8 @@ void Block::reduceRight() {
 					if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i) + 2]->nr) {
 						this->allBlocks[(4 * i) + j]->nr *= 2;
 						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j]->nr)));
+						this->allBlocks[(4 * i) + 2]->nr = 0;
+						this->allBlocks[(4 * i) + 2]->empty = true;
 					}
 					else
 						//jeœli nie szukam dalej czy 1 == 2
@@ -232,6 +343,9 @@ void Block::reduceRight() {
 					if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i) + 1]->nr) {
 						this->allBlocks[(4 * i) + j]->nr *= 2;
 						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j]->nr)));
+						this->allBlocks[(4 * i) + 1]->nr = 0;
+						this->allBlocks[(4 * i) + 1]->empty = true;
+
 					}
 					else
 						//jeœli nie szukam dalej czy np 2 == 3
@@ -246,6 +360,128 @@ void Block::reduceRight() {
 					if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i)]->nr) {
 						this->allBlocks[(4 * i) + j]->nr *= 2;
 						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j]->nr)));
+						this->allBlocks[(4 * i)]->nr = 0;
+						this->allBlocks[(4 * i)]->empty = true;
+
+					}
+					else
+						//jeœli nie szukam dalej czy np 2 == 3
+						continue;
+				}
+				break;
+			}
+			default:
+				break;
+			}
+		}
+	}
+}
+void Block::reduceDown() {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 12; j > 0; j-=4) {
+			switch (j)
+			{
+			case 12: {
+				//je¿eli pozycja 12 jest pe³na
+				if (this->allBlocks[i + j]->empty == false) {
+					//jesli 12 == 8
+					if (this->allBlocks[i + j]->nr == this->allBlocks[i + 8]->nr) {
+						this->allBlocks[i + j]->nr *= 2;
+						this->allBlocks[i + j]->text.setString(std::to_string((this->allBlocks[i + j]->nr)));
+						this->allBlocks[i + 8]->nr = 0;
+						this->allBlocks[i + 8]->empty = true;
+
+					}
+					else
+						//jeœli nie szukam dalej czy 1 == 2
+						continue;
+				}
+				break;
+			}
+			case 8: {
+				//je¿eli pozycja 8 jest pe³na
+				if (this->allBlocks[i + j]->empty == false) {
+					//jesli 8 == 4
+					if (this->allBlocks[i + j]->nr == this->allBlocks[i + 4]->nr) {
+						this->allBlocks[i + j]->nr *= 2;
+						this->allBlocks[i + j]->text.setString(std::to_string((this->allBlocks[i + j]->nr)));
+						this->allBlocks[i + 4]->nr = 0;
+						this->allBlocks[i + 4]->empty = true;
+					}
+					else
+						//jeœli nie szukam dalej czy np 2 == 3
+						continue;
+				}
+				break;
+			}
+			case 4: {
+				//je¿eli pozycja 4 jest pe³na
+				if (this->allBlocks[i + j]->empty == false) {
+					//jesli 4 == 0
+					if (this->allBlocks[i + j]->nr == this->allBlocks[i]->nr) {
+						this->allBlocks[i + j]->nr *= 2;
+						this->allBlocks[i + j]->text.setString(std::to_string((this->allBlocks[i + j]->nr)));
+						this->allBlocks[i]->nr = 0;
+						this->allBlocks[i]->empty = true;
+					}
+					else
+						//jeœli nie szukam dalej czy np 2 == 3
+						continue;
+				}
+				break;
+			}
+			default:
+				break;
+			}
+		}
+	}
+}
+void Block::reduceUp() {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 13; j += 4) {
+			switch (j)
+			{
+			case 0: {
+				//je¿eli pozycja 12 jest pe³na
+				if (this->allBlocks[i + j]->empty == false) {
+					//jesli 12 == 8
+					if (this->allBlocks[i + j]->nr == this->allBlocks[i + 4]->nr) {
+						this->allBlocks[i + j]->nr *= 2;
+						this->allBlocks[i + j]->text.setString(std::to_string((this->allBlocks[i + j]->nr)));
+						this->allBlocks[i + 4]->nr = 0;
+						this->allBlocks[i + 4]->empty = true;
+					}
+					else
+						//jeœli nie szukam dalej czy 1 == 2
+						continue;
+				}
+				break;
+			}
+			case 4: {
+				//je¿eli pozycja 8 jest pe³na
+				if (this->allBlocks[i + j]->empty == false) {
+					//jesli 8 == 4
+					if (this->allBlocks[i + j]->nr == this->allBlocks[i + 8]->nr) {
+						this->allBlocks[i + j]->nr *= 2;
+						this->allBlocks[i + j]->text.setString(std::to_string((this->allBlocks[i + j]->nr)));
+						this->allBlocks[i + 8]->nr = 0;
+						this->allBlocks[i + 8]->empty = true;
+					}
+					else
+						//jeœli nie szukam dalej czy np 2 == 3
+						continue;
+				}
+				break;
+			}
+			case 8: {
+				//je¿eli pozycja 4 jest pe³na
+				if (this->allBlocks[i + j]->empty == false) {
+					//jesli 4 == 0
+					if (this->allBlocks[i + j]->nr == this->allBlocks[i + 12]->nr) {
+						this->allBlocks[i + j]->nr *= 2;
+						this->allBlocks[i + j]->text.setString(std::to_string((this->allBlocks[i + j]->nr)));
+						this->allBlocks[i + 12]->nr = 0;
+						this->allBlocks[i + 12]->empty = true;
 					}
 					else
 						//jeœli nie szukam dalej czy np 2 == 3

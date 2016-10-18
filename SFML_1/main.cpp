@@ -32,14 +32,27 @@ int main()
 				game.one->reduceRight();
 				game.one->changePosRight();
 			}
-			/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				for (int i = 0; i < 100000; i++);
+				game.one->changePosUp();
 				game.one->search(a);
+				game.one->reduceUp();
+				game.one->changePosUp();
 
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				for (int i = 0; i < 100000; i++);
+				game.one->changePosDown();
 				game.one->search(a);
+				game.one->reduceDown();
+				game.one->changePosDown();
 
-			}*/
+			}
+			if (game.endGame() == true){
+				game.okno.close();
+
+		//		game.okno.draw(game.picEnd);
+			}
 		}
 		game.okno.clear();
 		game.draw();

@@ -5,6 +5,9 @@ void Game::runGame() {
 	okno.setPosition(sf::Vector2i(70,0));
 	textura.loadFromFile("klocek.png");
 
+	end.loadFromFile("koniec.png");
+	picEnd.setTexture(end);
+
 	if (!this->font.loadFromFile("arial.ttf"))
 		EXIT_FAILURE;
 
@@ -24,6 +27,17 @@ void Game::draw() {
 			okno.draw(i->text);
 		}
 	}
+}
+bool Game::endGame() {
+	int a = 0;
+	for (int i = 0; i < 16; i++) {
+		if (this->one->allBlocks[i]->empty == false)
+			a++;
+	}
+	if (a == 16)
+		return true;
+	else
+		return false;
 }
 
 Game::~Game() {

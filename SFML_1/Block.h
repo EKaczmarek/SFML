@@ -28,9 +28,12 @@ public:
 	void changePosRight();
 	void reduceRight();
 
-	//void changePosUp();
-	//void changePosDown();
+	void changePosDown();
+	void reduceDown();
 
+	void changePosUp();
+	void reduceUp();
+	
 	~Block();
 };
 

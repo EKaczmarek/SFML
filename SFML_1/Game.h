@@ -7,6 +7,10 @@ class Game {
 public:
 	sf::RenderWindow okno;
 	sf::Texture textura;
+
+	sf::Texture end;
+	sf::Sprite picEnd;
+
 	sf::Font font;
 	sf::Text text;
 	Block* one;
@@ -16,5 +20,7 @@ public:
 	Game() {}
 	void runGame();	
 	void draw();
+	bool endGame();
+
 	~Game();
 };
