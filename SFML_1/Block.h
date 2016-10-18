@@ -21,10 +21,13 @@ public:
 	void fullfil(sf::Texture &_textura, sf::Font & font);
 	void search(int & state);
 	int searchNr();
+
 	void changePosLeft();
 	void reduceLeft();
 
 	void changePosRight();
+	void reduceRight();
+
 	//void changePosUp();
 	//void changePosDown();
 
