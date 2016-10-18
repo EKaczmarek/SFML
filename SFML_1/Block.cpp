@@ -1,15 +1,19 @@
 #include "Header.h"
-void Block::fullfil(sf::Texture &_textura, sf::Text *_text) {
+void Block::fullfil(sf::Texture &_textura, sf::Font & font) {
 	int i = 0;
-	int ss;
-	for (int a = 0; a < 400; (a += 100)) {
+
+for (int a = 0; a < 400; (a += 100)) {
 		for (int b = 0; b < 400; (b += 100)) {
 			this->allBlocks[i] = new Block;
 			this->allBlocks[i]->posX = b;
 			this->allBlocks[i]->posY = a;
 			this->allBlocks[i]->singleBlock.setTexture(_textura);
 			this->allBlocks[i]->empty = true;
-			this->allBlocks[i]->text = *_text;
+			this->allBlocks[i]->text.setFont(font);
+			this->allBlocks[i]->text.setCharacterSize(50);
+			this->allBlocks[i]->text.setColor(sf::Color::Red);
+			this->allBlocks[i]->text.setStyle(sf::Text::Bold);
+			this->allBlocks[i]->text.setPosition(100, 100);
 			i++;
 		}
 	}
@@ -22,22 +26,25 @@ int Block::searchNr() {
 }
 
 void Block::search(int & state) {
-
 	//rand positions from sixteen positions
 	if (state == 0) {
 		int first = rand() % 16 + 0;
-		this->allBlocks[first]->empty = false;
-		this->allBlocks[first]->nr = searchNr();
-		state = 1;
+		if (this->allBlocks[first]->empty = true) {
+			this->allBlocks[first]->nr = searchNr();
+			this->allBlocks[first]->text.setString(std::to_string(searchNr()));
+			state = 1;
+		}
 	}
 	else if(state == 1){
 		int next = rand() % 16 + 0;
+
 		while (this->allBlocks[next]->empty == false) {
 			next = rand() % 16 + 0;
 		}
+
 		this->allBlocks[next]->empty = false;
 		this->allBlocks[next]->nr = searchNr();
-		//this->allBlocks[next]->text.setString(to_s
+		this->allBlocks[next]->text.setString(std::to_string(searchNr()));
 	}
 }
 
@@ -57,6 +64,9 @@ void Block::changePosLeft() {
 				if (firstEmpty != -1) {
 					this->allBlocks[(4 * i) + j]->empty = true;
 					this->allBlocks[firstEmpty]->empty = false;
+					this->allBlocks[firstEmpty]->nr = this->allBlocks[(4 * i) + j]->nr;
+					this->allBlocks[(4 * i) + j]->nr = 0;
+					this->allBlocks[firstEmpty]->text.setString(std::to_string(this->allBlocks[firstEmpty]->nr));
 					if (j == 3) {
 						if (this->allBlocks[(4 * i) + 1]->empty == true) {
 							firstEmpty = (4 * i) + 1;
@@ -105,6 +115,11 @@ void Block::changePosRight() {
 				if (firstEmpty != -1) {
 					this->allBlocks[(4 * i) + j]->empty = true;
 					this->allBlocks[firstEmpty]->empty = false;
+					
+					this->allBlocks[firstEmpty]->nr = this->allBlocks[(4 * i) + j]->nr;
+					this->allBlocks[firstEmpty]->text.setString(std::to_string(this->allBlocks[firstEmpty]->nr));
+					this->allBlocks[(4 * i) + j]->nr = 0;
+
 					if (j == 0) {
 						if (this->allBlocks[(4 * i) + 2]->empty == true) {
 							firstEmpty = (4 * i) + 2;

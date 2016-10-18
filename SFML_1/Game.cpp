@@ -9,14 +9,8 @@ void Game::runGame() {
 		EXIT_FAILURE;
 
 	one = new Block();
-	this->one->text.setFont(this->font);
-	this->one->text.setCharacterSize(50);
-	this->one->text.setColor(sf::Color::Red);
-	this->one->text.setStyle(sf::Text::Bold);
-	this->one->text.setString("2");
-	this->one->text.setPosition(100, 100);
-
-	this->one->fullfil(textura, &this->one->text);
+	
+	this->one->fullfil(textura, font);
 	this->one->search(state);
 	this->one->search(state);	
 }

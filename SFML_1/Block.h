@@ -15,10 +15,10 @@ public:
 	//Sprite obiekt obs³uguj¹cy zdarzenia na grafice
 	sf::Sprite singleBlock;
 	std::vector <Block*> allBlocks = std::vector <Block*> (16);
-	
+
 public:
 	Block() {}
-	void fullfil(sf::Texture &_textura, sf::Text *_text);
+	void fullfil(sf::Texture &_textura, sf::Font & font);
 	void search(int & state);
 	int searchNr();
 	void changePosLeft();
