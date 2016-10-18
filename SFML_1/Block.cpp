@@ -9,6 +9,7 @@ for (int a = 0; a < 400; (a += 100)) {
 			this->allBlocks[i]->posY = a;
 			this->allBlocks[i]->singleBlock.setTexture(_textura);
 			this->allBlocks[i]->empty = true;
+
 			this->allBlocks[i]->text.setFont(font);
 			this->allBlocks[i]->text.setCharacterSize(50);
 			this->allBlocks[i]->text.setColor(sf::Color::Red);
@@ -44,7 +45,7 @@ void Block::search(int & state) {
 
 		this->allBlocks[next]->empty = false;
 		this->allBlocks[next]->nr = searchNr();
-		this->allBlocks[next]->text.setString(std::to_string(searchNr()));
+		this->allBlocks[next]->text.setString(std::to_string(this->allBlocks[next]->nr));
 	}
 }
 
@@ -64,6 +65,7 @@ void Block::changePosLeft() {
 				if (firstEmpty != -1) {
 					this->allBlocks[(4 * i) + j]->empty = true;
 					this->allBlocks[firstEmpty]->empty = false;
+
 					this->allBlocks[firstEmpty]->nr = this->allBlocks[(4 * i) + j]->nr;
 					this->allBlocks[(4 * i) + j]->nr = 0;
 					this->allBlocks[firstEmpty]->text.setString(std::to_string(this->allBlocks[firstEmpty]->nr));
@@ -131,8 +133,8 @@ void Block::changePosRight() {
 						}
 					}
 					else if (j == 1) {
-						if (this->allBlocks[(4 * i) + 2]->empty == true) {
-							firstEmpty = (4 * i) + 2;
+						if (this->allBlocks[(4 * i) + 1]->empty == true) {
+							firstEmpty = (4 * i) + 1;
 							continue;
 						}
 					}
