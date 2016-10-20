@@ -23,7 +23,6 @@ int main()
 				game.one->search(a);	
 				game.one->reduceLeft();
 				game.one->changePosLeft();
-
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 				for (int i = 0; i < 100000; i++);
@@ -48,15 +47,19 @@ int main()
 				game.one->changePosDown();
 
 			}
-			if (game.endGame() == true){
-				game.okno.close();
-
-		//		game.okno.draw(game.picEnd);
-			}
+			/*if (game.endGame() == true){
+				game.end.loadFromFile("koniec.png");
+				game.picEnd.setTexture(game.end);
+				game.okno.clear();
+				game.okno.draw(game.picEnd);
+				
+			}*/
 		}
 		game.okno.clear();
 		game.draw();
 		game.okno.display();
+
+
 	}
 	
 	return 0;

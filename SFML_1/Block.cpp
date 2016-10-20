@@ -26,14 +26,14 @@ int Block::searchNr() {
 	return tab[a];
 }
 
-void Block::search(int & state) {
+void Block::search(int state) {
 	//rand positions from sixteen positions
 	if (state == 0) {
 		int first = rand() % 16 + 0;
 		if (this->allBlocks[first]->empty = true) {
+			this->allBlocks[first]->empty = false;
 			this->allBlocks[first]->nr = searchNr();
 			this->allBlocks[first]->text.setString(std::to_string((this->allBlocks[first]->nr)));
-			state = 1;
 		}
 	}
 	else if(state == 1){

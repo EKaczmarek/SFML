@@ -14,11 +14,14 @@ public:
 	sf::Font font;
 	sf::Text text;
 	Block* one;
-	int state = 0;
-
 
 	Game() {}
-	void runGame();	
+	void runGame();
+
+	void Window();
+	void Font();
+	void object();
+
 	void draw();
 	bool endGame();
 
