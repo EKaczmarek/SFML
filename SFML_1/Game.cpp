@@ -5,7 +5,10 @@ void Game::runGame() {
 	Window();
 	//Czcionka oraz tekstura klocka
 	Font();
-	//obiekt przechowuj¹cy tablicê oraz parametry gry
+	//obiekt przechowuj¹cy tablicê bloków
+	//z ich w³aœciwoœciami (numerem, pozycj¹,
+	//informacji o tym czy dana pozycja jest pusta
+	//czy pe³na
 	object();
 }
 void Game::Window() {
@@ -16,14 +19,22 @@ void Game::Font() {
 	textura.loadFromFile("klocek.png");
 	if (!this->font.loadFromFile("arial.ttf"))
 		EXIT_FAILURE;
+
+	//ustawienie w³aœciwoœci czcionki 
+	this->text.setFont(font);
+	this->text.setCharacterSize(50);
+	this->text.setFillColor(sf::Color::Blue);
+	this->text.setStyle(sf::Text::Bold);
 }
 void Game::object() {
 	one = new Block();
 
-	this->one->fullfil(textura, font);
+	//textura i text przekazane przez wskaznik do klasy Block
+	//dzia³anie na oryginale ze s³owem const 
+	//const zabezpieczenie przed zmiana wlasciwosci
+	this->one->fullfil(&textura, &text);
 	this->one->search(0);
-	this->one->search(1);
-
+	this->one->search();
 }
 
 void Game::draw() {

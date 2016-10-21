@@ -1,29 +1,21 @@
 #include "Header.h"
-void Block::fullfil(sf::Texture &_textura, sf::Font & font) {
-	int i = 0;
 
+void Block::fullfil(const sf::Texture *_textura,const sf::Text * _text) {
+int i = 0;
 for (int a = 0; a < 400; (a += 100)) {
-		for (int b = 0; b < 400; (b += 100)) {
+		for (int b = 0; b < 400; (b += 100), i++) {
 			this->allBlocks[i] = new Block;
+			//ustawienia domyslnych pozycji, textury i flagi
 			this->allBlocks[i]->posX = b;
 			this->allBlocks[i]->posY = a;
-			this->allBlocks[i]->singleBlock.setTexture(_textura);
+			this->allBlocks[i]->singleBlock.setTexture(*_textura);
 			this->allBlocks[i]->empty = true;
 
-			this->allBlocks[i]->text.setFont(font);
-			this->allBlocks[i]->text.setCharacterSize(50);
-			this->allBlocks[i]->text.setColor(sf::Color::Red);
-			this->allBlocks[i]->text.setStyle(sf::Text::Bold);
-			this->allBlocks[i]->text.setPosition(100, 100);
-			i++;
+			//przypisanie w³aœciwoœci z klasy Game
+			//do kazdego obiektu klasy Block
+			this->allBlocks[i]->text = *_text;  
 		}
 	}
-}
-
-int Block::searchNr() {
-	int tab[2]{ 2,4 };
-	int a = rand() % 2 + 0;
-	return tab[a];
 }
 
 void Block::search(int state) {
@@ -42,11 +34,15 @@ void Block::search(int state) {
 		while (this->allBlocks[next]->empty == false) {
 			next = rand() % 16 + 0;
 		}
-
 		this->allBlocks[next]->empty = false;
 		this->allBlocks[next]->nr = searchNr();
 		this->allBlocks[next]->text.setString(std::to_string(this->allBlocks[next]->nr));
 	}
+}
+int Block::searchNr() {
+	int tab[2]{ 2,4 };
+	int a = rand() % 2 + 0;
+	return tab[a];
 }
 
 void Block::changePosLeft() {

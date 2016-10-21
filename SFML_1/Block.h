@@ -3,6 +3,7 @@
 
 #pragma once
 
+
 //klasa opisujaca klocek
 class Block
 {
@@ -18,8 +19,8 @@ public:
 
 public:
 	Block() {}
-	void fullfil(sf::Texture &_textura, sf::Font & font);
-	void search(int state);
+	void fullfil(const sf::Texture *_textura, const sf::Text * _text);
+	void search(int = 1);
 	int searchNr();
 
 	void changePosLeft();

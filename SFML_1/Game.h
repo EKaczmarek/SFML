@@ -18,11 +18,17 @@ public:
 	Game() {}
 	void runGame();
 
+	//okno: rozmiar, tytu³
 	void Window();
+	//czcionka do bloków
 	void Font();
+	//obiekt przechowujacy tablice
 	void object();
-
+	
+	//wyswietlanie tablicy pod warunkiem niepustej flagi
 	void draw();
+	
+	//koniec gry
 	bool endGame();
 
 	~Game();
