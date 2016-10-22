@@ -16,7 +16,6 @@ void Game::Window() {
 	okno.setPosition(sf::Vector2i(70, 0));
 }
 void Game::Font() {
-	textura.loadFromFile("klocek.png");
 	if (!this->font.loadFromFile("arial.ttf"))
 		EXIT_FAILURE;
 
@@ -27,6 +26,7 @@ void Game::Font() {
 	this->text.setStyle(sf::Text::Bold);
 }
 void Game::object() {
+	textura.loadFromFile("klocek.png");
 	one = new Block();
 
 	//textura i text przekazane przez wskaznik do klasy Block

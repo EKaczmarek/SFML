@@ -5,9 +5,12 @@
 
 class Game {
 public:
+
 	sf::RenderWindow okno;
 	sf::Texture textura;
 
+	//obiekty do zasygnalizoowania konca gry
+	sf::RenderWindow endokno;
 	sf::Texture end;
 	sf::Sprite picEnd;
 

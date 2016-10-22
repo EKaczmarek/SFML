@@ -21,12 +21,10 @@ public:
 	Block() {}
 	void fullfil(const sf::Texture *_textura, const sf::Text * _text);
 	void search(int = 1);
-	int searchNr();
+	bool wigglewiggle(const int i, const int j, int & firstE);
 
-	void changePosLeft();
+	void posLR();
 	void reduceLeft();
-
-	void changePosRight();
 	void reduceRight();
 
 	void changePosDown();

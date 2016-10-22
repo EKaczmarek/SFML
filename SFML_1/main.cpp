@@ -16,8 +16,6 @@ int main()
 			if (event.type == sf::Event::Closed){
 				game.okno.close();
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)	|| sf::Keyboard::isKeyPressed(sf::Keyboard::Right) 
-			  || sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 					for (int i = 0; i < 100000; i++);
 					game.one->changePosLeft();
@@ -49,12 +47,14 @@ int main()
 					game.one->search();
 
 				}
-			}
-			else if (game.endGame() == true){
+				if (game.endGame() == true){
+				game.endokno.create(sf::VideoMode(200, 200), "KONIEC GRY", sf::Style::Default);
+				game.endokno.setPosition(sf::Vector2i(100, 100));
+
 				game.end.loadFromFile("koniec.png");
 				game.picEnd.setTexture(game.end);
-				game.okno.clear();
-				game.okno.draw(game.picEnd);
+				game.endokno.draw(game.picEnd);
+				game.okno.close();
 				
 			}
 		}
