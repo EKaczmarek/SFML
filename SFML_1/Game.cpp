@@ -27,9 +27,11 @@ void Game::Font() {
 }
 void Game::object() {
 
+	//³adowanie tekstur
 	textura.loadFromFile("klocek.png");
 	end.loadFromFile("koniec.png");
 
+	//tworzenie obiektu
 	one = new Block();
 
 	//textura i text przekazane przez wskaznik do klasy Block
@@ -40,18 +42,24 @@ void Game::object() {
 	this->one->search();
 }
 
-void Game::draw() {
-	for (auto i : this->one->allBlocks) {
-		if (i->empty == false) {
-			i->singleBlock.setPosition(i->posX, i->posY);
-			okno.draw(i->singleBlock);
+void Game::draw(int a) {
+	if (a == 1) {
+		for (auto i : this->one->allBlocks) {
+			if (i->empty == false) {
+				i->singleBlock.setPosition(i->posX, i->posY);
+				okno.draw(i->singleBlock);
 
-			i->text.setPosition(i->posX + 20, i->posY + 20);
-			okno.draw(i->text);
+				i->text.setPosition(i->posX + 20, i->posY + 20);
+				okno.draw(i->text);
+			}
 		}
+	}
+	else if (a == 0) {
+		endokno.draw(picEnd);
 	}
 }
 bool Game::endGame() {
+
 	int a = 0;
 	for (int i = 0; i < 16; i++) {
 		if (this->one->allBlocks[i]->empty == false)
@@ -62,6 +70,20 @@ bool Game::endGame() {
 		return true;
 	else
 		return false;
+
+}
+
+void Game::oknoOpt(int state) {
+	if (state == 1) {
+		this->okno.clear();
+		this->draw();
+		this->okno.display();
+	}
+	else if (state == 0) {
+		this->endokno.clear();
+		this->draw(0);
+		this->endokno.display();
+	}
 }
 
 Game::~Game() {

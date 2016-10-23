@@ -1,5 +1,6 @@
 #include "Header.h"
 
+
 void Block::fullfil(const sf::Texture *_textura,const sf::Text * _text) {
 int i = 0;
 for (int a = 0; a < 400; (a += 100)) {
@@ -18,6 +19,33 @@ for (int a = 0; a < 400; (a += 100)) {
 	}
 }
 
+void Block::moves() {
+	if (move::isKeyPressed(move::Left)) {
+		this->posLR("left");
+		this->reduceLeft();
+		this->posLR("left");
+		this->search();
+	}
+	if (move::isKeyPressed(move::Right)) {
+		this->posLR("right");
+		this->reduceRight();
+		this->posLR("right");
+		this->search();
+	}
+	if (move::isKeyPressed(move::Up)) {
+		this->posUD("up");
+		this->reduceUp();
+		this->posUD("up");
+		this->search();
+	}
+	if (move::isKeyPressed(move::Down)) {
+		this->posUD("down");
+		this->reduceDown();
+		this->posUD("down");
+		this->search();
+	}
+
+}
 void Block::search(int state) {
 	//rand positions from sixteen positions
 	if (state == 0) {
@@ -46,16 +74,25 @@ void Block::posLR(std::string s) {
 	for (int i = 0; i < 4; i++) {
 		firstE = -1;
 		// pozycje 
-		for (int j = 3; j >= 0; j--) {
-			if (wigglewiggle(i, j, firstE, s))
-				continue;
-			else
-				break;
+		if (s == "right") {
+			for (int j = 3; j >= 0; j--) {
+				if (wigglewiggleLR(i, j, firstE, s))
+					continue;
+				else
+					break;
+			}
+		}
+		else if (s == "left") {
+			for (int j = 0; j <= 3; j++) {
+				if (wigglewiggleLR(i, j, firstE, s))
+					continue;
+				else
+					break;
+			}
 		}
 	}
 }
-
-bool Block::wigglewiggle(const int i, const int j, int & firstE, std::string side) {
+bool Block::wigglewiggleLR(const int i, const int j, int & firstE, std::string side) {
 	if (this->allBlocks[(4 * i) + j]->empty == true) {
 		if (firstE == -1)
 			firstE = (4 * i) + j;
@@ -123,107 +160,93 @@ bool Block::wigglewiggle(const int i, const int j, int & firstE, std::string sid
 	}
 }
 
-void Block::changePosDown() {
+void Block::posUD(std::string s) {
 	int firstEmpty = -1;
 	// wiersze
 	for (int i = 0; i < 4; i++) {
 		firstEmpty = -1;
 		// pozycje 
-		for (int j = 12; j >= 0; j-=4) {
-			if (this->allBlocks[i + j]->empty == true) {
-				if (firstEmpty == -1)
-					firstEmpty = i + j;
-				continue;
+		if (s == "down") {
+			for (int j = 12; j >= 0; j -= 4) {
+				wigglewiggleUD(i, j, firstEmpty, "down");
 			}
-			else {
-				if (firstEmpty != -1) {
-					this->allBlocks[i + j]->empty = true;
-					this->allBlocks[firstEmpty]->empty = false;
-
-					this->allBlocks[firstEmpty]->nr = this->allBlocks[i + j]->nr;
-					this->allBlocks[i + j]->nr = 0;
-					this->allBlocks[firstEmpty]->text.setString(std::to_string(this->allBlocks[firstEmpty]->nr));
-					if (j == 12) {
-						if (this->allBlocks[i + 1]->empty == true) {
-							firstEmpty = i + 1;
-							continue;
-						}
-						else if (this->allBlocks[i + 2]->empty == true) {
-							firstEmpty = i + 2;
-							continue;
-						}
-					}
-					else if (j == 8) {
-						if (this->allBlocks[i + 1]->empty == true) {
-							firstEmpty = i + 1;
-							continue;
-						}
-						else if (this->allBlocks[i + 2]->empty == true) {
-							firstEmpty =i + 2;
-							continue;
-						}
-					}
-					else
-						firstEmpty = i + j;
-				}
-				else if (firstEmpty == -1) {
-					continue;
-				}
-				else
-					break;
+		}
+		else if (s == "up") {
+			for (int j = 0; j < 13; j += 4) {
+				wigglewiggleUD(i, j, firstEmpty, "up");
 			}
 		}
 	}
 }
-void Block::changePosUp() {
-	int firstEmpty = -1;
-	// wiersze
-	for (int i = 0; i < 4; i++) {
-		firstEmpty = -1;
-		// pozycje 
-		for (int j = 0; j < 13; j += 4) {
-			if (this->allBlocks[i + j]->empty == true) {
-				if (firstEmpty == -1)
-					firstEmpty = i + j;
-				continue;
-			}
-			else {
-				if (firstEmpty != -1) {
-					this->allBlocks[i + j]->empty = true;
-					this->allBlocks[firstEmpty]->empty = false;
 
-					this->allBlocks[firstEmpty]->nr = this->allBlocks[i + j]->nr;
-					this->allBlocks[i + j]->nr = 0;
-					this->allBlocks[firstEmpty]->text.setString(std::to_string(this->allBlocks[firstEmpty]->nr));
-					if (j == 0) {
-						if (this->allBlocks[i + 1]->empty == true) {
-							firstEmpty = i + 1;
-							continue;
-						}
-						else if (this->allBlocks[i + 2]->empty == true) {
-							firstEmpty = i + 2;
-							continue;
-						}
+bool Block::wigglewiggleUD(const int i, const int j, int & firstE, std::string side) {
+	if (this->allBlocks[i + j]->empty == true) {
+		if (firstE == -1)
+			firstE = i + j;
+		return true;
+	}
+	else {
+		if (firstE != -1) {
+			this->allBlocks[i + j]->empty = true;
+			this->allBlocks[firstE]->empty = false;
+
+			this->allBlocks[firstE]->nr = this->allBlocks[i + j]->nr;
+			this->allBlocks[i + j]->nr = 0;
+			this->allBlocks[firstE]->text.setString(std::to_string(this->allBlocks[firstE]->nr));
+
+			if (side == "down") {
+				if (j == 12) {
+					if (this->allBlocks[i + 1]->empty == true) {
+						firstE = i + 1;
+						return true;
 					}
-					else if (j == 4) {
-						if (this->allBlocks[i + 1]->empty == true) {
-							firstEmpty = i + 1;
-							continue;
-						}
-						else if (this->allBlocks[i + 2]->empty == true) {
-							firstEmpty = i + 2;
-							continue;
-						}
+					else if (this->allBlocks[i + 2]->empty == true) {
+						firstE = i + 2;
+						return true;
 					}
-					else
-						firstEmpty = i + j;
 				}
-				else if (firstEmpty == -1) {
-					continue;
+				else if (j == 8) {
+					if (this->allBlocks[i + 1]->empty == true) {
+						firstE = i + 1;
+						return true;
+					}
+					else if (this->allBlocks[i + 2]->empty == true) {
+						firstE = i + 2;
+						return true;
+					}
 				}
 				else
-					break;
+					firstE = i + j;
 			}
+			else if (side == "up") {
+				if (j == 0) {
+					if (this->allBlocks[i + 1]->empty == true) {
+						firstE = i + 1;
+						return true;
+					}
+					else if (this->allBlocks[i + 2]->empty == true) {
+						firstE = i + 2;
+						return true;
+					}
+				}
+				else if (j == 4) {
+					if (this->allBlocks[i + 1]->empty == true) {
+						firstE = i + 1;
+						return true;
+					}
+					else if (this->allBlocks[i + 2]->empty == true) {
+						firstE = i + 2;
+						return true;
+					}
+				}
+				else
+					firstE = i + j;
+			}
+			else if (firstE == -1) {
+				return true;
+			}
+			else
+				return false;
 		}
 	}
 }

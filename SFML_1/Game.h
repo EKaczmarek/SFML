@@ -29,10 +29,13 @@ public:
 	void object();
 	
 	//wyswietlanie tablicy pod warunkiem niepustej flagi
-	void draw();
+	void draw(int = 1);
 	
-	//koniec gry
+	//koniec
 	bool endGame();
+
+	void oknoOpt(int state);
+
 
 	~Game();
 };
