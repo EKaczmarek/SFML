@@ -26,7 +26,10 @@ void Game::Font() {
 	this->text.setStyle(sf::Text::Bold);
 }
 void Game::object() {
+
 	textura.loadFromFile("klocek.png");
+	end.loadFromFile("koniec.png");
+
 	one = new Block();
 
 	//textura i text przekazane przez wskaznik do klasy Block
@@ -53,6 +56,7 @@ bool Game::endGame() {
 	for (int i = 0; i < 16; i++) {
 		if (this->one->allBlocks[i]->empty == false)
 			a++;
+		else continue;
 	}
 	if (a == 16)
 		return true;

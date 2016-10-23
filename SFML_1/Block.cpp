@@ -40,68 +40,14 @@ void Block::search(int state) {
 		this->allBlocks[next]->text.setString(std::to_string(this->allBlocks[next]->nr));
 	}
 }
-
-/*
-void Block::changePosLeft() {
-	int firstEmpty = -1;
-	// wiersze
-	for (int i = 0; i < 4; i++){ 
-	firstEmpty = -1;
-	// pozycje 
-		for (int j = 0; j < 4; j++)	{
-			if (this->allBlocks[(4 * i) + j]->empty == true) {
-				if(firstEmpty == -1)
-					firstEmpty = (4 * i) + j;
-				continue;
-			}
-			else {
-				if (firstEmpty != -1) {
-					this->allBlocks[(4 * i) + j]->empty = true;
-					this->allBlocks[firstEmpty]->empty = false;
-
-					this->allBlocks[firstEmpty]->nr = this->allBlocks[(4 * i) + j]->nr;
-					this->allBlocks[(4 * i) + j]->nr = 0;
-					this->allBlocks[firstEmpty]->text.setString(std::to_string(this->allBlocks[firstEmpty]->nr));
-					if (j == 3) {
-						if (this->allBlocks[(4 * i) + 1]->empty == true) {
-							firstEmpty = (4 * i) + 1;
-							continue;
-						}
-						else if (this->allBlocks[(4 * i) + 2]->empty == true) {
-							firstEmpty = (4 * i) + 2;
-							continue;
-						}
-					}
-					else if (j == 2) {
-						if (this->allBlocks[(4 * i) + 1]->empty == true) {
-							firstEmpty = (4 * i) + 1;
-							continue;
-						}
-						else if (this->allBlocks[(4 * i) + 2]->empty == true) {
-							firstEmpty = (4 * i) + 2;
-							continue;
-						}
-					}
-					else
-						firstEmpty = (4 * i) + j;
-				}
-				else if (firstEmpty == -1) {
-					continue;
-				}
-				else
-					break;
-			}
-		}
-	}
-}*/
-void Block::posLR() {
+void Block::posLR(std::string s) {
 	int firstE = -1;
 	// wiersze
 	for (int i = 0; i < 4; i++) {
 		firstE = -1;
 		// pozycje 
 		for (int j = 3; j >= 0; j--) {
-			if (wigglewiggle(i, j, firstE))
+			if (wigglewiggle(i, j, firstE, s))
 				continue;
 			else
 				break;
@@ -109,7 +55,7 @@ void Block::posLR() {
 	}
 }
 
-bool Block::wigglewiggle(const int i,const int j, int & firstE) {
+bool Block::wigglewiggle(const int i, const int j, int & firstE, std::string side) {
 	if (this->allBlocks[(4 * i) + j]->empty == true) {
 		if (firstE == -1)
 			firstE = (4 * i) + j;
@@ -124,24 +70,50 @@ bool Block::wigglewiggle(const int i,const int j, int & firstE) {
 			this->allBlocks[firstE]->text.setString(std::to_string(this->allBlocks[firstE]->nr));
 			this->allBlocks[(4 * i) + j]->nr = 0;
 
-			if (j == 0) {
-				if (this->allBlocks[(4 * i) + 2]->empty == true) {
-					firstE = (4 * i) + 2;
-					return false;
+			if (side == "right") {
+				if (j == 0) {
+					if (this->allBlocks[(4 * i) + 2]->empty == true) {
+						firstE = (4 * i) + 2;
+						return false;
+					}
+					else if (this->allBlocks[(4 * i) + 1]->empty == true) {
+						firstE = (4 * i) + 1;
+						return true;
+					}
 				}
-				else if (this->allBlocks[(4 * i) + 1]->empty == true) {
-					firstE = (4 * i) + 1;
-					return true;
+				else if (j == 1) {
+					if (this->allBlocks[(4 * i) + 1]->empty == true) {
+						firstE = (4 * i) + 1;
+						return true;
+					}
 				}
+				else
+					firstE = (4 * i) + j;
 			}
-			else if (j == 1) {
-				if (this->allBlocks[(4 * i) + 1]->empty == true) {
-					firstE = (4 * i) + 1;
-					return true;
+			else if (side == "left") {
+				if (j == 3) {
+					if (this->allBlocks[(4 * i) + 1]->empty == true) {
+						firstE = (4 * i) + 1;
+						return false;
+					}
+					else if (this->allBlocks[(4 * i) + 2]->empty == true) {
+						firstE = (4 * i) + 2;
+						return true;
+					}
 				}
+				else if (j == 2) {
+					if (this->allBlocks[(4 * i) + 1]->empty == true) {
+						firstE = (4 * i) + 1;
+						return true;
+					}
+					else if (this->allBlocks[(4 * i) + 2]->empty == true) {
+						firstE = (4 * i) + 2;
+						return true;
+					}
+				}
+				else
+					firstE = (4 * i) + j;
 			}
-			else
-				firstE = (4 * i) + j;
 		}
 		else if (firstE == -1) {
 			return true;
