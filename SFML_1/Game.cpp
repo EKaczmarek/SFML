@@ -61,12 +61,47 @@ void Game::draw(int a) {
 bool Game::endGame() {
 
 	int a = 0;
-	for (int i = 0; i < 16; i++) {
-		if (this->one->allBlocks[i]->empty == false)
-			a++;
-		else continue;
+	//sprawdzenie strony lewo <-> prawo
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			//warunek aby nie probowac odczytac elementu tablicy który nie istnieje
+			if ((4 * i) + j + 1 < 16) {
+				if (this->one->allBlocks[(4 * i) + j]->empty == false &&
+					this->one->allBlocks[(4 * i) + j + 1]->empty == false) {
+					if (this->one->allBlocks[(4 * i) + j]->nr == this->one->allBlocks[(4 * i) + j + 1]->nr) {
+						a++;
+					}
+					else
+						continue;
+				}
+				else
+					break;
+			}
+			else break;
+		}
 	}
-	if (a == 16)
+	int b = 0;
+	//sprawdzenie strony góra <-> dó³
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 13; j += 4) {
+			//warunek aby nie probowac odczytac elementu tablicy który nie istnieje
+			if (i + j + 1 < 16) {
+				if (this->one->allBlocks[i + j]->empty == false &&
+					this->one->allBlocks[i + j + 1]->empty == false) {
+					if (this->one->allBlocks[i + j]->nr == this->one->allBlocks[i + j + 1]->nr) {
+						b++;
+					}
+					else
+						continue;
+				}
+				else
+					break;
+			}
+			else break;
+		}
+	}
+
+	if (a == 12 && b == 12)
 		return true;
 	else
 		return false;
