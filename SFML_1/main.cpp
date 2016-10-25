@@ -7,7 +7,7 @@ int main()
 
 	Game game;
 	game.runGame();
-	
+
 	while (game.okno.isOpen())
 	{
 		sf::Event event;
@@ -16,17 +16,14 @@ int main()
 				game.okno.close();
 			}
 			game.oknoOpt(1);
-			if (move::isKeyPressed(move::Left) || move::isKeyPressed(move::Right) ||
-				move::isKeyPressed(move::Up) || move::isKeyPressed(move::Down)) {
+			if (game.endGame() == false) {
 				game.one->moves();
 			}
-			else if (game.endGame() == true) {
+			if (game.endGame() == true) {
+				std::cout << "Koniec gry" << std::endl;
 				game.okno.close();
 				game.endokno.create(sf::VideoMode(200, 100), "KONIEC GRY", sf::Style::Default);
 				game.endokno.setPosition(sf::Vector2i(100, 100));
-			}
-			else {
-				break;
 			}
 		}
 	}
@@ -36,7 +33,7 @@ int main()
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 			game.endokno.close();
-	} 
+	}
 	return 0;
 }
 

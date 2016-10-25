@@ -60,7 +60,13 @@ void Game::draw(int a) {
 }
 bool Game::endGame() {
 
-	int a = 0;
+	int flag = 0;
+	for (int k = 0; k < 16; k++) {
+		if (this->one->allBlocks[k]->empty == false)
+			flag++;
+	}
+
+	bool movesLR = false; // lewo<-> prawo brak ruchów - true
 	//sprawdzenie strony lewo <-> prawo
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
@@ -68,44 +74,45 @@ bool Game::endGame() {
 			if ((4 * i) + j + 1 < 16) {
 				if (this->one->allBlocks[(4 * i) + j]->empty == false &&
 					this->one->allBlocks[(4 * i) + j + 1]->empty == false) {
-					if (this->one->allBlocks[(4 * i) + j]->nr == this->one->allBlocks[(4 * i) + j + 1]->nr) {
-						a++;
-					}
+					if (this->one->allBlocks[(4 * i) + j]->nr == this->one->allBlocks[(4 * i) + j + 1]->nr)
+						return false;
+					else if ((4 * i) + j + 1 == 15)
+						movesLR = true;
 					else
 						continue;
 				}
 				else
-					break;
+					continue;
 			}
-			else break;
-		}
-	}
-	int b = 0;
-	//sprawdzenie strony góra <-> dó³
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 13; j += 4) {
-			//warunek aby nie probowac odczytac elementu tablicy który nie istnieje
-			if (i + j + 1 < 16) {
-				if (this->one->allBlocks[i + j]->empty == false &&
-					this->one->allBlocks[i + j + 1]->empty == false) {
-					if (this->one->allBlocks[i + j]->nr == this->one->allBlocks[i + j + 1]->nr) {
-						b++;
-					}
-					else
-						continue;
-				}
-				else
-					break;
-			}
-			else break;
 		}
 	}
 
-	if (a == 12 && b == 12)
+	// góra <-> dó³ brak ruchów - true
+	bool movesUD = false; 
+	//sprawdzenie strony góra <-> dó³
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 8; j += 4) {
+			//warunek aby nie probowac odczytac elementu tablicy który nie istnieje
+			if (i + j + 4 < 16) {
+				if (this->one->allBlocks[i + j]->empty == false &&
+					this->one->allBlocks[i + j + 4]->empty == false) {
+					if (this->one->allBlocks[i + j]->nr == this->one->allBlocks[i + j + 4]->nr)
+						return false;
+					else if (i + j + 4 == 15)
+						movesUD = true;
+					else
+						continue;
+				}
+				else
+					continue;
+			}
+		}
+	}
+
+	if (movesUD == true && movesLR == true && flag == 16)
 		return true;
 	else
 		return false;
-
 }
 
 void Game::oknoOpt(int state) {

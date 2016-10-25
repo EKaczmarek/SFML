@@ -178,7 +178,6 @@ void Block::posUD(std::string s) {
 		}
 	}
 }
-
 bool Block::wigglewiggleUD(const int i, const int j, int & firstE, std::string side) {
 	if (this->allBlocks[i + j]->empty == true) {
 		if (firstE == -1)

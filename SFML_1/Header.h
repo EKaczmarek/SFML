@@ -9,4 +9,5 @@
 #include <SFML/Graphics.hpp>
 
 typedef sf::Keyboard move;
+
 #pragma once
