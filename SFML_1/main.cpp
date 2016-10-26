@@ -15,16 +15,20 @@ int main()
 			if (event.type == sf::Event::Closed) {
 				game.okno.close();
 			}
-			game.oknoOpt(1);
 			if (game.endGame() == false) {
+				//lipa z LR -->wszysssttkie pe³ne
+				//jest jeszcze jeden ruch 
+				//ale mimo wciskania przycisku nie chce ruszyc -->
+				//jakas blokada w moves dla LR
 				game.one->moves();
 			}
-			if (game.endGame() == true) {
+			else if (game.endGame() == true) {
 				std::cout << "Koniec gry" << std::endl;
-				game.okno.close();
+				//game.okno.close();
 				game.endokno.create(sf::VideoMode(200, 100), "KONIEC GRY", sf::Style::Default);
 				game.endokno.setPosition(sf::Vector2i(100, 100));
 			}
+			game.oknoOpt(1);
 		}
 	}
 	while (game.endokno.isOpen()) {

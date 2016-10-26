@@ -66,20 +66,16 @@ bool Game::endGame() {
 			flag++;
 	}
 
-	bool movesLR = false; // lewo<-> prawo brak ruchów - true
+	int movesLR = 0; // lewo<-> prawo brak ruchów - true
 	//sprawdzenie strony lewo <-> prawo
 	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
+		for (int j = 0; j < 3; j++) {
 			//warunek aby nie probowac odczytac elementu tablicy który nie istnieje
 			if ((4 * i) + j + 1 < 16) {
 				if (this->one->allBlocks[(4 * i) + j]->empty == false &&
 					this->one->allBlocks[(4 * i) + j + 1]->empty == false) {
 					if (this->one->allBlocks[(4 * i) + j]->nr == this->one->allBlocks[(4 * i) + j + 1]->nr)
-						return false;
-					else if ((4 * i) + j + 1 == 15)
-						movesLR = true;
-					else
-						continue;
+						movesLR++;
 				}
 				else
 					continue;
@@ -88,7 +84,7 @@ bool Game::endGame() {
 	}
 
 	// góra <-> dó³ brak ruchów - true
-	bool movesUD = false; 
+	int movesUD = 0; 
 	//sprawdzenie strony góra <-> dó³
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 8; j += 4) {
@@ -97,11 +93,7 @@ bool Game::endGame() {
 				if (this->one->allBlocks[i + j]->empty == false &&
 					this->one->allBlocks[i + j + 4]->empty == false) {
 					if (this->one->allBlocks[i + j]->nr == this->one->allBlocks[i + j + 4]->nr)
-						return false;
-					else if (i + j + 4 == 15)
-						movesUD = true;
-					else
-						continue;
+						movesUD++;
 				}
 				else
 					continue;
@@ -109,7 +101,11 @@ bool Game::endGame() {
 		}
 	}
 
-	if (movesUD == true && movesLR == true && flag == 16)
+	std::cout << "movesUD = " << movesUD 
+		<< "\t movesLR = " << movesLR 
+		<< "\t flag = " << flag << std::endl;
+
+	if (movesUD == 0 && movesLR == 0 && flag == 16)
 		return true;
 	else
 		return false;
