@@ -38,8 +38,14 @@ void Game::object() {
 	//dzia³anie na oryginale ze s³owem const 
 	//const zabezpieczenie przed zmiana wlasciwosci
 	this->one->fullfil(&textura, &text);
-	this->one->search(0);
-	this->one->search();
+	int tab[16] = { 8,2,16,4,4,8,4,8,4,32,2,4,4,16,2,4 };
+	for (int i = 0; i < 16; i++) {
+		this->one->allBlocks[i]->nr = tab[i];
+		this->one->allBlocks[i]->text.setString(std::to_string((this->one->allBlocks[i]->nr)));
+		this->one->allBlocks[i]->empty = false;
+	}
+	//this->one->search(0);
+	//this->one->search();
 }
 
 void Game::draw(int a) {
@@ -77,8 +83,6 @@ bool Game::endGame() {
 					if (this->one->allBlocks[(4 * i) + j]->nr == this->one->allBlocks[(4 * i) + j + 1]->nr)
 						movesLR++;
 				}
-				else
-					continue;
 			}
 		}
 	}
@@ -87,16 +91,14 @@ bool Game::endGame() {
 	int movesUD = 0; 
 	//sprawdzenie strony góra <-> dó³
 	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 8; j += 4) {
+		for (int j = 0; j < 9; j += 4) {
 			//warunek aby nie probowac odczytac elementu tablicy który nie istnieje
 			if (i + j + 4 < 16) {
 				if (this->one->allBlocks[i + j]->empty == false &&
-					this->one->allBlocks[i + j + 4]->empty == false) {
+							this->one->allBlocks[i + j + 4]->empty == false) {
 					if (this->one->allBlocks[i + j]->nr == this->one->allBlocks[i + j + 4]->nr)
 						movesUD++;
 				}
-				else
-					continue;
 			}
 		}
 	}
@@ -107,7 +109,7 @@ bool Game::endGame() {
 
 	if (movesUD == 0 && movesLR == 0 && flag == 16)
 		return true;
-	else
+	else 
 		return false;
 }
 

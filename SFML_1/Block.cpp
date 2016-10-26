@@ -21,24 +21,28 @@ for (int a = 0; a < 400; (a += 100)) {
 
 void Block::moves() {
 	if (move::isKeyPressed(move::Left)) {
+		std::cout << "Lewy" << std::endl;
 		this->posLR("left");
 		this->reduceLeft();
 		this->posLR("left");
 		this->search();
 	}
 	if (move::isKeyPressed(move::Right)) {
+		std::cout << "Prawy" << std::endl;
 		this->posLR("right");
 		this->reduceRight();
 		this->posLR("right");
 		this->search();
 	}
 	if (move::isKeyPressed(move::Up)) {
+		std::cout << "Góra" << std::endl;
 		this->posUD("up");
 		this->reduceUp();
 		this->posUD("up");
 		this->search();
 	}
 	if (move::isKeyPressed(move::Down)) {
+		std::cout << "Dó³" << std::endl;
 		this->posUD("down");
 		this->reduceDown();
 		this->posUD("down");
@@ -251,6 +255,7 @@ bool Block::wigglewiggleUD(const int i, const int j, int & firstE, std::string s
 }
 
 void Block::reduceLeft() {
+
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++)	{
 			switch (j)

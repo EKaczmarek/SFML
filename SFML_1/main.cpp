@@ -15,14 +15,12 @@ int main()
 			if (event.type == sf::Event::Closed) {
 				game.okno.close();
 			}
-			if (game.endGame() == false) {
-				//lipa z LR -->wszysssttkie pe³ne
-				//jest jeszcze jeden ruch 
-				//ale mimo wciskania przycisku nie chce ruszyc -->
-				//jakas blokada w moves dla LR
-				game.one->moves();
+			while(game.endGame() == false) {
+				//check method reduceUD, wigglewiglleUD
+				game.one->moves();		
+				break;
 			}
-			else if (game.endGame() == true) {
+			if (game.endGame() == true) {
 				std::cout << "Koniec gry" << std::endl;
 				//game.okno.close();
 				game.endokno.create(sf::VideoMode(200, 100), "KONIEC GRY", sf::Style::Default);
