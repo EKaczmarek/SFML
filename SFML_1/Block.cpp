@@ -18,21 +18,15 @@ for (int a = 0; a < 400; (a += 100)) {
 		}
 	}
 }
-
 void Block::moves() {
 	if (move::isKeyPressed(move::Left)) {
 		std::cout << "Lewy" << std::endl;
-		this->posLR("left");
-		this->reduceLeft();
-		this->posLR("left");
+		this->movesLR("left");
 		this->search(1);
 	}
 	if (move::isKeyPressed(move::Right)) {
 		std::cout << "Prawy" << std::endl;
-		//this->movesLR("right");
-		this->posLR("right");
-		this->reduceRight();
-		this->posLR("right");
+		this->movesLR("right");
 		this->search();
 	}
 	if (move::isKeyPressed(move::Up)) {
@@ -73,186 +67,124 @@ void Block::search(int state) {
 		this->allBlocks[next]->text.setString(std::to_string(this->allBlocks[next]->nr));
 	}
 }
-/*void Block::movesLR(std::string s) {
-	//LEWA
+
+void Block::movesLR(std::string s) {
 	int firstE = -1;
+	int side;
+
 	for (int i = 0; i < 4; i++) {
+		//RUCH W LEW¥ STRONÊ
 		if (s == "left") {
+			side = 1;
 			firstE = -1;
 			for (int j = 0; j < 3; j++) {
-				//sytuacja gdy dwa obok siebie s¹ pe³ne
-				if (this->allBlocks[(4 * i) + j]->empty == false && this->allBlocks[(4 * i) + j + 1]->empty == false) {
-					if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i) + j + 1]->nr) {
-						this->allBlocks[(4 * i) + j]->nr += this->allBlocks[(4 * i) + j + 1]->nr;
-						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j + 1]->nr)));
-						this->allBlocks[(4 * i) + j + 1]->nr = 0;
-						this->allBlocks[(4 * i) + j + 1]->empty = true;
-						firstE = (4 * i) + j + 1;
-					}
-				}
-				//sytuacja klocek bardziej na prawo jest pe³ny a ten po lewej pusty
-				else if (this->allBlocks[(4 * i) + j]->empty == true && this->allBlocks[(4 * i) + j + 1]->empty == false) {
-					if (firstE == -1 || firstE >= (4 * i) + j + 1) {
-						this->allBlocks[(4 * i) + j]->nr = this->allBlocks[(4 * i) + j + 1]->nr;
-						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j]->nr)));
-						this->allBlocks[(4 * i) + j + 1]->nr = 0;
-						this->allBlocks[(4 * i) + j]->empty == false;
-						this->allBlocks[(4 * i) + j + 1]->empty == true;
-						firstE = (4 * i) + j + 1;
-					}
-					else if(firstE != -1 && firstE < (4 * i) + j + 1) {
-						this->allBlocks[(4 * i) + j]->nr = this->allBlocks[firstE]->nr;
-						this->allBlocks[firstE]->text.setString(std::to_string((this->allBlocks[(4 * i) + j]->nr)));
-						this->allBlocks[(4 * i) + j]->nr = 0;
-						this->allBlocks[(4 * i) + j]->empty == true;
-						this->allBlocks[firstE]->empty == false;
-						firstE = (4 * i) + j;
-					}
-				}
-				//sytuacja klocek bardziej na lewo jest pe³ny a ten po prawej pusty
-				else if (this->allBlocks[(4 * i) + j]->empty == false && this->allBlocks[(4 * i) + j + 1]->empty == true) {
-					continue;
-				}
-				//sytuacja gdy oba obok siebie s¹ puste
-				else if (this->allBlocks[(4 * i) + j]->empty == true && this->allBlocks[(4 * i) + j + 1]->empty == true) {
-					if (firstE == -1)
-						firstE = (4 * i) + j;
-					continue;
+				this->LR(i,j,firstE, side);
+				if ((4 * i) + j + 1 == 15) {
+					this->reduceLeft();
 				}
 			}
 		}
+		//RUCH W PRAW¥ STRONÊ
 		else if (s == "right") {
-			for (int j = 4; j > 0; j--) {
-				//sytuacja gdy dwa obok siebie s¹ pe³ne
-				if (this->allBlocks[(4 * i) + j]->empty == false && this->allBlocks[(4 * i) + j - 1]->empty == false) {
-					if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i) + j - 1]->nr) {
-						this->allBlocks[(4 * i) + j]->nr += this->allBlocks[(4 * i) + j - 1]->nr;
-						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j - 1]->nr)));
-						this->allBlocks[(4 * i) + j - 1]->nr = 0;
-						this->allBlocks[(4 * i) + j - 1]->empty = true;
-						firstE = (4 * i) + j - 1;
-					}
+			side = -1;
+			firstE = -1;
+			for (int j = 3; j > 0; j--) {
+				this->LR(i, j, firstE, side);
+				if ((4 * i) + j + 1 == 15) {
+					this->reduceRight();
 				}
-				//sytuacja klocek bardziej na prawo jest pe³ny a ten po lewej pusty
-				else if (this->allBlocks[(4 * i) + j]->empty == true && this->allBlocks[(4 * i) + j - 1]->empty == false) {
-					if (firstE >= (4 * i) + j - 1) {
-						this->allBlocks[(4 * i) + j]->nr = this->allBlocks[(4 * i) + j + 1]->nr;
-						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j]->nr)));
-						this->allBlocks[(4 * i) + j - 1]->nr = 0;
-						this->allBlocks[(4 * i) + j]->empty == false;
-						this->allBlocks[(4 * i) + j - 1]->empty == true;
-					}
-					else {
-						this->allBlocks[(4 * i) + j]->nr = this->allBlocks[firstE]->nr;
-						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j]->nr)));
-						this->allBlocks[firstE]->nr = 0;
-						this->allBlocks[(4 * i) + j]->empty == false;
-						this->allBlocks[firstE]->empty == true;
-						firstE = (4 * i) + j;
-					}
-				}
-				//sytuacja klocek bardziej na lewo jest pe³ny a ten po prawej pusty
-				else if (this->allBlocks[(4 * i) + j]->empty == false && this->allBlocks[(4 * i) + j - 1]->empty == true) {
-					continue;
-				}
-				//sytuacja gdy oba obok siebie s¹ puste
-				else if (this->allBlocks[(4 * i) + j]->empty == true && this->allBlocks[(4 * i) + j - 1]->empty == true) {
-					continue;
-				}
-			}
-		}
-	}
-}*/
-
-void Block::posLR(std::string s) {
-	int firstE = -1;
-	// wiersze
-	for (int i = 0; i < 4; i++) {
-		firstE = -1;
-		// pozycje 
-		if (s == "right") {
-			for (int j = 3; j >= 0; j--) {
-				if (wigglewiggleLR(i, j, firstE, s))
-					continue;
-				else
-					break;
-			}
-		}
-		else if (s == "left") {
-			for (int j = 0; j <= 3; j++) {
-				if (wigglewiggleLR(i, j, firstE, s))
-					continue;
-				else
-					break;
 			}
 		}
 	}
 }
-bool Block::wigglewiggleLR(const int i, const int j, int & firstE, std::string side) {
-	if (this->allBlocks[(4 * i) + j]->empty == true) {
-		if (firstE == -1)
-			firstE = (4 * i) + j;
-		return true;
+void Block::LR(int _i, int _j,int & _firstE, int _side){
+	//sytuacja gdy dwa obok siebie s¹ pe³ne
+	if (this->allBlocks[(4 * _i) + _j]->empty == false && this->allBlocks[(4 * _i) + _j + _side]->empty == false) {
+		if (this->allBlocks[(4 * _i) + _j]->nr == this->allBlocks[(4 * _i) + _j + _side]->nr) {
+			//przypisanie wartoœci
+			this->allBlocks[(4 * _i) + _j]->nr += this->allBlocks[(4 * _i) + _j + _side]->nr;
+			//ustawianie wartoœci jako Spritea
+			this->allBlocks[(4 * _i) + _j]->text.setString(std::to_string((this->allBlocks[(4 * _i) + _j]->nr)));
+			//wyzerowanie wartoœci na bloku z którego przenoszê
+			this->allBlocks[(4 * _i) + _j + _side]->nr = 0;
+			//ustawienie flagi dla klocka bardziej po prawej
+			this->allBlocks[(4 * _i) + _j + _side]->empty = true;
+			_firstE = (4 * _i) + _j;
+		}
 	}
-	else {
-		if (firstE != -1) {
-			this->allBlocks[(4 * i) + j]->empty = true;
-			this->allBlocks[firstE]->empty = false;
-
-			this->allBlocks[firstE]->nr = this->allBlocks[(4 * i) + j]->nr;
-			this->allBlocks[firstE]->text.setString(std::to_string(this->allBlocks[firstE]->nr));
-			this->allBlocks[(4 * i) + j]->nr = 0;
-
-			if (side == "right") {
-				if (j == 0) {
-					if (this->allBlocks[(4 * i) + 2]->empty == true) {
-						firstE = (4 * i) + 2;
-						return false;
-					}
-					else if (this->allBlocks[(4 * i) + 1]->empty == true) {
-						firstE = (4 * i) + 1;
-						return true;
-					}
-				}
-				else if (j == 1) {
-					if (this->allBlocks[(4 * i) + 1]->empty == true) {
-						firstE = (4 * i) + 1;
-						return true;
-					}
+	//sytuacja klocek bardziej na prawo jest pe³ny a ten po lewej pusty
+	else if (this->allBlocks[(4 * _i) + _j]->empty == true && this->allBlocks[(4 * _i) + _j + _side]->empty == false) {
+		if (_firstE == -1 || _firstE >= (4 * _i) + _j + 1) {
+			//przypisanie wartoœci
+			this->allBlocks[(4 * _i) + _j]->nr = this->allBlocks[(4 * _i) + _j + _side]->nr;
+			//ustawianie wartoœci jako Spritea
+			this->allBlocks[(4 * _i) + _j]->text.setString(std::to_string((this->allBlocks[(4 * _i) + _j]->nr)));
+			//wyzerowanie wartoœci na bloku z którego przenoszê
+			this->allBlocks[(4 * _i) + _j + _side]->nr = 0;
+			//ustawienie flagi dla klocka bardziej po lewej
+			this->allBlocks[(4 * _i) + _j]->empty = false;
+			//ustawienie flagi dla klocka bardziej po prawej
+			this->allBlocks[(4 * _i) + _j + _side]->empty = true;
+			_firstE = (4 * _i) + _j + _side;
+		}
+		else if (_firstE != -1 && _firstE < (4 * _i) + _j + _side) {
+			//przypisanie wartoœci
+			this->allBlocks[_firstE]->nr = this->allBlocks[(4 * _i) + _j + _side]->nr;
+			//ustawianie wartoœci jako Spritea
+			this->allBlocks[_firstE]->text.setString(std::to_string((this->allBlocks[_firstE]->nr)));
+			//wyzerowanie wartoœci na bloku z którego przenoszê
+			this->allBlocks[(4 * _i) + _j + _side]->nr = 0;
+			//ustawienie flagi dla klocka bardziej po lewej
+			this->allBlocks[_firstE]->empty = false;
+			//ustawienie flagi dla klocka bardziej po prawej
+			this->allBlocks[(4 * _i) + _j + _side]->empty = true;
+			//ustawienie pierwszego pustego klocka 
+			_firstE = (4 * _i) + _j;
+		}
+	}
+	//sytuacja klocek bardziej na lewo jest pe³ny a ten po prawej pusty
+	else if (this->allBlocks[(4 * _i) + _j]->empty == false && this->allBlocks[(4 * _i) + _j + _side]->empty == true) {
+		//nic nie rób
+	}
+	//sytuacja gdy oba obok siebie s¹ puste
+	else if (this->allBlocks[(4 * _i) + _j]->empty == true && this->allBlocks[(4 * _i) + _j + _side]->empty == true) {
+		if (_firstE == -1)
+			//ustawienie pierwszego pustego klocka 
+			_firstE = (4 * _i) + _j;
+	}
+}
+void Block::reduceLeft() {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			//jeœli dwa obok siebie nie s¹ puste
+			if (this->allBlocks[(4 * i) + j]->empty == false && this->allBlocks[(4 * i) + j + 1]->empty == false) {
+				//jeœli dwa obok siebie maj¹ takie same wartoœci
+				if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i) + j + 1]->nr) {
+					this->allBlocks[(4 * i) + j]->nr += this->allBlocks[(4 * i) + j + 1]->nr;
+					int firstE = ((4 * i) + j + 1);
+					this->LR(i, j, firstE, 1);
 				}
 				else
-					firstE = (4 * i) + j;
+					continue;
 			}
-			else if (side == "left") {
-				if (j == 3) {
-					if (this->allBlocks[(4 * i) + 1]->empty == true) {
-						firstE = (4 * i) + 1;
-						return false;
-					}
-					else if (this->allBlocks[(4 * i) + 2]->empty == true) {
-						firstE = (4 * i) + 2;
-						return true;
-					}
-				}
-				else if (j == 2) {
-					if (this->allBlocks[(4 * i) + 1]->empty == true) {
-						firstE = (4 * i) + 1;
-						return true;
-					}
-					else if (this->allBlocks[(4 * i) + 2]->empty == true) {
-						firstE = (4 * i) + 2;
-						return true;
-					}
+		}
+	}
+}
+void Block::reduceRight() {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 3; j >= 0; j--) {
+			//jeœli dwa obok siebie nie s¹ puste
+			if (this->allBlocks[(4 * i) + j]->empty == false && this->allBlocks[(4 * i) + j - 1]->empty == false) {
+				//jeœli dwa obok siebie maj¹ takie same wartoœci
+				if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i) + j - 1]->nr) {
+					this->allBlocks[(4 * i) + j]->nr += this->allBlocks[(4 * i) + j - 1]->nr;
+					int firstE = ((4 * i) + j - 1);
+					this->LR(i, j, firstE, -1);
 				}
 				else
-					firstE = (4 * i) + j;
+					continue;
 			}
 		}
-		else if (firstE == -1) {
-			return true;
-		}
-		else
-			return false;
 	}
 }
 
@@ -342,129 +274,6 @@ bool Block::wigglewiggleUD(const int i, const int j, int & firstE, std::string s
 			}
 			else
 				return false;
-		}
-	}
-}
-
-void Block::reduceLeft() {
-
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++)	{
-			switch (j)
-			{
-			case 0: {
-				//je¿eli pozycja 0 jest pe³na
-				if (this->allBlocks[(4 * i) + j]->empty == false) {
-					//jesli 0 == 1
-					if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i) + 1]->nr) {
-						this->allBlocks[(4 * i) + j]->nr *= 2;
-						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j]->nr)));
-						this->allBlocks[(4 * i) + 1]->nr = 0;
-						this->allBlocks[(4 * i) + 1]->empty = true;
-					}
-					else
-						//jeœli nie szukam dalej czy 1 == 2
-						continue;
-				}
-				break;
-			}
-			case 1: {
-				//je¿eli pozycja 1 jest pe³na
-				if (this->allBlocks[(4 * i) + j]->empty == false) {
-					//jesli 1 == 2
-					if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i) + 2]->nr) {
-						this->allBlocks[(4 * i) + j]->nr *= 2;
-						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j]->nr)));
-						this->allBlocks[(4 * i) + 2]->nr = 0;
-						this->allBlocks[(4 * i) + 2]->empty = true;
-					}
-					else
-						//jeœli nie szukam dalej czy np 2 == 3
-						continue;
-				}
-				break;
-			}
-			case 2: {
-				//je¿eli pozycja 2 jest pe³na
-				if (this->allBlocks[(4 * i) + j]->empty == false) {
-					//jesli 1 == 2
-					if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i) + 3]->nr) {
-						this->allBlocks[(4 * i) + j]->nr *= 2;
-						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j]->nr)));
-						this->allBlocks[(4 * i) + 3]->nr = 0;
-						this->allBlocks[(4 * i) + 3]->empty = true;
-
-					}
-					else
-						//jeœli nie szukam dalej czy np 2 == 3
-						continue;
-				}
-				break;
-			}
-			default:
-				break;
-			}
-		}
-	}
-}
-void Block::reduceRight() {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 3; j >= 0; j--) {
-			switch (j)
-			{
-			case 3: {
-				//je¿eli pozycja 3 jest pe³na
-				if (this->allBlocks[(4 * i) + j]->empty == false) {
-					//jesli 3 == 2
-					if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i) + 2]->nr) {
-						this->allBlocks[(4 * i) + j]->nr *= 2;
-						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j]->nr)));
-						this->allBlocks[(4 * i) + 2]->nr = 0;
-						this->allBlocks[(4 * i) + 2]->empty = true;
-					}
-					else
-						//jeœli nie szukam dalej czy 1 == 2
-						continue;
-				}
-				break;
-			}
-			case 2: {
-				//je¿eli pozycja 2 jest pe³na
-				if (this->allBlocks[(4 * i) + j]->empty == false) {
-					//jesli 2 == 1
-					if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i) + 1]->nr) {
-						this->allBlocks[(4 * i) + j]->nr *= 2;
-						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j]->nr)));
-						this->allBlocks[(4 * i) + 1]->nr = 0;
-						this->allBlocks[(4 * i) + 1]->empty = true;
-
-					}
-					else
-						//jeœli nie szukam dalej czy np 2 == 3
-						continue;
-				}
-				break;
-			}
-			case 1: {
-				//je¿eli pozycja 1 jest pe³na
-				if (this->allBlocks[(4 * i) + j]->empty == false) {
-					//jesli 1 == 0
-					if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i)]->nr) {
-						this->allBlocks[(4 * i) + j]->nr *= 2;
-						this->allBlocks[(4 * i) + j]->text.setString(std::to_string((this->allBlocks[(4 * i) + j]->nr)));
-						this->allBlocks[(4 * i)]->nr = 0;
-						this->allBlocks[(4 * i)]->empty = true;
-
-					}
-					else
-						//jeœli nie szukam dalej czy np 2 == 3
-						continue;
-				}
-				break;
-			}
-			default:
-				break;
-			}
 		}
 	}
 }
