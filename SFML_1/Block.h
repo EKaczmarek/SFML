@@ -23,6 +23,8 @@ public:
 	void search(int = 1);
 	void moves();
 
+	//void movesLR(std::string s);
+	//void movesUD(std::string s);
 
 	void posLR(std::string s);
 	bool wigglewiggleLR(const int i, const int j, int & firstE, std::string side);

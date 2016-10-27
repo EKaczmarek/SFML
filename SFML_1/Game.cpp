@@ -38,14 +38,15 @@ void Game::object() {
 	//dzia³anie na oryginale ze s³owem const 
 	//const zabezpieczenie przed zmiana wlasciwosci
 	this->one->fullfil(&textura, &text);
-	int tab[16] = { 8,2,16,4,4,8,4,8,4,32,2,4,4,16,2,4 };
+/*	int tab[16] = { 2,2 };
 	for (int i = 0; i < 16; i++) {
 		this->one->allBlocks[i]->nr = tab[i];
 		this->one->allBlocks[i]->text.setString(std::to_string((this->one->allBlocks[i]->nr)));
-		this->one->allBlocks[i]->empty = false;
-	}
-	//this->one->search(0);
-	//this->one->search();
+		this->one->allBlocks[0]->empty = false;
+		this->one->allBlocks[1]->empty = false;
+	}*/
+	this->one->search(0);
+	this->one->search();
 }
 
 void Game::draw(int a) {
