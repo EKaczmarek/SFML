@@ -26,6 +26,12 @@ int main()
 				game.endokno.create(sf::VideoMode(200, 100), "KONIEC GRY", sf::Style::Default);
 				game.endokno.setPosition(sf::Vector2i(100, 100));
 			}
+			else if (game.win() == true) {
+				std::cout << "Wygrana" << std::endl;
+				//game.okno.close();
+				game.winokno.create(sf::VideoMode(200, 100), "Wygrana", sf::Style::Default);
+				game.winokno.setPosition(sf::Vector2i(100, 100));
+			}
 			game.oknoOpt(1);
 		}
 	}

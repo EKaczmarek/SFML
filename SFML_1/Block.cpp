@@ -22,7 +22,7 @@ void Block::moves() {
 	if (move::isKeyPressed(move::Left)) {
 		std::cout << "Lewy" << std::endl;
 		this->movesLR("left");
-		this->search(1);
+		this->search();
 	}
 	if (move::isKeyPressed(move::Right)) {
 		std::cout << "Prawy" << std::endl;
@@ -79,9 +79,6 @@ void Block::movesLR(std::string s) {
 			firstE = -1;
 			for (int j = 0; j < 3; j++) {
 				this->LR(i,j,firstE, side);
-				if ((4 * i) + j + 1 == 15) {
-					this->reduceLeft();
-				}
 			}
 		}
 		//RUCH W PRAW¥ STRONÊ
@@ -90,31 +87,17 @@ void Block::movesLR(std::string s) {
 			firstE = -1;
 			for (int j = 3; j > 0; j--) {
 				this->LR(i, j, firstE, side);
-				if ((4 * i) + j + 1 == 15) {
-					this->reduceRight();
-				}
 			}
 		}
 	}
 }
 void Block::LR(int _i, int _j,int & _firstE, int _side){
 	//sytuacja gdy dwa obok siebie s¹ pe³ne
-	if (this->allBlocks[(4 * _i) + _j]->empty == false && this->allBlocks[(4 * _i) + _j + _side]->empty == false) {
-		if (this->allBlocks[(4 * _i) + _j]->nr == this->allBlocks[(4 * _i) + _j + _side]->nr) {
-			//przypisanie wartoœci
-			this->allBlocks[(4 * _i) + _j]->nr += this->allBlocks[(4 * _i) + _j + _side]->nr;
-			//ustawianie wartoœci jako Spritea
-			this->allBlocks[(4 * _i) + _j]->text.setString(std::to_string((this->allBlocks[(4 * _i) + _j]->nr)));
-			//wyzerowanie wartoœci na bloku z którego przenoszê
-			this->allBlocks[(4 * _i) + _j + _side]->nr = 0;
-			//ustawienie flagi dla klocka bardziej po prawej
-			this->allBlocks[(4 * _i) + _j + _side]->empty = true;
-			_firstE = (4 * _i) + _j;
-		}
-	}
+	this->theSame(_i, _j, _firstE, _side);
 	//sytuacja klocek bardziej na prawo jest pe³ny a ten po lewej pusty
-	else if (this->allBlocks[(4 * _i) + _j]->empty == true && this->allBlocks[(4 * _i) + _j + _side]->empty == false) {
-		if (_firstE == -1 || _firstE >= (4 * _i) + _j + 1) {
+	if (this->allBlocks[(4 * _i) + _j]->empty == true && this->allBlocks[(4 * _i) + _j + _side]->empty == false) {
+		//jeœli nie ma przypisanego pierwszego pustego lubb gdy firstE jest bardziej na prawo/lewo ni¿ klocek (4*_i)+_j+_side 
+		if (_firstE == -1 || _firstE >= (4 * _i) + _j + _side) {
 			//przypisanie wartoœci
 			this->allBlocks[(4 * _i) + _j]->nr = this->allBlocks[(4 * _i) + _j + _side]->nr;
 			//ustawianie wartoœci jako Spritea
@@ -126,7 +109,9 @@ void Block::LR(int _i, int _j,int & _firstE, int _side){
 			//ustawienie flagi dla klocka bardziej po prawej
 			this->allBlocks[(4 * _i) + _j + _side]->empty = true;
 			_firstE = (4 * _i) + _j + _side;
+			this->theSame(_i, _j, _firstE, _side);
 		}
+		//jeœli jest przypisany jakiœ pusty i jest od bardziej na lewo/prawo ni¿ (4*_i)+_j+_side
 		else if (_firstE != -1 && _firstE < (4 * _i) + _j + _side) {
 			//przypisanie wartoœci
 			this->allBlocks[_firstE]->nr = this->allBlocks[(4 * _i) + _j + _side]->nr;
@@ -140,6 +125,8 @@ void Block::LR(int _i, int _j,int & _firstE, int _side){
 			this->allBlocks[(4 * _i) + _j + _side]->empty = true;
 			//ustawienie pierwszego pustego klocka 
 			_firstE = (4 * _i) + _j;
+			this->theSame(_i, _j, _firstE, _side);
+
 		}
 	}
 	//sytuacja klocek bardziej na lewo jest pe³ny a ten po prawej pusty
@@ -153,41 +140,22 @@ void Block::LR(int _i, int _j,int & _firstE, int _side){
 			_firstE = (4 * _i) + _j;
 	}
 }
-void Block::reduceLeft() {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			//jeœli dwa obok siebie nie s¹ puste
-			if (this->allBlocks[(4 * i) + j]->empty == false && this->allBlocks[(4 * i) + j + 1]->empty == false) {
-				//jeœli dwa obok siebie maj¹ takie same wartoœci
-				if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i) + j + 1]->nr) {
-					this->allBlocks[(4 * i) + j]->nr += this->allBlocks[(4 * i) + j + 1]->nr;
-					int firstE = ((4 * i) + j + 1);
-					this->LR(i, j, firstE, 1);
-				}
-				else
-					continue;
-			}
+void Block::theSame(int _i, int _j, int & _firstE, int _side) {
+	if (this->allBlocks[(4 * _i) + _j]->empty == false && this->allBlocks[(4 * _i) + _j + _side]->empty == false) {
+		if (this->allBlocks[(4 * _i) + _j]->nr == this->allBlocks[(4 * _i) + _j + _side]->nr) {
+			//przypisanie wartoœci
+			this->allBlocks[(4 * _i) + _j]->nr *= 2;
+			//ustawianie wartoœci jako Spritea
+			this->allBlocks[(4 * _i) + _j]->text.setString(std::to_string((this->allBlocks[(4 * _i) + _j]->nr)));
+			//wyzerowanie wartoœci na bloku z którego przenoszê
+			this->allBlocks[(4 * _i) + _j + _side]->nr = 0;
+			//ustawienie flagi dla klocka bardziej po prawej
+			this->allBlocks[(4 * _i) + _j + _side]->empty = true;
+			//ustawienie pierwszego pustego
+			_firstE = (4 * _i) + _j;
 		}
 	}
 }
-void Block::reduceRight() {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 3; j >= 0; j--) {
-			//jeœli dwa obok siebie nie s¹ puste
-			if (this->allBlocks[(4 * i) + j]->empty == false && this->allBlocks[(4 * i) + j - 1]->empty == false) {
-				//jeœli dwa obok siebie maj¹ takie same wartoœci
-				if (this->allBlocks[(4 * i) + j]->nr == this->allBlocks[(4 * i) + j - 1]->nr) {
-					this->allBlocks[(4 * i) + j]->nr += this->allBlocks[(4 * i) + j - 1]->nr;
-					int firstE = ((4 * i) + j - 1);
-					this->LR(i, j, firstE, -1);
-				}
-				else
-					continue;
-			}
-		}
-	}
-}
-
 void Block::posUD(std::string s) {
 	int firstEmpty = -1;
 	// wiersze

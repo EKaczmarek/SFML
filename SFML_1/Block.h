@@ -25,12 +25,13 @@ public:
 
 	void movesLR(std::string s);
 	void LR(int _i, int _j, int & _firstE, int _side);
+	void theSame(int _i, int _j, int & _firstE, int _side);
+
 	//void movesUD(std::string s);
 
 	//void posLR(std::string s);
 	//bool wigglewiggleLR(const int i, const int j, int & firstE, std::string side);
-	void reduceLeft();
-	void reduceRight();
+
 
 	void posUD(std::string s);
 	bool wigglewiggleUD(const int i, const int j, int & firstE, std::string side);

@@ -5,7 +5,6 @@
 
 class Game {
 public:
-
 	sf::RenderWindow okno;
 	sf::Texture textura;
 
@@ -14,6 +13,11 @@ public:
 	sf::Texture end;
 	sf::Sprite picEnd;
 
+	//obiekty do wygrania gry
+	sf::RenderWindow winokno;
+	sf::Texture wint;
+	sf::Sprite picWin;
+	
 	sf::Font font;
 	sf::Text text;
 	Block* one;
@@ -33,6 +37,8 @@ public:
 	
 	//koniec
 	bool endGame();
+	//wygrana
+	bool win();
 
 	void oknoOpt(int state);
 

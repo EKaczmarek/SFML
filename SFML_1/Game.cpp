@@ -30,6 +30,7 @@ void Game::object() {
 	//³adowanie tekstur
 	textura.loadFromFile("klocek.png");
 	end.loadFromFile("koniec.png");
+	wint.loadFromFile("winning.png");
 
 	//tworzenie obiektu
 	one = new Block();
@@ -38,7 +39,7 @@ void Game::object() {
 	//dzia³anie na oryginale ze s³owem const 
 	//const zabezpieczenie przed zmiana wlasciwosci
 	this->one->fullfil(&textura, &text);
-	int tab[16] = { 2,2,0,0 };
+	/*int tab[16] = { 16,16,0,0 };
 	for (int i = 0; i < 16; i++) {
 		this->one->allBlocks[i]->nr = tab[i];
 		this->one->allBlocks[i]->text.setString(std::to_string((this->one->allBlocks[i]->nr)));
@@ -51,9 +52,9 @@ void Game::object() {
 		if (i == 4) {
 			this->one->allBlocks[i]->empty = true;
 		}
-	}
-	//this->one->search(0);
-	//this->one->search();
+	}*/
+	this->one->search(0);
+	this->one->search();
 }
 
 void Game::draw(int a) {
@@ -120,7 +121,14 @@ bool Game::endGame() {
 	else 
 		return false;
 }
-
+bool Game::win() {
+	for (int i = 0; i < 16; i++) {
+		if (this->one->allBlocks[i]->nr == 2048)
+			return true;
+		else
+			return false;
+	}
+}
 void Game::oknoOpt(int state) {
 	if (state == 1) {
 		this->okno.clear();
