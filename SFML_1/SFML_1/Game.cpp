@@ -3,8 +3,10 @@
 void Game::runGame() {
 	//Okno gry
 	Window();
+
 	//Czcionka oraz tekstura klocka
 	Font();
+
 	//obiekt przechowuj¹cy tablicê bloków
 	//z ich w³aœciwoœciami (numerem, pozycj¹,
 	//informacji o tym czy dana pozycja jest pusta
@@ -39,20 +41,8 @@ void Game::object() {
 	//dzia³anie na oryginale ze s³owem const 
 	//const zabezpieczenie przed zmiana wlasciwosci
 	this->one->fullfil(&textura, &text);
-	int tab[16] = { 0,0,0,0,2,2,0,0,0,4,0,0 };
-	for (int i = 0; i < 16; i++) {
-		{
-			this->one->allBlocks[i]->nr = tab[i];
-			this->one->allBlocks[i]->text.setString(std::to_string((this->one->allBlocks[i]->nr)));
-			if (i == 4 || i == 5)
-				this->one->allBlocks[i]->empty = false;
-			else
-				this->one->allBlocks[i]->empty = true;
-		}
-
-		//	this->one->search(0);
-			//this->one->search();
-	}
+	this->one->search(0);
+	this->one->search();
 }
 
 void Game::draw(int a) {
@@ -81,15 +71,15 @@ bool Game::endGame() {
 
 	int movesLR = 0; // lewo<-> prawo brak ruchów - true
 					 //sprawdzenie strony lewo <-> prawo
+	//wiersze
 	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 3; j++) {
+		//pozycje
+		for (int j = 0; j < 4; j++) {
 			//warunek aby nie probowac odczytac elementu tablicy który nie istnieje
 			if ((4 * i) + j + 1 < 16) {
-				if (this->one->allBlocks[(4 * i) + j]->empty == false &&
-					this->one->allBlocks[(4 * i) + j + 1]->empty == false) {
-					if (this->one->allBlocks[(4 * i) + j]->nr == this->one->allBlocks[(4 * i) + j + 1]->nr)
+				if ((this->one->allBlocks[(4 * i) + j]->empty == false && this->one->allBlocks[(4 * i) + j + 1]->empty == false) && 
+					(this->one->allBlocks[(4 * i) + j]->nr == this->one->allBlocks[(4 * i) + j + 1]->nr))
 						movesLR++;
-				}
 			}
 		}
 	}
@@ -101,11 +91,10 @@ bool Game::endGame() {
 		for (int j = 0; j < 9; j += 4) {
 			//warunek aby nie probowac odczytac elementu tablicy który nie istnieje
 			if (i + j + 4 < 16) {
-				if (this->one->allBlocks[i + j]->empty == false &&
-					this->one->allBlocks[i + j + 4]->empty == false) {
-					if (this->one->allBlocks[i + j]->nr == this->one->allBlocks[i + j + 4]->nr)
+				if ((this->one->allBlocks[i + j]->empty == false && this->one->allBlocks[i + j + 4]->empty == false) &&
+					(this->one->allBlocks[i + j]->nr == this->one->allBlocks[i + j + 4]->nr))
 						movesUD++;
-				}
+				
 			}
 		}
 	}

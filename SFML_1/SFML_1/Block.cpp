@@ -6,6 +6,7 @@ void Block::fullfil(const sf::Texture *_textura, const sf::Text * _text) {
 	for (int a = 0; a < 400; (a += 100)) {
 		for (int b = 0; b < 400; (b += 100), i++) {
 			this->allBlocks[i] = new Block;
+
 			//ustawienia domyslnych pozycji, textury i flagi
 			this->allBlocks[i]->posX = b;
 			this->allBlocks[i]->posY = a;
@@ -22,26 +23,21 @@ void Block::moves() {
 	if (move::isKeyPressed(move::Left)) {
 		std::cout << "Lewy" << std::endl;
 		this->movesLR("left");
-		this->movesLR("left");
 		this->search();
 	}
 	if (move::isKeyPressed(move::Right)) {
 		std::cout << "Prawy" << std::endl;
 		this->movesLR("right");
-		this->movesLR("right");
-
 		this->search();
 	}
 	if (move::isKeyPressed(move::Up)) {
 		std::cout << "Góra" << std::endl;
-		this->posUD("up");
 		this->reduceUp();
 		this->posUD("up");
 		this->search();
 	}
 	if (move::isKeyPressed(move::Down)) {
 		std::cout << "Dó³" << std::endl;
-		this->posUD("down");
 		this->reduceDown();
 		this->posUD("down");
 		this->search();
@@ -54,6 +50,7 @@ void Block::search(int state) {
 		int first = rand() % 16;
 		if (this->allBlocks[first]->empty = true) {
 			this->allBlocks[first]->empty = false;
+
 			//losowanie z 9 liczb, jesli 8 to 4, pozosta³e to 2
 			this->allBlocks[first]->nr = (rand() % 9) == 8 ? 4 : 2;
 			this->allBlocks[first]->text.setString(std::to_string((this->allBlocks[first]->nr)));
@@ -75,7 +72,7 @@ void Block::movesLR(std::string s) {
 	int firstE = -1;
 	int side;
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 1; i < 4; i++) {
 		//RUCH W LEW¥ STRONÊ
 		if (s == "left") {
 			side = 1;
