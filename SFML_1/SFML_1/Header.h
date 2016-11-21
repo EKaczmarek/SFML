@@ -8,6 +8,7 @@
 #include <memory>
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <fstream>
 
 typedef sf::Keyboard move;
 

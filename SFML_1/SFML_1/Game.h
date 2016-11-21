@@ -2,43 +2,42 @@
 
 class Game {
 public:
-	sf::RenderWindow okno;
-	sf::Texture textura;
+	Block *blok;
 
-	//obiekty do zasygnalizoowania konca gry
-	sf::RenderWindow endokno;
-	sf::Texture end;
-	sf::Sprite picEnd;
+	sf::RenderWindow window;
+	sf::Texture pictBlock;
+	sf::Font fon;
 
-	//obiekty do wygrania gry
-	sf::RenderWindow winokno;
-	sf::Texture wint;
-	sf::Sprite picWin;
+	sf::RenderWindow windowEnd;
+	sf::Texture pictEnd;
+	sf::Sprite pEnd;
 
-	sf::Font font;
-	sf::Text text;
-	Block* one;
-
-	Game() {}
-	void runGame();
-
-	//okno: rozmiar, tytu³
-	void Window();
-	//czcionka do bloków
-	void Font();
-	//obiekt przechowujacy tablice
-	void object();
-
-	//wyswietlanie tablicy pod warunkiem niepustej flagi
-	void draw(int = 1);
-
-	//koniec
-	bool endGame();
-	//wygrana
-	bool win();
-
-	void oknoOpt(int state);
+	sf::RenderWindow windowWin;
+	sf::Texture pictWin;
+	sf::Sprite pWin;
 
 
-	~Game();
+	//odpalenie gry
+	void run();
+	//otwarcie okna
+	void wind();
+	//otwarcie okna konca
+	void windEnd();
+	//otwarcie okna wygranej
+	void windWin();
+	//za³adowanie czcionki
+	void font();
+	//za³adowanie obrazków
+	void pict();
+	//wype³nienie tablicy
+	void fullTab();
+	//wyszukanie pozycji
+	void search(int a);
+	//wyswietlanie
+	void draw(bool block);
+	//ruchy
+	void moves();
+	//wyswietlanie okna
+	void display(sf::RenderWindow & window);
+
 };

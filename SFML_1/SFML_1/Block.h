@@ -4,38 +4,38 @@
 
 
 //klasa opisujaca klocek
-class Block
-{
+class Block {
 public:
-	bool empty;
+	std::vector <Block*> table = std::vector <Block*>(16);
+
 	int posX;
 	int posY;
-	sf::Text text;
-	int nr;
-	//Sprite obiekt obs³uguj¹cy zdarzenia na grafice
-	sf::Sprite singleBlock;
-	std::vector <Block*> allBlocks = std::vector <Block*>(16);
+	bool empty;
 
-public:
-	Block() {}
-	void fullfil(const sf::Texture *_textura, const sf::Text * _text);
-	void search(int = 1);
-	void moves();
+	int numb;
+	sf::Text nr;
+	sf::Sprite bloc;
+	//RUCHY
+	//lewo
+	//dó³
+	void pos(std::string s);
 
-	void movesLR(std::string s);
-	void LR(int _i, int _j, int & _firstE, int _side);
+	void reduceLeft();
+	void moveLeft();
 
-	//void movesUD(std::string s);
+	void reduceRight();
+	void moveRight();
 
-	//void posLR(std::string s);
-	//bool wigglewiggleLR(const int i, const int j, int & firstE, std::string side);
-
-
-	void posUD(std::string s);
-	bool wigglewiggleUD(const int i, const int j, int & firstE, std::string side);
-	void reduceDown();
 	void reduceUp();
+	void moveUp();
 
-	~Block();
+	void reduceDown();
+	void moveDown();
+	//bool UD(const int i, const int j, int & firstE, std::string side);
+	void moveto(int finalPos, int initPos, int & _first);
+	void reduce(int finalBlock, int initBlock);
+	//void reduceDown();
+	bool end();
+	bool win();
 };
 

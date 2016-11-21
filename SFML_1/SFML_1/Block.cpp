@@ -1,375 +1,610 @@
 #include "Header.h"
 
-
-void Block::fullfil(const sf::Texture *_textura, const sf::Text * _text) {
-	int i = 0;
-	for (int a = 0; a < 400; (a += 100)) {
-		for (int b = 0; b < 400; (b += 100), i++) {
-			this->allBlocks[i] = new Block;
-
-			//ustawienia domyslnych pozycji, textury i flagi
-			this->allBlocks[i]->posX = b;
-			this->allBlocks[i]->posY = a;
-			this->allBlocks[i]->singleBlock.setTexture(*_textura);
-			this->allBlocks[i]->empty = true;
-
-			//przypisanie w³aœciwoœci z klasy Game
-			//do kazdego obiektu klasy Block
-			this->allBlocks[i]->text = *_text;
-		}
-	}
-}
-void Block::moves() {
-	if (move::isKeyPressed(move::Left)) {
-		std::cout << "Lewy" << std::endl;
-		this->movesLR("left");
-		this->search();
-	}
-	if (move::isKeyPressed(move::Right)) {
-		std::cout << "Prawy" << std::endl;
-		this->movesLR("right");
-		this->search();
-	}
-	if (move::isKeyPressed(move::Up)) {
-		std::cout << "Góra" << std::endl;
-		this->reduceUp();
-		this->posUD("up");
-		this->search();
-	}
-	if (move::isKeyPressed(move::Down)) {
-		std::cout << "Dó³" << std::endl;
+void Block::pos(std::string s) {
+	int first;
+	if (s == "down") {
+		this->moveDown();
 		this->reduceDown();
-		this->posUD("down");
-		this->search();
+		this->moveDown();
 	}
-
-}
-void Block::search(int state) {
-	//rand positions from sixteen positions
-	if (state == 0) {
-		int first = rand() % 16;
-		if (this->allBlocks[first]->empty = true) {
-			this->allBlocks[first]->empty = false;
-
-			//losowanie z 9 liczb, jesli 8 to 4, pozosta³e to 2
-			this->allBlocks[first]->nr = (rand() % 9) == 8 ? 4 : 2;
-			this->allBlocks[first]->text.setString(std::to_string((this->allBlocks[first]->nr)));
-		}
+	if (s == "up") {
+		this->moveUp();
+		this->reduceUp();
+		this->moveUp();
 	}
-	else if (state == 1) {
-		int next = rand() % 16;
-
-		while (this->allBlocks[next]->empty == false) {
-			next = rand() % 16;
-		}
-		this->allBlocks[next]->empty = false;
-		this->allBlocks[next]->nr = (rand() % 2) ? 4 : 2;
-		this->allBlocks[next]->text.setString(std::to_string(this->allBlocks[next]->nr));
+	if (s == "right") {
+		this->moveRight();
+		this->reduceRight();
+		this->moveRight();
+	}
+	if (s == "left") {
+		this->moveLeft();
+		this->reduceLeft();
+		this->moveLeft();
 	}
 }
 
-void Block::movesLR(std::string s) {
-	int firstE = -1;
-	int side;
-
-	for (int i = 1; i < 4; i++) {
-		//RUCH W LEW¥ STRONÊ
-		if (s == "left") {
-			side = 1;
-			firstE = -1;
-			for (int j = 0; j < 3; j++) {
-				this->LR(i, j, firstE, side);
+void Block::moveUp() {
+	int first;
+	for (int j = 0; j < 4; j++) {
+		first = -1;
+		for (int i = 0; i <= 12; (i += 4)) {
+			switch (i) {
+			case 0: {
+				if (this->table[i + j]->empty == true) {
+					first = i + j;
+				}
+				else {
+					break;
+				}
+				break;
 			}
-		}
-		//RUCH W PRAW¥ STRONÊ
-		else if (s == "right") {
-			side = -1;
-			firstE = -1;
-			for (int j = 3; j > 0; j--) {
-				this->LR(i, j, firstE, side);
-			}
-		}
-	}
-}
-void Block::LR(int _i, int _j, int & _firstE, int _side) {
-	//sytuacja gdy dwa obok siebie s¹ pe³ne
-	if (this->allBlocks[(4 * _i) + _j]->empty == false && this->allBlocks[(4 * _i) + _j + _side]->empty == false) {
-		if (this->allBlocks[(4 * _i) + _j]->nr == this->allBlocks[(4 * _i) + _j + _side]->nr) {
-			//przypisanie wartoœci
-			this->allBlocks[(4 * _i) + _j]->nr *= 2;
-			//ustawianie wartoœci jako Spritea
-			this->allBlocks[(4 * _i) + _j]->text.setString(std::to_string((this->allBlocks[(4 * _i) + _j]->nr)));
-			//wyzerowanie wartoœci na bloku z którego przenoszê
-			this->allBlocks[(4 * _i) + _j + _side]->nr = 0;
-			//ustawienie flagi dla klocka bardziej po prawej
-			this->allBlocks[(4 * _i) + _j + _side]->empty = true;
-			//ustawienie pierwszego pustego
-			_firstE = (4 * _i) + _j;
-		}
-	}
-	/*if (_j > 0) {
-		if (this->allBlocks[(4 * _i) + _j - 1]->empty == true) {
-			this->allBlocks[(4 * _i) + _j - 1]->empty = false;
-			this->allBlocks[(4 * _i) + _j]->empty = true;
-
-			this->allBlocks[(4 * _i) + _j - 1]->nr = this->allBlocks[(4 * _i) + _j]->nr;
-			this->allBlocks[(4 * _i) + _j]->nr = 0;
-			this->allBlocks[(4 * _i) + _j - 1]->text.setString(std::to_string((this->allBlocks[(4 * _i) + _j - 1]->nr)));
-		}
-	}*/
-	//sytuacja klocek bardziej na prawo jest pe³ny a ten po lewej pusty
-	if (this->allBlocks[(4 * _i) + _j]->empty == true && this->allBlocks[(4 * _i) + _j + _side]->empty == false) {
-		//jeœli nie ma przypisanego pierwszego pustego lubb gdy firstE jest bardziej na prawo/lewo ni¿ klocek (4*_i)+_j+_side 
-		if (_firstE == -1 || _firstE >= (4 * _i) + _j + _side) {
-			//przypisanie wartoœci
-			this->allBlocks[(4 * _i) + _j]->nr = this->allBlocks[(4 * _i) + _j + _side]->nr;
-			//ustawianie wartoœci jako Spritea
-			this->allBlocks[(4 * _i) + _j]->text.setString(std::to_string((this->allBlocks[(4 * _i) + _j]->nr)));
-			//wyzerowanie wartoœci na bloku z którego przenoszê
-			this->allBlocks[(4 * _i) + _j + _side]->nr = 0;
-			//ustawienie flagi dla klocka bardziej po lewej
-			this->allBlocks[(4 * _i) + _j]->empty = false;
-			//ustawienie flagi dla klocka bardziej po prawej
-			this->allBlocks[(4 * _i) + _j + _side]->empty = true;
-			_firstE = (4 * _i) + _j + _side;
-		}
-		//jeœli jest przypisany jakiœ pusty i jest od bardziej na lewo/prawo ni¿ (4*_i)+_j+_side
-		else if (_firstE != -1 && _firstE < (4 * _i) + _j + _side) {
-			//przypisanie wartoœci
-			this->allBlocks[_firstE]->nr = this->allBlocks[(4 * _i) + _j + _side]->nr;
-			//ustawianie wartoœci jako Spritea
-			this->allBlocks[_firstE]->text.setString(std::to_string((this->allBlocks[_firstE]->nr)));
-			//wyzerowanie wartoœci na bloku z którego przenoszê
-			this->allBlocks[(4 * _i) + _j + _side]->nr = 0;
-			//ustawienie flagi dla klocka bardziej po lewej
-			this->allBlocks[_firstE]->empty = false;
-			//ustawienie flagi dla klocka bardziej po prawej
-			this->allBlocks[(4 * _i) + _j + _side]->empty = true;
-			//ustawienie pierwszego pustego klocka 
-			_firstE = (4 * _i) + _j;
-
-		}
-	}
-	//sytuacja klocek bardziej na lewo jest pe³ny a ten po prawej pusty
-	else if (this->allBlocks[(4 * _i) + _j]->empty == false && this->allBlocks[(4 * _i) + _j + _side]->empty == true) {
-		//nic nie rób
-	}
-	//sytuacja gdy oba obok siebie s¹ puste
-	else if (this->allBlocks[(4 * _i) + _j]->empty == true && this->allBlocks[(4 * _i) + _j + _side]->empty == true) {
-		if (_firstE == -1)
-			//ustawienie pierwszego pustego klocka 
-			_firstE = (4 * _i) + _j;
-	}
-}
-
-void Block::posUD(std::string s) {
-	int firstEmpty = -1;
-	// wiersze
-	for (int i = 0; i < 4; i++) {
-		firstEmpty = -1;
-		// pozycje 
-		if (s == "down") {
-			for (int j = 12; j >= 0; j -= 4) {
-				wigglewiggleUD(i, j, firstEmpty, "down");
-			}
-		}
-		else if (s == "up") {
-			for (int j = 0; j < 13; j += 4) {
-				wigglewiggleUD(i, j, firstEmpty, "up");
-			}
-		}
-	}
-}
-bool Block::wigglewiggleUD(const int i, const int j, int & firstE, std::string side) {
-	if (this->allBlocks[i + j]->empty == true) {
-		if (firstE == -1)
-			firstE = i + j;
-		return true;
-	}
-	else {
-		if (firstE != -1) {
-			this->allBlocks[i + j]->empty = true;
-			this->allBlocks[firstE]->empty = false;
-
-			this->allBlocks[firstE]->nr = this->allBlocks[i + j]->nr;
-			this->allBlocks[i + j]->nr = 0;
-			this->allBlocks[firstE]->text.setString(std::to_string(this->allBlocks[firstE]->nr));
-
-			if (side == "down") {
-				if (j == 12) {
-					if (this->allBlocks[i + 1]->empty == true) {
-						firstE = i + 1;
-						return true;
-					}
-					else if (this->allBlocks[i + 2]->empty == true) {
-						firstE = i + 2;
-						return true;
+			case 4: {
+				if (this->table[i + j]->empty == true) {
+					if (first == -1)
+						first = i + j;
+					else
+						break;
+				}
+				else {
+					if (first == -1)
+						break;
+					else {
+						moveto(first, i + j, first);
 					}
 				}
-				else if (j == 8) {
-					if (this->allBlocks[i + 1]->empty == true) {
-						firstE = i + 1;
-						return true;
-					}
-					else if (this->allBlocks[i + 2]->empty == true) {
-						firstE = i + 2;
-						return true;
+				break;
+			}
+			case 8: {
+				if (this->table[i + j]->empty == true) {
+					if (first == -1)
+						first = i + j;
+					else
+						break;
+				}
+				else {
+					if (first == -1)
+						break;
+					else {
+						moveto(first, i + j, first);
 					}
 				}
-				else
-					firstE = i + j;
+				break;
 			}
-			else if (side == "up") {
-				if (j == 0) {
-					if (this->allBlocks[i + 1]->empty == true) {
-						firstE = i + 1;
-						return true;
-					}
-					else if (this->allBlocks[i + 2]->empty == true) {
-						firstE = i + 2;
-						return true;
+			case 12: {
+				if (this->table[i + j]->empty == true) {
+					if (first == -1)
+						first = i + j;
+					else
+						break;
+				}
+				else {
+					if (first == -1)
+						break;
+					else {
+						moveto(first, i + j, first);
 					}
 				}
-				else if (j == 4) {
-					if (this->allBlocks[i + 1]->empty == true) {
-						firstE = i + 1;
-						return true;
+				break;
+			}
+			}
+		}
+	}
+
+}
+void Block::reduceUp() {
+	int a = -1;
+	for (int j = 0; j < 4; j++) {
+		for (int i = 0; i <= 12; (i += 4)) {
+			switch (i) {
+			case 0: {
+				if (this->table[i + j]->empty == false && this->table[i + j + 4]->empty == false) {
+					if (this->table[i + j]->numb == this->table[i + j + 4]->numb) {
+						reduce(i + j, i + j + 4);
+						if (this->table[i + j + 8]->empty == false) {
+							moveto(i + j + 4, i + j + 8, a);
+							if (this->table[i + j + 12]->empty == false) {
+								moveto(i + j + 8, i + j + 12, a);
+								if (this->table[i + j + 4]->numb == this->table[i + j + 8]->numb) {
+									reduce(i + j + 4, i + j + 8);
+								}
+							}
+							else break;
+						}
+						else break;
 					}
-					else if (this->allBlocks[i + 2]->empty == true) {
-						firstE = i + 2;
-						return true;
+					else {
+						if (this->table[i + j + 4]->numb == this->table[i + j + 8]->numb) {
+							reduce(i + j + 4, i + j + 8);
+							if (this->table[i + j + 12]->empty == false) {
+								moveto(i + j + 8, i + j + 12, a);
+							}
+							else break;
+						}
 					}
 				}
-				else
-					firstE = i + j;
+				break;
 			}
-			else if (firstE == -1) {
-				return true;
+			case 4: {
+				if (this->table[i + j]->empty == false && this->table[i + j + 4]->empty == false) {
+					if (this->table[i + j]->numb == this->table[i + j + 4]->numb) {
+						reduce(i + j, i + j + 4);
+						if (this->table[i + j + 8]->empty == false)
+							moveto(i + j + 4, i + j + 8, a);
+						else break;
+					}
+					else {
+						if (this->table[i + j + 4]->empty == false && this->table[i + j + 8]->empty == false) {
+							if (this->table[i + j + 4]->numb == this->table[i + j + 8]->numb) {
+								reduce(i + j + 4, i + j + 8);
+							}
+							else break;
+						}
+						else break;
+					}
+				}
+				else break;
+
+				break;
 			}
-			else
-				return false;
+			}
+		}
+	}
+}
+void Block::moveDown() {
+	int first;
+	for (int j = 0; j < 4; j++) {
+		first = -1;
+		for (int i = 12; i >= 0; (i -= 4)) {
+			switch (i) {
+			case 12: {
+				if (this->table[i + j]->empty == true) {
+					first = i + j;
+				}
+				else {
+					break;
+				}
+				break;
+			}
+			case 8: {
+				if (this->table[i + j]->empty == true) {
+					if (first == -1)
+						first = i + j;
+					else
+						break;
+				}
+				else {
+					if (first == -1)
+						break;
+					else {
+						moveto(first, i + j, first);
+					}
+				}
+				break;
+			}
+			case 4: {
+				if (this->table[i + j]->empty == true) {
+					if (first == -1)
+						first = i + j;
+					else
+						break;
+				}
+				else {
+					if (first == -1)
+						break;
+					else {
+						moveto(first, i + j, first);
+					}
+				}
+				break;
+			}
+			case 0: {
+				if (this->table[i + j]->empty == true) {
+					if (first == -1)
+						first = i + j;
+					else
+						break;
+				}
+				else {
+					if (first == -1)
+						break;
+					else {
+						moveto(first, i + j, first);
+					}
+				}
+				break;
+			}
+			}
 		}
 	}
 }
 void Block::reduceDown() {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 12; j > 0; j -= 4) {
-			switch (j)
-			{
+	int a = -1;
+	for (int j = 0; j < 4; j++) {
+		for (int i = 12; i >= 0; (i -= 4)) {
+			switch (i) {
 			case 12: {
-				//je¿eli pozycja 12 jest pe³na
-				if (this->allBlocks[i + j]->empty == false) {
-					//jesli 12 == 8
-					if (this->allBlocks[i + j]->nr == this->allBlocks[i + 8]->nr) {
-						this->allBlocks[i + j]->nr *= 2;
-						this->allBlocks[i + j]->text.setString(std::to_string((this->allBlocks[i + j]->nr)));
-						this->allBlocks[i + 8]->nr = 0;
-						this->allBlocks[i + 8]->empty = true;
+				if (this->table[i + j]->empty == false && this->table[i + j - 4]->empty == false) {
+					if (this->table[i + j]->numb == this->table[i + j - 4]->numb) {
+						reduce(i + j, i + j - 4);
+						if (this->table[i + j - 8]->empty == false) {
+							moveto(i + j - 4, i + j - 8, a);
+							if (this->table[i + j - 12]->empty == false) {
+								moveto(i + j - 8, i + j - 12, a);
+								if (this->table[i + j - 4]->numb == this->table[i + j - 8]->numb) {
+									reduce(i + j - 4, i + j - 8);
+								}
+							}
+							else break;
+						}
+						else break;
 					}
-					else
-						//jeœli nie szukam dalej czy 1 == 2
-						continue;
+					else {
+						if (this->table[i + j - 4]->numb == this->table[i + j - 8]->numb) {
+							reduce(i + j - 4, i + j - 8);
+							if (this->table[i + j - 12]->empty == false) {
+								moveto(i + j - 8, i + j - 12, a);
+							}
+							else break;
+						}
+					}
 				}
 				break;
 			}
 			case 8: {
-				//je¿eli pozycja 8 jest pe³na
-				if (this->allBlocks[i + j]->empty == false) {
-					//jesli 8 == 4
-					if (this->allBlocks[i + j]->nr == this->allBlocks[i + 4]->nr) {
-						this->allBlocks[i + j]->nr *= 2;
-						this->allBlocks[i + j]->text.setString(std::to_string((this->allBlocks[i + j]->nr)));
-						this->allBlocks[i + 4]->nr = 0;
-						this->allBlocks[i + 4]->empty = true;
+				if (this->table[i + j]->empty == false && this->table[i + j - 4]->empty == false) {
+					if (this->table[i + j]->numb == this->table[i + j - 4]->numb) {
+						reduce(i + j, i + j - 4);
+						if (this->table[i + j - 8]->empty == false)
+							moveto(i + j - 4, i + j - 8, a);
+						else break;
 					}
-					else
-						//jeœli nie szukam dalej czy np 2 == 3
-						continue;
+					else {
+						if (this->table[i + j - 4]->empty == false && this->table[i + j - 8]->empty == false) {
+							if (this->table[i + j - 4]->numb == this->table[i + j - 8]->numb) {
+								reduce(i + j - 4, i + j - 8);
+							}
+							else break;
+						}
+						else break;
+					}
 				}
+				else break;
+
 				break;
 			}
 			case 4: {
-				//je¿eli pozycja 4 jest pe³na
-				if (this->allBlocks[i + j]->empty == false) {
-					//jesli 4 == 0
-					if (this->allBlocks[i + j]->nr == this->allBlocks[i]->nr) {
-						this->allBlocks[i + j]->nr *= 2;
-						this->allBlocks[i + j]->text.setString(std::to_string((this->allBlocks[i + j]->nr)));
-						this->allBlocks[i]->nr = 0;
-						this->allBlocks[i]->empty = true;
+			}
+			case 0: {
+			}
+			}
+		}
+	}
+
+}
+void Block::reduceRight() {
+
+	int a = -1;
+	for (int i = 3; i <= 15; (i += 4)) {
+		for (int j = 0; j < 4; j++) {
+			switch (j) {
+			case 0: {
+				if (this->table[i - j]->empty == false && this->table[i - j - 1]->empty == false) {
+					if (this->table[i - j]->numb == this->table[i - j - 1]->numb) {
+						reduce(i - j, i - j - 1);
+						if (this->table[i - j - 2]->empty == false) {
+							moveto(i - j - 1, i - j - 2, a);
+							if (this->table[i - j - 3]->empty == false) {
+								moveto(i - j - 2, i - j - 3, a);
+								if (this->table[i - j - 1]->numb == this->table[i - j - 2]->numb) {
+									reduce(i - j - 1, i - j - 2);
+								}
+							}
+							else break;
+						}
+						else break;
 					}
-					else
-						//jeœli nie szukam dalej czy np 2 == 3
-						continue;
+					else {
+						if (this->table[i - j - 1]->numb == this->table[i - j - 2]->numb) {
+							reduce(i - j - 1, i - j - 2);
+							if (this->table[i - j - 3]->empty == false) {
+								moveto(i - j - 2, i - j - 3, a);
+							}
+							else break;
+						}
+					}
 				}
 				break;
 			}
-			default:
+			case 1: {
+				if (this->table[i - j]->empty == false && this->table[i - j - 1]->empty == false) {
+					if (this->table[i - j]->numb == this->table[i - j - 1]->numb) {
+						reduce(i - j, i - j - 1);
+						if (this->table[i - j - 2]->empty == false)
+							moveto(i - j - 1, i - j - 2, a);
+						else break;
+					}
+					else {
+						if (this->table[i - j - 1]->empty == false && this->table[i - j - 2]->empty == false) {
+							if (this->table[i - j - 1]->numb == this->table[i - j - 2]->numb) {
+								reduce(i - j - 1, i - j - 2);
+							}
+							else break;
+						}
+						else break;
+					}
+				}
+				else break;
+
 				break;
+			}
 			}
 		}
 	}
 }
-void Block::reduceUp() {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 13; j += 4) {
-			switch (j)
-			{
+void Block::moveRight() {
+	int first;
+	for (int i = 3; i <= 15; (i += 4)) {
+		first = -1;
+		for (int j = 0; j < 4; j++) {
+			switch (j) {
 			case 0: {
-				//je¿eli pozycja 12 jest pe³na
-				if (this->allBlocks[i + j]->empty == false) {
-					//jesli 12 == 8
-					if (this->allBlocks[i + j]->nr == this->allBlocks[i + 4]->nr) {
-						this->allBlocks[i + j]->nr *= 2;
-						this->allBlocks[i + j]->text.setString(std::to_string((this->allBlocks[i + j]->nr)));
-						this->allBlocks[i + 4]->nr = 0;
-						this->allBlocks[i + 4]->empty = true;
-					}
-					else
-						//jeœli nie szukam dalej czy 1 == 2
-						continue;
+				if (this->table[i - j]->empty == true) {
+					first = i - j;
+				}
+				else {
+					break;
 				}
 				break;
 			}
-			case 4: {
-				//je¿eli pozycja 8 jest pe³na
-				if (this->allBlocks[i + j]->empty == false) {
-					//jesli 8 == 4
-					if (this->allBlocks[i + j]->nr == this->allBlocks[i + 8]->nr) {
-						this->allBlocks[i + j]->nr *= 2;
-						this->allBlocks[i + j]->text.setString(std::to_string((this->allBlocks[i + j]->nr)));
-						this->allBlocks[i + 8]->nr = 0;
-						this->allBlocks[i + 8]->empty = true;
-					}
+			case 1: {
+				if (this->table[i - j]->empty == true) {
+					if (first == -1)
+						first = i - j;
 					else
-						//jeœli nie szukam dalej czy np 2 == 3
-						continue;
+						break;
+				}
+				else {
+					if (first == -1)
+						break;
+					else {
+						moveto(first, i - j, first);
+					}
 				}
 				break;
 			}
-			case 8: {
-				//je¿eli pozycja 4 jest pe³na
-				if (this->allBlocks[i + j]->empty == false) {
-					//jesli 4 == 0
-					if (this->allBlocks[i + j]->nr == this->allBlocks[i + 12]->nr) {
-						this->allBlocks[i + j]->nr *= 2;
-						this->allBlocks[i + j]->text.setString(std::to_string((this->allBlocks[i + j]->nr)));
-						this->allBlocks[i + 12]->nr = 0;
-						this->allBlocks[i + 12]->empty = true;
-					}
+			case 2: {
+				if (this->table[i - j]->empty == true) {
+					if (first == -1)
+						first = i - j;
 					else
-						//jeœli nie szukam dalej czy np 2 == 3
-						continue;
+						break;
+				}
+				else {
+					if (first == -1)
+						break;
+					else {
+						moveto(first, i - j, first);
+					}
 				}
 				break;
 			}
-			default:
+			case 3: {
+				if (this->table[i - j]->empty == true) {
+					if (first == -1)
+						first = i - j;
+					else
+						break;
+				}
+				else {
+					if (first == -1)
+						break;
+					else {
+						moveto(first, i - j, first);
+					}
+				}
 				break;
+			}
+			}
+		}
+	}
+}
+void Block::reduceLeft() {
+	int a = -1;
+	for (int i = 0; i <= 12; (i += 4)) {
+		for (int j = 0; j < 4; j++) {
+			switch (j) {
+			case 3: {
+				if (this->table[i + j]->empty == false && this->table[i + j - 1]->empty == false) {
+					if (this->table[i + j]->numb == this->table[i + j - 1]->numb) {
+						reduce(i + j, i + j - 1);
+						if (this->table[i + j - 2]->empty == false) {
+							moveto(i + j - 1, i + j - 2, a);
+							if (this->table[i + j - 3]->empty == false) {
+								moveto(i + j - 2, i + j - 3, a);
+								if (this->table[i + j - 1]->numb == this->table[i + j - 2]->numb) {
+									reduce(i + j - 1, i + j - 2);
+								}
+							}
+							else break;
+						}
+						else break;
+					}
+					else {
+						if (this->table[i + j - 1]->numb == this->table[i + j - 2]->numb) {
+							reduce(i + j - 1, i + j - 2);
+							if (this->table[i + j - 3]->empty == false) {
+								moveto(i + j - 2, i + j - 3, a);
+							}
+							else break;
+						}
+					}
+				}
+				break;
+			}
+			case 1: {
+				if (this->table[i + j]->empty == false && this->table[i + j - 1]->empty == false) {
+					if (this->table[i + j]->numb == this->table[i + j - 1]->numb) {
+						reduce(i + j, i + j - 1);
+						if (this->table[i + j]->empty == false)
+							moveto(i + j - 1, i + j, a);
+						else break;
+					}
+					else {
+						if (this->table[i + j + 1]->empty == false && this->table[i + j]->empty == false) {
+							if (this->table[i + j + 1]->numb == this->table[i + j]->numb) {
+								reduce(i + j, i + j + 1);
+							}
+							else break;
+						}
+						else break;
+					}
+				}
+				else break;
+
+				break;
+			}
+			}
+		}
+	}
+}
+void Block::moveLeft() {
+	int first;
+	for (int i = 0; i <= 12; (i += 4)) {
+		first = -1;
+		for (int j = 0; j < 4; j++) {
+			switch (j) {
+			case 0: {
+				if (this->table[i + j]->empty == true) {
+					first = i + j;
+				}
+				else {
+					break;
+				}
+				break;
+			}
+			case 1: {
+				if (this->table[i + j]->empty == true) {
+					if (first == -1)
+						first = i + j;
+					else
+						break;
+				}
+				else {
+					if (first == -1)
+						break;
+					else {
+						moveto(first, i + j, first);
+					}
+				}
+				break;
+			}
+			case 2: {
+				if (this->table[i + j]->empty == true) {
+					if (first == -1)
+						first = i + j;
+					else
+						break;
+				}
+				else {
+					if (first == -1)
+						break;
+					else {
+						moveto(first, i + j, first);
+					}
+				}
+				break;
+			}
+			case 3: {
+				if (this->table[i + j]->empty == true) {
+					if (first == -1)
+						first = i + j;
+					else
+						break;
+				}
+				else {
+					if (first == -1)
+						break;
+					else {
+						if (this->table[i + j - 2]->empty == false)
+							moveto(first, i + j, first);
+						else
+							moveto(i + j - 2, i + j, first);
+
+					}
+				}
+				break;
+			}
 			}
 		}
 	}
 }
 
-Block::~Block() {
-	std::cout << "DESTRUKTOR KLASY BLOCK" << std::endl;
+void Block::moveto(int finalPos, int initPos, int & _first) {
+	this->table[finalPos]->empty = false;
+	this->table[initPos]->empty = true;
+
+	this->table[finalPos]->numb = this->table[initPos]->numb;
+	this->table[initPos]->numb = 0;
+
+	this->table[finalPos]->nr.setString(std::to_string(this->table[finalPos]->numb));
+	this->table[initPos]->nr.setString(std::to_string(this->table[initPos]->numb));
+	if (_first != -1)
+		_first = initPos;
+
+}
+void Block::reduce(int finalBlock, int initBlock) {
+	this->table[finalBlock]->empty = false;
+	this->table[initBlock]->empty = true;
+
+	this->table[finalBlock]->numb *= 2;
+	this->table[finalBlock]->nr.setString(std::to_string(this->table[finalBlock]->numb));
+
+	this->table[initBlock]->numb = 0;
+	this->table[initBlock]->nr.setString(std::to_string(this->table[initBlock]->numb));
+
+}
+bool Block::end() {
+	int all = 0;
+	bool zmiennaLR = true;
+	bool zmiennaUD = true;
+
+	//sprawdzenie czy nie ma takich samych prawo-lewo
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j <= 3; j++) {
+			if ((this->table[(4 * i) + j]->numb == this->table[(4 * i) + j + 4]->numb)
+				&& (this->table[(4 * i) + j]->empty == false)
+				&& (this->table[(4 * i) + j + 4]->empty == false))
+				zmiennaLR == false;
+		}
+	}
+	//sprawdzenie czy nie ma takich samych góra-dó³
+	for (int i = 0; i <= 12; (i += 4)) {
+		for (int j = 0; j < 3; j++) {
+			if ((this->table[i + j]->numb == this->table[i + j + 1]->numb)
+				&& (this->table[i + j]->empty == false)
+				&& (this->table[i + j + 1]->empty == false))
+				zmiennaUD = false;
+		}
+	}
+	//sprawdzenie czy wszystkie pola s¹ pe³na
+	for (int i = 0; i < 16; i++) {
+		if (this->table[i]->empty == false)
+			all++;
+	}
+
+	if (all == 16 && zmiennaUD == true && zmiennaLR == true)
+		return true; //tak koniec gry
+	else
+		return false;
+}
+bool Block::win() {
+	bool win = false;
+	for (auto i : this->table) {
+		if (i->numb == 2048) {
+			win = true;
+		}
+	}
+	if (win) return true;
+	else return false;
 }
