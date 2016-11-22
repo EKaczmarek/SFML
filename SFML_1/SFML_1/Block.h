@@ -6,8 +6,11 @@
 //klasa opisujaca klocek
 class Block {
 public:
-	std::vector <Block*> table = std::vector <Block*>(16);
-
+	//unique ptr aby nie bylo wyciekow pamieci Game::fullTab
+	//std::vector  <std::unique_ptr<Block>> table 
+	//		= std::vector <std::unique_ptr<Block>>(16);
+	std::vector  <Block*> table
+		= std::vector <Block*>(16);
 	int posX;
 	int posY;
 	bool empty;
@@ -15,6 +18,7 @@ public:
 	int numb;
 	sf::Text nr;
 	sf::Sprite bloc;
+
 	//RUCHY
 	//lewo
 	//dó³
@@ -31,7 +35,7 @@ public:
 
 	void reduceDown();
 	void moveDown();
-	//bool UD(const int i, const int j, int & firstE, std::string side);
+
 	void moveto(int finalPos, int initPos, int & _first);
 	void reduce(int finalBlock, int initBlock);
 	//void reduceDown();

@@ -30,6 +30,7 @@ void Game::windWin() {
 	this->pWin.setTexture(this->pictWin);
 }
 void Game::fullTab() {
+	
 	//pozycje
 	for (int a = 0; a < 16; a++) {
 		this->blok = new Block();
@@ -113,7 +114,7 @@ void Game::moves() {
 		search(0);
 	}
 }
-void Game::display(sf::RenderWindow & window) {
+void Game::display(const sf::RenderWindow & window) {
 	this->window.clear();
 	this->draw(true);
 	this->window.display();

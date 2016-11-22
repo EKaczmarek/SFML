@@ -2,7 +2,7 @@
 
 class Game {
 public:
-	Block *blok;
+	Block* blok;
 
 	sf::RenderWindow window;
 	sf::Texture pictBlock;
@@ -16,7 +16,7 @@ public:
 	sf::Texture pictWin;
 	sf::Sprite pWin;
 
-
+	bool isMove;
 	//odpalenie gry
 	void run();
 	//otwarcie okna
@@ -38,6 +38,6 @@ public:
 	//ruchy
 	void moves();
 	//wyswietlanie okna
-	void display(sf::RenderWindow & window);
+	void display(const sf::RenderWindow & window);
 
 };
