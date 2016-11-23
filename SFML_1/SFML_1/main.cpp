@@ -6,6 +6,8 @@ int main() {
 	Game game;
 	game.run();
 
+	game.flagEnd = 0;
+	game.flagWin = 0;
 
 	while (game.window.isOpen() || game.windowEnd.isOpen() || game.windowEnd.isOpen()) {
 		sf::Event event;
@@ -19,11 +21,19 @@ int main() {
 			}
 			else {
 				if (game.blok->end() == true) {
-					game.display(game.windowEnd);
+					if (game.flagEnd == 0) {
+						game.windEnd();
+						game.flagEnd = 1;
+					}
+					else 
+						game.display(game.windowEnd);
 				}
 				else {
+					if (game.flagWin == 0) {
+						game.windWin();
+						game.flagWin = 1;
+					}
 					game.display(game.windowWin);
-
 				}
 			}
 		}

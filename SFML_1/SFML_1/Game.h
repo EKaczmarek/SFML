@@ -15,7 +15,7 @@ public:
 	sf::RenderWindow windowWin;
 	sf::Texture pictWin;
 	sf::Sprite pWin;
-
+	int flagEnd, flagWin;
 	bool isMove;
 	//odpalenie gry
 	void run();

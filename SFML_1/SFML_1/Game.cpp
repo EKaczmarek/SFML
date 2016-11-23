@@ -19,14 +19,14 @@ void Game::wind() {
 }
 void Game::windEnd() {
 
-	windowEnd.create(sf::VideoMode(400, 200), "Koniec gry", sf::Style::Default);
-	windowEnd.setPosition(sf::Vector2i(200, 200));
+	windowEnd.create(sf::VideoMode(100, 100), "Koniec gry", sf::Style::Default);
+	windowEnd.setPosition(sf::Vector2i(100, 100));
 	this->pEnd.setTexture(this->pictEnd);
 }
 void Game::windWin() {
 
-	windowWin.create(sf::VideoMode(400, 200), "Wygra³eœ!! ;)", sf::Style::Default);
-	windowWin.setPosition(sf::Vector2i(200, 200));
+	windowWin.create(sf::VideoMode(100, 100), "Wygra³eœ!! ;)", sf::Style::Default);
+	windowWin.setPosition(sf::Vector2i(100, 100));
 	this->pWin.setTexture(this->pictWin);
 }
 void Game::fullTab() {
@@ -78,6 +78,8 @@ void Game::search(int a) {
 				this->blok->table[next]->numb = (rand() % 9) == 8 ? 4 : 2;
 				this->blok->table[next]->nr.setString(std::to_string(this->blok->table[next]->numb));
 			}
+			else
+				continue;
 		}
 	}
 }
