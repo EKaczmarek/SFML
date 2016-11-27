@@ -6,9 +6,6 @@
 //klasa opisujaca klocek
 class Block {
 public:
-	//unique ptr aby nie bylo wyciekow pamieci Game::fullTab
-	//std::vector  <std::unique_ptr<Block>> table 
-	//		= std::vector <std::unique_ptr<Block>>(16);
 	std::vector  <Block*> table
 		= std::vector <Block*>(16);
 	int posX;
