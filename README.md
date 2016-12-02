@@ -1,6 +1,6 @@
 #2048
 
-[![N|Solid](http://onelittlesmile.pl/wp-content/uploads/2014/04/unnamed.png)](https://nodesource.com/products/nsolid)
+[![N|Solid](C:\Users\E Kaczmarek\Documents\Visual Studio 2015\Projects\2048\SFML_1\SFML_1\nagit)](https://nodesource.com/products/nsolid)
 
 #Overview
 ---------
