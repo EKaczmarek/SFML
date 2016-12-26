@@ -1,6 +1,4 @@
-#2048
-
-[![N|Solid](C:\Users\E Kaczmarek\Documents\Visual Studio 2015\Projects\2048\SFML_1\SFML_1\nagit)](https://nodesource.com/products/nsolid)
+>#2048
 
 #Overview
 ---------

@@ -6,8 +6,7 @@
 //klasa opisujaca klocek
 class Block {
 public:
-	std::vector  <Block*> table
-		= std::vector <Block*>(16);
+
 	int posX;
 	int posY;
 	bool empty;
@@ -19,6 +18,9 @@ public:
 	//RUCHY
 	//lewo
 	//dó³
+public:
+	std::vector  <Block*> table
+		= std::vector <Block*>(16);
 	void pos(std::string s);
 
 	void reduceLeft();
