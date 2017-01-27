@@ -11,7 +11,7 @@ Code in C++ based on algorythm from a popular game called 2048 in Visual Studio 
 Game should run if you:<br/>
 - Download SFML_1 project <br/>
 - Open SFML_1 folder <br/>
-- Open Debug folder <br/>
+- Open SFML_1 folder <br/>
 - Run SFML_1.exe file <br/>
 
 Contributor: Elżbieta Kaczmarek
